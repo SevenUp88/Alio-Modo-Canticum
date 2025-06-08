@@ -8,11 +8,10 @@
     <style>
         :root {
             --background-color: #121212; --card-background: #1E1E1E; --accent-color: #BB86FC;
-            --accent-hover-color: #A162F7; --primary-text-color: #E0E0E0; --secondary-text-color: #A0A0A0;
-            --border-color: #333333; --like-color: #ef5350; /* Rosso più soft */
+            --primary-text-color: #E0E0E0; --secondary-text-color: #A0A0A0; --border-color: #333333;
+            --like-color: #ef5350;
         }
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
-
         html { color-scheme: dark; }
         body {
             font-family: 'Inter', 'Segoe UI', sans-serif; background-color: var(--background-color);
@@ -26,7 +25,6 @@
             border-radius: 50%; border: 3px solid var(--accent-color); padding: 5px;
             background-color: var(--card-background);
         }
-
         .main-title {
             color: #FFFFFF; text-align: center; font-size: 2.5em; margin-bottom: 10px; font-weight: 700; letter-spacing: -1px;
         }
@@ -35,7 +33,7 @@
             color: #121212; border: none; padding: 10px 20px; border-radius: 50px;
             font-weight: 700; transition: all 0.3s ease;
         }
-        #share-playlist-btn:hover { background-color: var(--accent-hover-color); transform: scale(1.05); }
+        #share-playlist-btn:hover { background-color: #A162F7; transform: scale(1.05); }
 
         .brano {
             background-color: var(--card-background); border: 1px solid var(--border-color);
@@ -69,21 +67,18 @@
 <body>
 
     <div class="container">
-        <!-- LOGO AGGIUNTO -->
         <img src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/sevenup3.png" alt="Logo Coro" class="header-logo">
         <h1 class="main-title">Misatango 7.06.2025</h1>
         <button id="share-playlist-btn">💌 Condividi la pagina</button>
-
-        <!-- SEZIONE BRANI CON TASTI LIKE AGGIORNATI -->
-        <!-- NOTA: il 'data-like-id' DEVE ESSERE UNIVOCO per ogni brano -->
-
+        
+        <!-- SEZIONE BRANI CON BOTTONE CONDIVISIONE RIMOSSO -->
+        
         <!-- BRANO 1 -->
         <div class="brano">
             <h2>Introitus et Kyrie</h2><p>Misatango - Martin Palmeri</p>
-            <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/1.%20Introitus%20et%20Kyrie%20.mp3"></audio>
+            <audio controls src="..."></audio>
             <div class="brano-actions">
                 <a href="..." class="action-btn download" download><span class="icon">↓</span> Scarica</a>
-                <button class="action-btn" onclick="shareTrack(...)"><span class="icon">🔗</span> Condividi</a>
                 <button class="action-btn like-btn" data-like-id="canticum-misatango-kyrie">
                     <span class="icon">♥</span> Piace <span class="like-counter">(...)</span>
                 </button>
@@ -93,10 +88,9 @@
         <!-- BRANO 2 -->
         <div class="brano">
             <h2>Gloria</h2><p>Misatango - Martin Palmeri</p>
-            <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/2.%20Gloria%20.mp3"></audio>
+            <audio controls src="..."></audio>
             <div class="brano-actions">
-                 <a href="..." class="action-btn download" download><span class="icon">↓</span> Scarica</a>
-                <button class="action-btn" onclick="shareTrack(...)"><span class="icon">🔗</span> Condividi</a>
+                <a href="..." class="action-btn download" download><span class="icon">↓</span> Scarica</a>
                 <button class="action-btn like-btn" data-like-id="canticum-misatango-gloria">
                     <span class="icon">♥</span> Piace <span class="like-counter">(...)</span>
                 </button>
@@ -106,10 +100,9 @@
         <!-- BRANO 3 -->
         <div class="brano">
             <h2>Credo</h2><p>Misatango - Martin Palmeri</p>
-            <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/3.%20Credo%20.mp3"></audio>
+            <audio controls src="..."></audio>
             <div class="brano-actions">
-                 <a href="..." class="action-btn download" download><span class="icon">↓</span> Scarica</a>
-                <button class="action-btn" onclick="shareTrack(...)"><span class="icon">🔗</span> Condividi</a>
+                <a href="..." class="action-btn download" download><span class="icon">↓</span> Scarica</a>
                 <button class="action-btn like-btn" data-like-id="canticum-misatango-credo">
                     <span class="icon">♥</span> Piace <span class="like-counter">(...)</span>
                 </button>
@@ -119,10 +112,9 @@
         <!-- BRANO 4 -->
         <div class="brano">
             <h2>Sanctus</h2><p>Misatango - Martin Palmeri</p>
-            <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/4.%20Sanctus%20.mp3"></audio>
+            <audio controls src="..."></audio>
             <div class="brano-actions">
-                 <a href="..." class="action-btn download" download><span class="icon">↓</span> Scarica</a>
-                <button class="action-btn" onclick="shareTrack(...)"><span class="icon">🔗</span> Condividi</a>
+                <a href="..." class="action-btn download" download><span class="icon">↓</span> Scarica</a>
                 <button class="action-btn like-btn" data-like-id="canticum-misatango-sanctus">
                     <span class="icon">♥</span> Piace <span class="like-counter">(...)</span>
                 </button>
@@ -132,10 +124,9 @@
         <!-- BRANO 5 -->
         <div class="brano">
             <h2>Benedictus</h2><p>Misatango - Martin Palmeri</p>
-            <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/5.%20Benedictus%20.mp3"></audio>
+            <audio controls src="..."></audio>
             <div class="brano-actions">
-                 <a href="..." class="action-btn download" download><span class="icon">↓</span> Scarica</a>
-                <button class="action-btn" onclick="shareTrack(...)"><span class="icon">🔗</span> Condividi</a>
+                <a href="..." class="action-btn download" download><span class="icon">↓</span> Scarica</a>
                 <button class="action-btn like-btn" data-like-id="canticum-misatango-benedictus">
                     <span class="icon">♥</span> Piace <span class="like-counter">(...)</span>
                 </button>
@@ -145,10 +136,9 @@
         <!-- BRANO 6 -->
         <div class="brano">
             <h2>Agnus Dei</h2><p>Misatango - Martin Palmeri</p>
-            <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/6.%20Agnus%20Dei%20.mp3"></audio>
+            <audio controls src="..."></audio>
             <div class="brano-actions">
-                 <a href="..." class="action-btn download" download><span class="icon">↓</span> Scarica</a>
-                <button class="action-btn" onclick="shareTrack(...)"><span class="icon">🔗</span> Condividi</a>
+                <a href="..." class="action-btn download" download><span class="icon">↓</span> Scarica</a>
                 <button class="action-btn like-btn" data-like-id="canticum-misatango-agnusdei">
                     <span class="icon">♥</span> Piace <span class="like-counter">(...)</span>
                 </button>
@@ -157,71 +147,80 @@
 
     </div>
     
-    <footer>
-        <p>© 2024 Coro Alio Modo Canticum</p>
-    </footer>
+    <footer><p>© 2024 Coro Alio Modo Canticum</p></footer>
 
+    <!-- JAVASCRIPT CORRETTO E COMPLETATO -->
     <script>
         const songData = {
-            "canticum-misatango-kyrie": { url: "https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/1.%20Introitus%20et%20Kyrie%20.mp3", title: "Introitus et Kyrie" },
-            "canticum-misatango-gloria": { url: "https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/2.%20Gloria%20.mp3", title: "Gloria" },
-            "canticum-misatango-credo": { url: "https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/3.%20Credo%20.mp3", title: "Credo" },
-            "canticum-misatango-sanctus": { url: "https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/4.%20Sanctus%20.mp3", title: "Sanctus" },
-            "canticum-misatango-benedictus": { url: "https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/5.%20Benedictus%20.mp3", title: "Benedictus" },
-            "canticum-misatango-agnusdei": { url: "https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/6.%20Agnus%20Dei%20.mp3", title: "Agnus Dei" },
+            "canticum-misatango-kyrie": { url: "https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/1.%20Introitus%20et%20Kyrie%20.mp3" },
+            "canticum-misatango-gloria": { url: "https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/2.%20Gloria%20.mp3" },
+            "canticum-misatango-credo": { url: "https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/3.%20Credo%20.mp3" },
+            "canticum-misatango-sanctus": { url: "https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/4.%20Sanctus%20.mp3" },
+            "canticum-misatango-benedictus": { url: "https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/5.%20Benedictus%20.mp3" },
+            "canticum-misatango-agnusdei": { url: "https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/6.%20Agnus%20Dei%20.mp3" },
         };
 
-        // Aggiornamento dinamico dei link
+        // Assegna dinamicamente i link ai player e ai bottoni di download
         document.querySelectorAll('.brano').forEach(branoDiv => {
             const likeBtn = branoDiv.querySelector('.like-btn');
             if (!likeBtn) return;
+
             const id = likeBtn.dataset.likeId;
             const song = songData[id];
-            if(song){
+
+            if (song) {
+                branoDiv.querySelector('audio').src = song.url;
                 branoDiv.querySelector('a.download').href = song.url;
-                branoDiv.querySelector('button[onclick^="shareTrack"]').onclick = () => shareTrack(song.url, song.title);
             }
         });
 
-        // Condivisione Pagina
+        // Condivisione Pagina Intera
         document.getElementById('share-playlist-btn').addEventListener('click', () => {
              share({ title: 'Archivio Brani: Misatango', url: window.location.href });
         });
         
         async function share(data) {
-             try { if (navigator.share) { await navigator.share(data); } else { await navigator.clipboard.writeText(data.url); alert('Link copiato negli appunti!');}} catch (err) {}
+             try { if (navigator.share) { await navigator.share(data); } else { await navigator.clipboard.writeText(data.url); alert('Link della pagina copiato!');}} catch (err) { console.error("Share Fallito", err); }
         }
-        function shareTrack(url, title) { share({title: `Ascolta "${title}"`, url});}
 
         // --- LOGICA PER I CONTATORI PUBBLICI (CountAPI) ---
-        const namespace = 'aliomodocanticum-project'; // Identificativo unico per tutti i tuoi contatori
+        const namespace = 'aliomodocanticum-project'; 
 
         function updateLikeDisplay(button, count) { button.querySelector('.like-counter').textContent = `(${count})`; }
 
         async function handleLike(button) {
             const likeId = button.dataset.likeId;
             if (localStorage.getItem(likeId) === 'true') { alert('Hai già messo "Mi Piace" a questo brano!'); return; }
+            
             try {
                 const res = await fetch(`https://api.countapi.xyz/hit/${namespace}/${likeId}`);
+                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
                 const data = await res.json();
+
                 updateLikeDisplay(button, data.value);
                 button.classList.add('user-has-liked');
                 localStorage.setItem(likeId, 'true');
-            } catch (err) { console.error("CountAPI error:", err); }
+
+            } catch (err) { console.error("Errore con CountAPI:", err); }
         }
 
         async function fetchAllLikes() {
-            for (const button of document.querySelectorAll('.like-btn')) {
+            const likeButtons = document.querySelectorAll('.like-btn');
+            for (const button of likeButtons) {
                 const likeId = button.dataset.likeId;
                 if (localStorage.getItem(likeId) === 'true') { button.classList.add('user-has-liked'); }
                 try {
                     const res = await fetch(`https://api.countapi.xyz/get/${namespace}/${likeId}`);
-                    const data = res.ok ? await res.json() : { value: 0 };
+                    // Se la chiave non esiste ancora, CountAPI dà errore. Lo gestiamo mostrando 0.
+                    const data = res.ok ? await res.json() : { value: 0 }; 
                     updateLikeDisplay(button, data.value || 0);
-                } catch (err) { updateLikeDisplay(button, '?'); }
+                } catch (err) {
+                    console.error("Impossibile caricare i conteggi: ", err);
+                    updateLikeDisplay(button, '?'); 
+                }
             }
         }
-
+        
         document.querySelectorAll('.like-btn').forEach(b => b.onclick = () => handleLike(b));
         document.addEventListener('DOMContentLoaded', fetchAllLikes);
     </script>
