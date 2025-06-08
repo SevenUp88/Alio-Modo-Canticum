@@ -7,116 +7,61 @@
     
     <style>
         :root {
-            --background-color: #121212;
-            --card-background: #1E1E1E;
-            --accent-color: #BB86FC;
-            --accent-hover-color: #A162F7;
-            --primary-text-color: #E0E0E0;
-            --secondary-text-color: #A0A0A0;
-            --border-color: #333333;
-            --like-color: #F44336; /* Rosso per il "like" */
+            --background-color: #121212; --card-background: #1E1E1E; --accent-color: #BB86FC;
+            --accent-hover-color: #A162F7; --primary-text-color: #E0E0E0; --secondary-text-color: #A0A0A0;
+            --border-color: #333333; --like-color: #ef5350; /* Rosso più soft */
         }
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
 
         html { color-scheme: dark; }
-
         body {
-            font-family: 'Inter', 'Segoe UI', sans-serif;
-            background-color: var(--background-color);
-            color: var(--primary-text-color);
-            margin: 0;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            font-family: 'Inter', 'Segoe UI', sans-serif; background-color: var(--background-color);
+            color: var(--primary-text-color); margin: 0; padding: 24px;
+            display: flex; flex-direction: column; align-items: center;
         }
         .container { width: 100%; max-width: 720px; }
+        
+        .header-logo {
+            display: block; margin: 0 auto 20px auto; width: 80px; height: 80px;
+            border-radius: 50%; border: 3px solid var(--accent-color); padding: 5px;
+            background-color: var(--card-background);
+        }
 
         .main-title {
-            color: #FFFFFF;
-            text-align: center;
-            font-size: 2.8em;
-            margin-bottom: 10px;
-            font-weight: 700;
-            letter-spacing: -1px;
+            color: #FFFFFF; text-align: center; font-size: 2.5em; margin-bottom: 10px; font-weight: 700; letter-spacing: -1px;
         }
-
-        /* Bottone per condividere tutta la playlist */
         #share-playlist-btn {
-            display: block;
-            margin: 0 auto 40px auto;
-            cursor: pointer;
-            background-color: var(--accent-color);
-            color: #121212;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-weight: 700;
-            transition: all 0.3s ease;
+            display: block; margin: 0 auto 40px auto; cursor: pointer; background-color: var(--accent-color);
+            color: #121212; border: none; padding: 10px 20px; border-radius: 50px;
+            font-weight: 700; transition: all 0.3s ease;
         }
-        #share-playlist-btn:hover {
-            background-color: var(--accent-hover-color);
-            transform: scale(1.05);
-        }
+        #share-playlist-btn:hover { background-color: var(--accent-hover-color); transform: scale(1.05); }
 
         .brano {
-            background-color: var(--card-background);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 30px;
+            background-color: var(--card-background); border: 1px solid var(--border-color);
+            border-radius: 16px; padding: 24px; margin-bottom: 30px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .brano:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25); }
-
         .brano h2 { margin-top: 0; font-size: 1.6em; color: #FFFFFF; font-weight: 700; margin-bottom: 8px; }
         .brano p { margin-top: 0; color: var(--secondary-text-color); font-size: 1em; margin-bottom: 24px; }
         audio { width: 100%; margin-bottom: 24px; accent-color: var(--accent-color); }
         
-        /* Contenitore per i pulsanti di azione */
-        .brano-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            align-items: center;
-        }
+        .brano-actions { display: flex; flex-wrap: wrap; gap: 15px; align-items: center; }
         
         .action-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            background-color: transparent;
-            border: 2px solid var(--border-color);
-            color: var(--secondary-text-color);
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            font-size: 0.9em;
+            display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
+            background-color: transparent; border: 2px solid var(--border-color); color: var(--secondary-text-color);
+            padding: 10px 20px; border-radius: 50px; font-weight: 700; transition: all 0.3s ease;
+            font-size: 0.9em; -webkit-user-select: none; user-select: none;
         }
-        .action-btn:hover {
-            border-color: var(--accent-color);
-            color: var(--accent-color);
-            transform: scale(1.03);
-        }
+        .action-btn:hover { border-color: var(--accent-color); color: var(--accent-color); }
         .action-btn.download { border-color: var(--accent-color); color: var(--accent-color); }
         .action-btn.download:hover { background-color: var(--accent-color); color: var(--background-color); }
 
-        .action-btn .icon { margin-right: 8px; font-size: 1.3em; }
-
-        /* Stile specifico per il tasto like */
-        .like-btn {
-            font-size: 1.3em; /* Rende l'icona più grande */
-            padding: 10px; /* Padding per area cliccabile più grande */
-            width: 48px; /* Larghezza e altezza fisse per renderlo un cerchio */
-            height: 48px;
-        }
-        .like-btn.liked {
-            color: var(--like-color); /* Colore del cuore "likato" */
-            border-color: var(--like-color);
-        }
+        .action-btn .icon { margin-right: 8px; font-size: 1.2em; }
+        
+        .like-btn.user-has-liked { color: var(--like-color); border-color: var(--like-color); pointer-events: none; }
+        .like-counter { font-weight: 400; margin-left: 5px; font-size: 0.9em; }
 
         footer { text-align: center; margin-top: 50px; color: #444; font-size: 0.9em; }
     </style>
@@ -124,159 +69,162 @@
 <body>
 
     <div class="container">
-        <!-- TITOLO CAMBIATO -->
+        <!-- LOGO AGGIUNTO -->
+        <img src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/sevenup3.png" alt="Logo Coro" class="header-logo">
         <h1 class="main-title">Misatango 7.06.2025</h1>
-        <!-- NUOVO TASTO PER CONDIVIDERE LA PAGINA -->
         <button id="share-playlist-btn">💌 Condividi la pagina</button>
 
-        <!-- SEZIONE BRANI CON I TUOI DATI -->
+        <!-- SEZIONE BRANI CON TASTI LIKE AGGIORNATI -->
+        <!-- NOTA: il 'data-like-id' DEVE ESSERE UNIVOCO per ogni brano -->
 
         <!-- BRANO 1 -->
         <div class="brano">
-            <h2>Introitus et Kyrie</h2>
-            <p>Misatango - Martin Palmeri</p>
+            <h2>Introitus et Kyrie</h2><p>Misatango - Martin Palmeri</p>
             <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/1.%20Introitus%20et%20Kyrie%20.mp3"></audio>
-            <!-- NUOVI TASTI -->
             <div class="brano-actions">
-                <a href="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/1.%20Introitus%20et%20Kyrie%20.mp3" class="action-btn download" download><span class="icon">↓</span> Scarica</a>
-                <button class="action-btn" onclick="shareTrack('https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/1.%20Introitus%20et%20Kyrie%20.mp3', 'Introitus et Kyrie')"><span class="icon">🔗</span> Condividi</a>
-                <button class="action-btn like-btn" onclick="toggleLike(this)" data-song-id="misatango-kyrie">♥</button>
+                <a href="..." class="action-btn download" download><span class="icon">↓</span> Scarica</a>
+                <button class="action-btn" onclick="shareTrack(...)"><span class="icon">🔗</span> Condividi</a>
+                <button class="action-btn like-btn" data-like-id="canticum-misatango-kyrie">
+                    <span class="icon">♥</span> Piace <span class="like-counter">(...)</span>
+                </button>
             </div>
         </div>
         
         <!-- BRANO 2 -->
         <div class="brano">
-            <h2>Gloria</h2>
-            <p>Misatango - Martin Palmeri</p>
+            <h2>Gloria</h2><p>Misatango - Martin Palmeri</p>
             <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/2.%20Gloria%20.mp3"></audio>
             <div class="brano-actions">
-                <a href="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/2.%20Gloria%20.mp3" class="action-btn download" download><span class="icon">↓</span> Scarica</a>
-                <button class="action-btn" onclick="shareTrack('https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/2.%20Gloria%20.mp3', 'Gloria')"><span class="icon">🔗</span> Condividi</a>
-                <button class="action-btn like-btn" onclick="toggleLike(this)" data-song-id="misatango-gloria">♥</button>
+                 <a href="..." class="action-btn download" download><span class="icon">↓</span> Scarica</a>
+                <button class="action-btn" onclick="shareTrack(...)"><span class="icon">🔗</span> Condividi</a>
+                <button class="action-btn like-btn" data-like-id="canticum-misatango-gloria">
+                    <span class="icon">♥</span> Piace <span class="like-counter">(...)</span>
+                </button>
             </div>
         </div>
 
         <!-- BRANO 3 -->
         <div class="brano">
-            <h2>Credo</h2>
-            <p>Misatango - Martin Palmeri</p>
+            <h2>Credo</h2><p>Misatango - Martin Palmeri</p>
             <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/3.%20Credo%20.mp3"></audio>
             <div class="brano-actions">
-                <a href="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/3.%20Credo%20.mp3" class="action-btn download" download><span class="icon">↓</span> Scarica</a>
-                <button class="action-btn" onclick="shareTrack('https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/3.%20Credo%20.mp3', 'Credo')"><span class="icon">🔗</span> Condividi</a>
-                <button class="action-btn like-btn" onclick="toggleLike(this)" data-song-id="misatango-credo">♥</button>
+                 <a href="..." class="action-btn download" download><span class="icon">↓</span> Scarica</a>
+                <button class="action-btn" onclick="shareTrack(...)"><span class="icon">🔗</span> Condividi</a>
+                <button class="action-btn like-btn" data-like-id="canticum-misatango-credo">
+                    <span class="icon">♥</span> Piace <span class="like-counter">(...)</span>
+                </button>
             </div>
         </div>
 
         <!-- BRANO 4 -->
         <div class="brano">
-            <h2>Sanctus</h2>
-            <p>Misatango - Martin Palmeri</p>
+            <h2>Sanctus</h2><p>Misatango - Martin Palmeri</p>
             <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/4.%20Sanctus%20.mp3"></audio>
             <div class="brano-actions">
-                <a href="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/4.%20Sanctus%20.mp3" class="action-btn download" download><span class="icon">↓</span> Scarica</a>
-                <button class="action-btn" onclick="shareTrack('https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/4.%20Sanctus%20.mp3', 'Sanctus')"><span class="icon">🔗</span> Condividi</a>
-                <button class="action-btn like-btn" onclick="toggleLike(this)" data-song-id="misatango-sanctus">♥</button>
+                 <a href="..." class="action-btn download" download><span class="icon">↓</span> Scarica</a>
+                <button class="action-btn" onclick="shareTrack(...)"><span class="icon">🔗</span> Condividi</a>
+                <button class="action-btn like-btn" data-like-id="canticum-misatango-sanctus">
+                    <span class="icon">♥</span> Piace <span class="like-counter">(...)</span>
+                </button>
             </div>
         </div>
 
         <!-- BRANO 5 -->
         <div class="brano">
-            <h2>Benedictus</h2>
-            <p>Misatango - Martin Palmeri</p>
+            <h2>Benedictus</h2><p>Misatango - Martin Palmeri</p>
             <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/5.%20Benedictus%20.mp3"></audio>
             <div class="brano-actions">
-                <a href="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/5.%20Benedictus%20.mp3" class="action-btn download" download><span class="icon">↓</span> Scarica</a>
-                <button class="action-btn" onclick="shareTrack('https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/5.%20Benedictus%20.mp3', 'Benedictus')"><span class="icon">🔗</span> Condividi</a>
-                <button class="action-btn like-btn" onclick="toggleLike(this)" data-song-id="misatango-benedictus">♥</button>
+                 <a href="..." class="action-btn download" download><span class="icon">↓</span> Scarica</a>
+                <button class="action-btn" onclick="shareTrack(...)"><span class="icon">🔗</span> Condividi</a>
+                <button class="action-btn like-btn" data-like-id="canticum-misatango-benedictus">
+                    <span class="icon">♥</span> Piace <span class="like-counter">(...)</span>
+                </button>
             </div>
         </div>
 
         <!-- BRANO 6 -->
         <div class="brano">
-            <h2>Agnus Dei</h2>
-            <p>Misatango - Martin Palmeri</p>
+            <h2>Agnus Dei</h2><p>Misatango - Martin Palmeri</p>
             <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/6.%20Agnus%20Dei%20.mp3"></audio>
             <div class="brano-actions">
-                <a href="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/6.%20Agnus%20Dei%20.mp3" class="action-btn download" download><span class="icon">↓</span> Scarica</a>
-                <button class="action-btn" onclick="shareTrack('https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/6.%20Agnus%20Dei%20.mp3', 'Agnus Dei')"><span class="icon">🔗</span> Condividi</a>
-                <button class="action-btn like-btn" onclick="toggleLike(this)" data-song-id="misatango-agnusdei">♥</button>
+                 <a href="..." class="action-btn download" download><span class="icon">↓</span> Scarica</a>
+                <button class="action-btn" onclick="shareTrack(...)"><span class="icon">🔗</span> Condividi</a>
+                <button class="action-btn like-btn" data-like-id="canticum-misatango-agnusdei">
+                    <span class="icon">♥</span> Piace <span class="like-counter">(...)</span>
+                </button>
             </div>
         </div>
-    </div>
 
-    <!-- FOOTER MODIFICATO -->
+    </div>
+    
     <footer>
         <p>© 2024 Coro Alio Modo Canticum</p>
     </footer>
 
-    <!-- NUOVO BLOCCO JAVASCRIPT PER LE FUNZIONALITÀ -->
     <script>
-        // Funzione per gestire la condivisione (pagina o brano)
-        async function share(data) {
-            try {
-                if (navigator.share) {
-                    await navigator.share(data);
-                } else {
-                    // Fallback per desktop: copia il link negli appunti
-                    await navigator.clipboard.writeText(data.url);
-                    alert('Link copiato negli appunti!');
-                }
-            } catch (err) {
-                console.error("Errore durante la condivisione: ", err);
-                // alert('Condivisione non riuscita.');
-            }
-        }
+        const songData = {
+            "canticum-misatango-kyrie": { url: "https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/1.%20Introitus%20et%20Kyrie%20.mp3", title: "Introitus et Kyrie" },
+            "canticum-misatango-gloria": { url: "https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/2.%20Gloria%20.mp3", title: "Gloria" },
+            "canticum-misatango-credo": { url: "https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/3.%20Credo%20.mp3", title: "Credo" },
+            "canticum-misatango-sanctus": { url: "https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/4.%20Sanctus%20.mp3", title: "Sanctus" },
+            "canticum-misatango-benedictus": { url: "https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/5.%20Benedictus%20.mp3", title: "Benedictus" },
+            "canticum-misatango-agnusdei": { url: "https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/6.%20Agnus%20Dei%20.mp3", title: "Agnus Dei" },
+        };
 
-        // Tasto condivisione playlist
-        document.getElementById('share-playlist-btn').addEventListener('click', () => {
-            share({
-                title: 'Archivio Brani: Misatango',
-                text: 'Ascolta i brani di studio per il concerto.',
-                url: window.location.href
-            });
+        // Aggiornamento dinamico dei link
+        document.querySelectorAll('.brano').forEach(branoDiv => {
+            const likeBtn = branoDiv.querySelector('.like-btn');
+            if (!likeBtn) return;
+            const id = likeBtn.dataset.likeId;
+            const song = songData[id];
+            if(song){
+                branoDiv.querySelector('a.download').href = song.url;
+                branoDiv.querySelector('button[onclick^="shareTrack"]').onclick = () => shareTrack(song.url, song.title);
+            }
         });
 
-        // Funzione condivisione singolo brano
-        function shareTrack(trackUrl, trackTitle) {
-            share({
-                title: trackTitle,
-                text: `Ascolta "${trackTitle}" dal nostro archivio.`,
-                url: trackUrl
-            });
-        }
+        // Condivisione Pagina
+        document.getElementById('share-playlist-btn').addEventListener('click', () => {
+             share({ title: 'Archivio Brani: Misatango', url: window.location.href });
+        });
         
-        // --- LOGICA PER IL TASTO "LIKE" ---
+        async function share(data) {
+             try { if (navigator.share) { await navigator.share(data); } else { await navigator.clipboard.writeText(data.url); alert('Link copiato negli appunti!');}} catch (err) {}
+        }
+        function shareTrack(url, title) { share({title: `Ascolta "${title}"`, url});}
 
-        // Funzione per cambiare lo stato di un like
-        function toggleLike(buttonElement) {
-            const songId = buttonElement.getAttribute('data-song-id');
-            const isLiked = buttonElement.classList.toggle('liked');
+        // --- LOGICA PER I CONTATORI PUBBLICI (CountAPI) ---
+        const namespace = 'aliomodocanticum-project'; // Identificativo unico per tutti i tuoi contatori
 
-            if (isLiked) {
-                // Se ora è "likato", salvalo nel localStorage
-                localStorage.setItem(songId, 'true');
-            } else {
-                // Altrimenti, rimuovi la voce dal localStorage
-                localStorage.removeItem(songId);
+        function updateLikeDisplay(button, count) { button.querySelector('.like-counter').textContent = `(${count})`; }
+
+        async function handleLike(button) {
+            const likeId = button.dataset.likeId;
+            if (localStorage.getItem(likeId) === 'true') { alert('Hai già messo "Mi Piace" a questo brano!'); return; }
+            try {
+                const res = await fetch(`https://api.countapi.xyz/hit/${namespace}/${likeId}`);
+                const data = await res.json();
+                updateLikeDisplay(button, data.value);
+                button.classList.add('user-has-liked');
+                localStorage.setItem(likeId, 'true');
+            } catch (err) { console.error("CountAPI error:", err); }
+        }
+
+        async function fetchAllLikes() {
+            for (const button of document.querySelectorAll('.like-btn')) {
+                const likeId = button.dataset.likeId;
+                if (localStorage.getItem(likeId) === 'true') { button.classList.add('user-has-liked'); }
+                try {
+                    const res = await fetch(`https://api.countapi.xyz/get/${namespace}/${likeId}`);
+                    const data = res.ok ? await res.json() : { value: 0 };
+                    updateLikeDisplay(button, data.value || 0);
+                } catch (err) { updateLikeDisplay(button, '?'); }
             }
         }
 
-        // Funzione per inizializzare i like al caricamento della pagina
-        function initializeLikes() {
-            const likeButtons = document.querySelectorAll('.like-btn');
-            likeButtons.forEach(button => {
-                const songId = button.getAttribute('data-song-id');
-                // Controlla nel localStorage se questo brano era già "likato"
-                if (localStorage.getItem(songId) === 'true') {
-                    button.classList.add('liked');
-                }
-            });
-        }
-
-        // Avvia la funzione di inizializzazione quando la pagina è pronta
-        document.addEventListener('DOMContentLoaded', initializeLikes);
-
+        document.querySelectorAll('.like-btn').forEach(b => b.onclick = () => handleLike(b));
+        document.addEventListener('DOMContentLoaded', fetchAllLikes);
     </script>
+
 </body>
 </html>
