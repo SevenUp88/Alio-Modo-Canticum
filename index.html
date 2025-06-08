@@ -45,9 +45,11 @@
         .concert-info p { margin: 8px 0; font-size: 1em; }
         .concert-info strong { font-weight: 700; color: var(--accent-color); margin-right: 5px; }
 
+        /* NUOVA ETICHETTA E CONTROLLI PLAYLIST */
+        .playlist-label { text-align: center; font-style: italic; color: var(--secondary-text-color); margin-bottom: 10px; }
         .playlist-controls {
             display: flex; align-items: center; justify-content: center;
-            gap: 15px; margin: 20px 0 40px 0;
+            gap: 15px;
         }
         .playlist-controls button {
             background-color: transparent; border: 2px solid var(--border-color);
@@ -62,6 +64,12 @@
             color: #121212; border: none;
         }
         #playlist-play-pause:hover { background-color: #A162F7; }
+        /* NUOVO INDICATORE BRANO CORRENTE */
+        #current-track-title {
+            text-align: center; color: var(--accent-color); font-style: italic;
+            margin-top: 15px; margin-bottom: 40px; min-height: 1.2em; /* Evita salti di layout */
+            transition: opacity 0.3s ease;
+        }
 
         .brano {
             background-color: var(--card-background); border: 2px solid var(--card-background);
@@ -86,7 +94,6 @@
         <img src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/sevenup3.png" alt="Logo Coro" class="header-logo">
         <h1 class="main-title">Misatango 7.06.2025</h1>
         <p class="concert-location">Basilica Concattedrale Santa Maria Annunziata e San Vicinio (Sarsina)</p>
-        
         <button id="share-playlist-btn">💌 Condividi la pagina</button>
 
         <div class="concert-info">
@@ -95,6 +102,7 @@
             <p><strong>Direttore:</strong> Andrea Crastolla</p>
         </div>
 
+        <p class="playlist-label">Modalità concerto</p>
         <div class="playlist-controls">
             <button id="playlist-prev" title="Brano Precedente"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"></path></svg></button>
             <button id="playlist-play-pause" title="Avvia/Pausa Concerto">
@@ -104,6 +112,7 @@
             <button id="playlist-stop" title="Ferma Concerto"><svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"></path></svg></button>
             <button id="playlist-next" title="Brano Successivo"><svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"></path></svg></button>
         </div>
+        <p id="current-track-title"> </p>
         
         <!-- BRANI -->
         <div class="brano"><h2>Introitus et Kyrie</h2><audio controls controlsList="nodownload" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/1.%20Introitus%20et%20Kyrie%20.mp3"></audio><div class="brano-actions"><button class="action-btn disabled"><span class="icon">↓</span> Scarica</button></div></div>
@@ -125,7 +134,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            
             const audioPlayers = Array.from(document.querySelectorAll('audio'));
             const playPauseBtn = document.getElementById('playlist-play-pause');
             const iconPlay = playPauseBtn.querySelector('.icon-play');
@@ -133,7 +141,8 @@
             const stopBtn = document.getElementById('playlist-stop');
             const nextBtn = document.getElementById('playlist-next');
             const prevBtn = document.getElementById('playlist-prev');
-
+            const currentTrackTitleEl = document.getElementById('current-track-title');
+            
             let currentTrackIndex = 0;
             let isAutoplaying = false;
 
@@ -148,22 +157,27 @@
                     });
                 }
             }
-
+            
             function playTrack(index) {
                 if (index < 0 || index >= audioPlayers.length) { stopHard(); return; }
                 currentTrackIndex = index;
                 audioPlayers.forEach((p, i) => { if (i !== index) p.pause(); });
                 audioPlayers[currentTrackIndex].play();
-                if (isAutoplaying) audioPlayers[currentTrackIndex].closest('.brano').scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
 
             function updateUI() {
+                // Aggiorna l'evidenziazione
                 document.querySelectorAll('.brano.is-playing').forEach(el => el.classList.remove('is-playing'));
                 const currentPlayer = audioPlayers[currentTrackIndex];
                 if (!currentPlayer.paused) {
                     currentPlayer.closest('.brano').classList.add('is-playing');
+                    // Aggiorna l'icona play/pausa
                     iconPlay.style.display = 'none';
                     iconPause.style.display = 'block';
+                    // Aggiorna il titolo del brano corrente solo se in modalità concerto
+                    if(isAutoplaying){
+                       currentTrackTitleEl.textContent = currentPlayer.closest('.brano').querySelector('h2').textContent;
+                    }
                 } else {
                     iconPlay.style.display = 'block';
                     iconPause.style.display = 'none';
@@ -174,6 +188,7 @@
                 isAutoplaying = false;
                 audioPlayers.forEach(p => { p.pause(); p.currentTime = 0; });
                 currentTrackIndex = 0;
+                currentTrackTitleEl.innerHTML = ' '; // Pulisce il titolo
                 updateUI();
             }
             
@@ -183,18 +198,31 @@
                     isAutoplaying = true;
                     playTrack(currentTrackIndex);
                 } else {
+                    isAutoplaying = false; // Se metto in pausa manualmente, la modalità concerto finisce
                     currentPlayer.pause();
                 }
             });
 
             stopBtn.addEventListener('click', stopHard);
-            nextBtn.addEventListener('click', () => { isAutoplaying = true; playTrack(currentTrackIndex + 1); });
-            prevBtn.addEventListener('click', () => { isAutoplaying = true; playTrack(currentTrackIndex - 1); });
+            nextBtn.addEventListener('click', () => { if(!isAutoplaying) isAutoplaying = true; playTrack(currentTrackIndex + 1); });
+            prevBtn.addEventListener('click', () => { if(!isAutoplaying) isAutoplaying = true; playTrack(currentTrackIndex - 1); });
 
             audioPlayers.forEach((player, index) => {
-                player.addEventListener('play', () => { currentTrackIndex = index; updateUI(); updateMediaSession(); });
-                player.addEventListener('pause', () => { if (!player.ended) isAutoplaying = false; updateUI(); });
-                player.addEventListener('ended', () => { if (isAutoplaying) playTrack(currentTrackIndex + 1); else updateUI(); });
+                player.addEventListener('play', () => {
+                    currentTrackIndex = index;
+                    if(!isAutoplaying){
+                        currentTrackTitleEl.innerHTML = ' '; // Pulisce il titolo se è un play manuale
+                    }
+                    updateUI(); updateMediaSession();
+                });
+                player.addEventListener('pause', () => { 
+                    if (!player.ended) stopHard();
+                    else updateUI(); 
+                });
+                player.addEventListener('ended', () => { 
+                    if (isAutoplaying) playTrack(currentTrackIndex + 1);
+                    else stopHard();
+                });
             });
 
             if ('mediaSession' in navigator) {
