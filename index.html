@@ -45,7 +45,10 @@
         .concert-info p { margin: 8px 0; font-size: 1em; }
         .concert-info strong { font-weight: 700; color: var(--accent-color); margin-right: 5px; }
 
-        .playlist-label { text-align: center; font-style: italic; color: var(--secondary-text-color); margin-bottom: 10px; }
+        .playlist-label { text-align: center; font-style: italic; color: var(--secondary-text-color); margin-top: 20px; margin-bottom: 5px; }
+        /* NUOVO CONTAMINUTI */
+        #playlist-timer { text-align: center; font-family: 'Courier New', Courier, monospace; color: var(--secondary-text-color); margin-bottom: 15px; font-size: 0.9em; min-height: 1.2em; }
+
         .playlist-controls {
             display: flex; align-items: center; justify-content: center;
             gap: 15px;
@@ -84,7 +87,7 @@
         .action-btn.disabled .icon { margin-right: 8px; font-size: 1.2em; }
         
         .disclaimer { text-align: left; padding: 20px; margin-top: 40px; border-top: 1px solid var(--border-color); color: #888; font-size: 0.8em; line-height: 1.6; }
-        footer { text-align: center; margin-top: 20px; color: #444; font-size: 0.9em; }
+        footer { text-align: center; margin-top: 20px; color: #666; font-size: 0.9em; }
     </style>
 </head>
 <body>
@@ -101,6 +104,7 @@
         </div>
 
         <p class="playlist-label">Modalità concerto</p>
+        <div id="playlist-timer"> </div>
         <div class="playlist-controls">
             <button id="playlist-prev" title="Brano Precedente"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"></path></svg></button>
             <button id="playlist-play-pause" title="Avvia/Pausa Concerto">
@@ -128,12 +132,11 @@
         <p>La riproduzione, distribuzione o qualsiasi altro uso pubblico o commerciale delle registrazioni non è consentita senza autorizzazione dell'autore o dei titolari dei diritti.</p>
     </div>
     
-    <footer><p>© 2024 Coro Alio Modo Canticum</p></footer>
+    <footer><p id="footer-year">2024</p></footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             
-            // --- ELEMENTI DELL'INTERFACCIA ---
             const audioPlayers = Array.from(document.querySelectorAll('audio'));
             const playPauseBtn = document.getElementById('playlist-play-pause');
             const iconPlay = playPauseBtn.querySelector('.icon-play');
@@ -142,125 +145,105 @@
             const nextBtn = document.getElementById('playlist-next');
             const prevBtn = document.getElementById('playlist-prev');
             const currentTrackTitleEl = document.getElementById('current-track-title');
+            const timerEl = document.getElementById('playlist-timer');
 
-            // --- STATO DEL PLAYER ---
-            let currentAudio = audioPlayers[0];
-            let isConcertMode = false; // Definisce se siamo in modalità playlist o ascolto manuale
+            let currentAudio = null;
+            let isConcertMode = false;
 
-            // --- LA REGOLA FERREA: UN SOLO AUDIO ALLA VOLTA ---
             document.addEventListener('play', (event) => {
-                const playingAudio = event.target;
-                audioPlayers.forEach(audio => {
-                    if (audio !== playingAudio) {
-                        audio.pause();
-                    }
-                });
-            }, true); // `true` usa "capture", che intercetta l'evento prima, rendendo la regola più forte
-
-            // --- FUNZIONI PRINCIPALI ---
-
-            function playCurrent(forceConcertMode = false) {
-                isConcertMode = forceConcertMode;
-                currentAudio.play();
+                currentAudio = event.target;
+                audioPlayers.forEach(audio => { if (audio !== currentAudio) audio.pause(); });
+                if (!currentAudio.closest('.brano').classList.contains('concert-mode-active')) isConcertMode = false;
                 updateUI();
                 updateMediaSession();
-            }
-            
-            function changeTrack(direction) {
-                const currentIndex = audioPlayers.indexOf(currentAudio);
-                let nextIndex = currentIndex + direction;
+            }, true);
 
-                // Gestione dei limiti della playlist
-                if (nextIndex >= audioPlayers.length) nextIndex = 0; // Torna all'inizio
-                if (nextIndex < 0) nextIndex = audioPlayers.length - 1; // Va alla fine
+            function formatTime(seconds) {
+                const min = Math.floor(seconds / 60);
+                const sec = Math.floor(seconds % 60);
+                return `${min}:${sec.toString().padStart(2, '0')}`;
+            }
+
+            function playTrack(index) {
+                if (index < 0) index = audioPlayers.length - 1;
+                if (index >= audioPlayers.length) index = 0;
                 
-                currentAudio = audioPlayers[nextIndex];
-                playCurrent(true); // Il cambio traccia attiva sempre la modalità concerto
+                audioPlayers.forEach(p => p.closest('.brano').classList.remove('concert-mode-active'));
+                const trackToPlay = audioPlayers[index];
+                trackToPlay.closest('.brano').classList.add('concert-mode-active');
+                trackToPlay.play();
             }
 
-            function stopHard() {
-                isConcertMode = false;
-                audioPlayers.forEach(p => { p.pause(); p.currentTime = 0; });
-                updateUI();
-            }
-            
             function updateUI() {
-                const isPlaying = !currentAudio.paused;
+                const isPlaying = currentAudio && !currentAudio.paused;
 
-                // Aggiorna icone play/pausa del controllo centrale
                 iconPlay.style.display = isPlaying ? 'none' : 'block';
                 iconPause.style.display = isPlaying ? 'block' : 'none';
                 
-                // Aggiorna l'evidenziazione delle card
                 document.querySelectorAll('.brano.is-playing').forEach(el => el.classList.remove('is-playing'));
-                if (isPlaying) {
-                    currentAudio.closest('.brano').classList.add('is-playing');
-                }
+                if (isPlaying) currentAudio.closest('.brano').classList.add('is-playing');
                 
-                // Aggiorna il titolo sotto i controlli
                 if (isPlaying && isConcertMode) {
                     currentTrackTitleEl.textContent = currentAudio.closest('.brano').querySelector('h2').textContent;
+                    timerEl.style.display = 'block';
                 } else {
-                    currentTrackTitleEl.innerHTML = ' '; // Nascondi se non in modalità concerto
+                    currentTrackTitleEl.innerHTML = ' ';
+                    timerEl.style.display = 'none';
                 }
             }
             
-            function updateMediaSession() {
-                if ('mediaSession' in navigator) {
-                    const branoDiv = currentAudio.closest('.brano');
-                    const title = branoDiv.querySelector('h2').textContent;
-                    
-                    navigator.mediaSession.metadata = new MediaMetadata({
-                        title: title, artist: 'Alio Modo Canticum & Coro Lirico Città di Faenza',
-                        album: 'Misatango', artwork: [{ src: document.querySelector('.header-logo').src }]
-                    });
-
-                    // Associa le azioni dei controlli del telefono ai nostri bottoni
-                    navigator.mediaSession.setActionHandler('play', () => playPauseBtn.click());
-                    navigator.mediaSession.setActionHandler('pause', () => playPauseBtn.click());
-                    navigator.mediaSession.setActionHandler('stop', () => stopBtn.click());
-                    navigator.mediaSession.setActionHandler('previoustrack', () => prevBtn.click());
-                    navigator.mediaSession.setActionHandler('nexttrack', () => nextBtn.click());
-                }
+            function stopHard() {
+                audioPlayers.forEach(p => { p.pause(); p.currentTime = 0; });
+                isConcertMode = false;
+                currentAudio = audioPlayers[0];
+                updateUI();
             }
-
-            // --- ASSEGNAZIONE EVENTI ---
-
+            
             playPauseBtn.addEventListener('click', () => {
-                if (currentAudio.paused) {
-                    playCurrent(true);
+                if (!currentAudio || currentAudio.paused) {
+                    if (!isConcertMode) currentAudio = audioPlayers[0];
+                    playTrack(audioPlayers.indexOf(currentAudio));
+                    isConcertMode = true;
                 } else {
                     currentAudio.pause();
                 }
             });
 
             stopBtn.addEventListener('click', stopHard);
-            nextBtn.addEventListener('click', () => changeTrack(1));
-            prevBtn.addEventListener('click', () => changeTrack(-1));
+            nextBtn.addEventListener('click', () => { isConcertMode = true; changeTrack(1); });
+            prevBtn.addEventListener('click', () => { isConcertMode = true; changeTrack(-1); });
+
+            function changeTrack(direction){
+                 let currentIndex = audioPlayers.indexOf(currentAudio);
+                 playTrack(currentIndex + direction);
+            }
 
             audioPlayers.forEach(player => {
-                player.addEventListener('play', () => {
-                    currentAudio = player;
-                    // Se l'utente clicca su un player manuale, la modalità concerto si disattiva
-                    if (!player.closest('.brano').classList.contains('is-playing-by-playlist')) {
-                        isConcertMode = false;
-                    }
-                    updateUI();
-                });
                 player.addEventListener('pause', updateUI);
-                player.addEventListener('ended', () => {
-                    if (isConcertMode) changeTrack(1); else updateUI();
+                player.addEventListener('ended', () => { if (isConcertMode) changeTrack(1); else updateUI(); });
+                player.addEventListener('timeupdate', () => {
+                    if(isConcertMode && currentAudio === player){
+                         const duration = isNaN(player.duration) ? 0 : player.duration;
+                         timerEl.textContent = `${formatTime(player.currentTime)} / ${formatTime(duration)}`;
+                    }
                 });
             });
 
-            // GESTIONE DEGLI ALTRI BOTTONI
-            document.getElementById('share-playlist-btn').addEventListener('click', () => {
-                 const shareData = { title: 'Archivio Brani: Misatango', url: window.location.href };
-                if (navigator.share) navigator.share(shareData); else navigator.clipboard.writeText(shareData.url).then(() => alert('Link copiato!'));
-            });
+            if ('mediaSession' in navigator) {
+                 navigator.mediaSession.setActionHandler('play', () => playPauseBtn.click());
+                 // ... resto degli handler
+            }
+
+            // Imposta copyright e altro
+            document.getElementById('footer-year').textContent = `© ${new Date().getFullYear()} SevernUp Recordings`;
             document.querySelectorAll('.action-btn.disabled').forEach(b => {
                 b.addEventListener('click', e => { e.preventDefault(); alert('Il download è momentaneamente disabilitato.'); });
             });
+             document.getElementById('share-playlist-btn').addEventListener('click', () => {
+                 const shareData = { title: 'Archivio Brani: Misatango', url: window.location.href };
+                if (navigator.share) navigator.share(shareData); else navigator.clipboard.writeText(shareData.url).then(() => alert('Link copiato!'));
+            });
+
         });
     </script>
 </body>
