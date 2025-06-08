@@ -132,6 +132,8 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- ELEMENTI DELL'INTERFACCIA ---
             const audioPlayers = Array.from(document.querySelectorAll('audio'));
             const playPauseBtn = document.getElementById('playlist-play-pause');
             const iconPlay = playPauseBtn.querySelector('.icon-play');
@@ -140,124 +142,116 @@
             const nextBtn = document.getElementById('playlist-next');
             const prevBtn = document.getElementById('playlist-prev');
             const currentTrackTitleEl = document.getElementById('current-track-title');
-            
-            let currentTrackIndex = 0;
-            let isAutoplaying = false;
 
-            // FUNZIONE CENTRALE E UNICA PER GESTIRE LA RIPRODUZIONE
-            function playTrack(index) {
-                // Ferma se l'indice è fuori dai limiti della playlist
-                if (index < 0 || index >= audioPlayers.length) {
-                    stopHard();
-                    return;
-                }
-                
-                // Imposta la traccia corrente
-                currentTrackIndex = index;
-                const trackToPlay = audioPlayers[currentTrackIndex];
-                
-                // Metti in pausa tutti gli altri player. Questa è la regola chiave
-                audioPlayers.forEach((p) => {
-                    if (p !== trackToPlay) p.pause();
+            // --- STATO DEL PLAYER ---
+            let currentAudio = audioPlayers[0];
+            let isConcertMode = false; // Definisce se siamo in modalità playlist o ascolto manuale
+
+            // --- LA REGOLA FERREA: UN SOLO AUDIO ALLA VOLTA ---
+            document.addEventListener('play', (event) => {
+                const playingAudio = event.target;
+                audioPlayers.forEach(audio => {
+                    if (audio !== playingAudio) {
+                        audio.pause();
+                    }
                 });
-                
-                trackToPlay.play();
-                updateUI(); // Aggiorna tutta l'interfaccia
+            }, true); // `true` usa "capture", che intercetta l'evento prima, rendendo la regola più forte
+
+            // --- FUNZIONI PRINCIPALI ---
+
+            function playCurrent(forceConcertMode = false) {
+                isConcertMode = forceConcertMode;
+                currentAudio.play();
+                updateUI();
                 updateMediaSession();
             }
+            
+            function changeTrack(direction) {
+                const currentIndex = audioPlayers.indexOf(currentAudio);
+                let nextIndex = currentIndex + direction;
 
+                // Gestione dei limiti della playlist
+                if (nextIndex >= audioPlayers.length) nextIndex = 0; // Torna all'inizio
+                if (nextIndex < 0) nextIndex = audioPlayers.length - 1; // Va alla fine
+                
+                currentAudio = audioPlayers[nextIndex];
+                playCurrent(true); // Il cambio traccia attiva sempre la modalità concerto
+            }
+
+            function stopHard() {
+                isConcertMode = false;
+                audioPlayers.forEach(p => { p.pause(); p.currentTime = 0; });
+                updateUI();
+            }
+            
             function updateUI() {
-                const currentPlayer = audioPlayers[currentTrackIndex];
-                const isPlaying = !currentPlayer.paused;
+                const isPlaying = !currentAudio.paused;
 
-                // Aggiorna l'icona del bottone principale
+                // Aggiorna icone play/pausa del controllo centrale
                 iconPlay.style.display = isPlaying ? 'none' : 'block';
                 iconPause.style.display = isPlaying ? 'block' : 'none';
-
-                // Aggiorna il titolo del brano corrente SOLO se in modalità concerto
-                if (isPlaying && isAutoplaying) {
-                    currentTrackTitleEl.textContent = currentPlayer.closest('.brano').querySelector('h2').textContent;
-                } else if (!isPlaying && !isAutoplaying) {
-                    currentTrackTitleEl.innerHTML = ' '; // Pulisce il titolo
-                }
                 
                 // Aggiorna l'evidenziazione delle card
                 document.querySelectorAll('.brano.is-playing').forEach(el => el.classList.remove('is-playing'));
                 if (isPlaying) {
-                    currentPlayer.closest('.brano').classList.add('is-playing');
+                    currentAudio.closest('.brano').classList.add('is-playing');
+                }
+                
+                // Aggiorna il titolo sotto i controlli
+                if (isPlaying && isConcertMode) {
+                    currentTrackTitleEl.textContent = currentAudio.closest('.brano').querySelector('h2').textContent;
+                } else {
+                    currentTrackTitleEl.innerHTML = ' '; // Nascondi se non in modalità concerto
                 }
             }
             
-            // FUNZIONE PER UN RESET COMPLETO
-            function stopHard() {
-                audioPlayers.forEach(p => { p.pause(); p.currentTime = 0; });
-                isAutoplaying = false;
-                currentTrackIndex = 0;
-                updateUI(); // Questo resetta anche le icone e l'highlight
-                currentTrackTitleEl.innerHTML = ' ';
+            function updateMediaSession() {
+                if ('mediaSession' in navigator) {
+                    const branoDiv = currentAudio.closest('.brano');
+                    const title = branoDiv.querySelector('h2').textContent;
+                    
+                    navigator.mediaSession.metadata = new MediaMetadata({
+                        title: title, artist: 'Alio Modo Canticum & Coro Lirico Città di Faenza',
+                        album: 'Misatango', artwork: [{ src: document.querySelector('.header-logo').src }]
+                    });
+
+                    // Associa le azioni dei controlli del telefono ai nostri bottoni
+                    navigator.mediaSession.setActionHandler('play', () => playPauseBtn.click());
+                    navigator.mediaSession.setActionHandler('pause', () => playPauseBtn.click());
+                    navigator.mediaSession.setActionHandler('stop', () => stopBtn.click());
+                    navigator.mediaSession.setActionHandler('previoustrack', () => prevBtn.click());
+                    navigator.mediaSession.setActionHandler('nexttrack', () => nextBtn.click());
+                }
             }
-            
-            // EVENTI DEI CONTROLLI DELLA PLAYLIST
+
+            // --- ASSEGNAZIONE EVENTI ---
+
             playPauseBtn.addEventListener('click', () => {
-                const currentPlayer = audioPlayers[currentTrackIndex];
-                if (currentPlayer.paused) {
-                    isAutoplaying = true;
-                    playTrack(currentTrackIndex);
+                if (currentAudio.paused) {
+                    playCurrent(true);
                 } else {
-                    currentPlayer.pause();
+                    currentAudio.pause();
                 }
             });
 
             stopBtn.addEventListener('click', stopHard);
-            nextBtn.addEventListener('click', () => {
-                isAutoplaying = true; // Se premo 'next', attivo la modalità concerto
-                playTrack(currentTrackIndex + 1);
-            });
-            prevBtn.addEventListener('click', () => {
-                isAutoplaying = true;
-                playTrack(currentTrackIndex - 1);
-            });
+            nextBtn.addEventListener('click', () => changeTrack(1));
+            prevBtn.addEventListener('click', () => changeTrack(-1));
 
-            // EVENTI SUI SINGOLI PLAYER AUDIO
-            audioPlayers.forEach((player, index) => {
-                // Se un brano parte (manualmente o programmaticamente)
+            audioPlayers.forEach(player => {
                 player.addEventListener('play', () => {
-                    // Se il play è manuale e non era già in modalità concerto, la disattiva
-                    if (player !== audioPlayers[currentTrackIndex]) {
-                        isAutoplaying = false;
+                    currentAudio = player;
+                    // Se l'utente clicca su un player manuale, la modalità concerto si disattiva
+                    if (!player.closest('.brano').classList.contains('is-playing-by-playlist')) {
+                        isConcertMode = false;
                     }
-                    currentTrackIndex = index; // Sincronizza l'indice
                     updateUI();
-                    updateMediaSession();
                 });
-
-                // Se l'utente mette in pausa un brano manualmente
-                player.addEventListener('pause', () => {
-                    // Solo una pausa manuale (non alla fine) stoppa la modalità concerto
-                    if (!player.ended) {
-                        isAutoplaying = false;
-                        updateUI();
-                    }
-                });
-
-                // Alla fine di un brano
+                player.addEventListener('pause', updateUI);
                 player.addEventListener('ended', () => {
-                    if (isAutoplaying) {
-                        playTrack(currentTrackIndex + 1); // Passa al successivo
-                    } else {
-                        updateUI(); // Rimuove solo l'highlight
-                    }
+                    if (isConcertMode) changeTrack(1); else updateUI();
                 });
             });
-
-            // GESTIONE CONTROLLI SU SCHERMATA DI BLOCCO
-            if ('mediaSession' in navigator) {
-                navigator.mediaSession.setActionHandler('play', () => playPauseBtn.click());
-                navigator.mediaSession.setActionHandler('pause', () => playPauseBtn.click());
-                navigator.mediaSession.setActionHandler('stop', () => stopBtn.click());
-                navigator.mediaSession.setActionHandler('previoustrack', () => prevBtn.click());
-                navigator.mediaSession.setActionHandler('nexttrack', () => nextBtn.click());
-            }
 
             // GESTIONE DEGLI ALTRI BOTTONI
             document.getElementById('share-playlist-btn').addEventListener('click', () => {
