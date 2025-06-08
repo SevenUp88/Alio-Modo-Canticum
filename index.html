@@ -3,103 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Archivio Brani Coro</title>
+    <title>Archivio Brani Coro Alio Modo Canticum</title>
+    
+    <!-- NUOVO STILE - DARK MODE ELEGANTE -->
     <style>
         :root {
-            --primary-color: #4a148c; /* Viola scuro principale */
-            --secondary-color: #7c4dff; /* Viola più chiaro per hover e accenti */
-            --background-color: #f5f5f5; /* Sfondo leggermente grigio */
-            --card-background: #ffffff; /* Sfondo delle card */
-            --text-color: #333333; /* Colore testo principale */
-            --light-text-color: #666666; /* Testo più chiaro per descrizioni */
-            --border-color: #e0e0e0; /* Colore dei bordi */
+            /* Nuova palette di colori - Dark Mode Elegante */
+            --background-color: #121212; /* Sfondo quasi nero, molto scuro */
+            --card-background: #1E1E1E;   /* Sfondo delle card, leggermente più chiaro */
+            --accent-color: #BB86FC;      /* Un viola luminoso, perfetto su fondo scuro */
+            --accent-hover-color: #A162F7;/* Viola per l'hover */
+            --primary-text-color: #E0E0E0;/* Testo principale, bianco non abbagliante */
+            --secondary-text-color: #A0A0A0;/* Testo per le descrizioni, più grigio */
+            --border-color: #333333;      /* Colore dei bordi, molto discreto */
+        }
+
+        /* Miglioriamo la visualizzazione dei font */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap');
+
+        /* Applico un tema scuro di default anche agli elementi del browser (es. barre di scorrimento) */
+        html {
+            color-scheme: dark;
         }
 
         body {
-            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Inter', 'Segoe UI', 'Roboto', sans-serif; /* Nuovo font più moderno */
             background-color: var(--background-color);
-            color: var(--text-color);
+            color: var(--primary-text-color);
             margin: 0;
-            padding: 20px;
+            padding: 24px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            transition: background-color 0.3s ease;
         }
 
         .container {
             width: 100%;
-            max-width: 800px;
+            max-width: 720px;
         }
 
         .main-title {
-            color: var(--primary-color);
+            color: #FFFFFF; /* Titolo principale più luminoso */
             text-align: center;
-            font-size: 2.5em;
-            margin-bottom: 30px;
-            font-weight: 300;
+            font-size: 2.8em;
+            margin-bottom: 40px;
+            font-weight: 700; /* Più deciso */
+            letter-spacing: -1px; /* Spaziatura tra le lettere più stretta */
         }
 
         .brano {
             background-color: var(--card-background);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            transition: box-shadow 0.3s ease;
+            border-radius: 16px; /* Bordi più arrotondati */
+            padding: 24px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden; /* Nasconde elementi che escono dalla card */
         }
 
         .brano:hover {
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px); /* Effetto sollevamento */
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
         }
 
-        .brano-titolo {
+        /* Errore corretto qui! Era <h2 class="brano-titolo"> e non <h2 class="NomeBrano"> */
+        .brano h2 {
             margin-top: 0;
-            font-size: 1.5em;
-            color: var(--primary-color);
-            margin-bottom: 5px;
+            font-size: 1.6em;
+            color: #FFFFFF;
+            font-weight: 700;
+            margin-bottom: 8px;
         }
 
         .brano-descrizione {
             margin-top: 0;
-            color: var(--light-text-color);
-            font-size: 0.9em;
-            margin-bottom: 20px;
+            color: var(--secondary-text-color);
+            font-size: 1em;
+            margin-bottom: 24px;
         }
 
+        /* Stile personalizzato per il player audio */
         audio {
             width: 100%;
-            margin-bottom: 15px;
-            border-radius: 25px;
-            filter:_none; /* Per Chrome*/
+            margin-bottom: 20px;
+            accent-color: var(--accent-color); 
         }
 
+        /* Nuovo stile per il bottone di download: più minimale */
         .download-btn {
             display: inline-flex;
             align-items: center;
-            background-color: var(--primary-color);
-            color: white;
-            padding: 10px 20px;
+            background-color: transparent; /* Sfondo trasparente */
+            color: var(--accent-color); /* Testo colorato */
+            border: 2px solid var(--accent-color); /* Bordo colorato */
+            padding: 12px 24px;
             text-decoration: none;
-            border-radius: 25px;
-            font-weight: 500;
-            transition: background-color 0.3s ease;
+            border-radius: 50px; /* Completamente arrotondato */
+            font-weight: 700;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+            font-size: 0.9em;
         }
 
         .download-btn:hover {
-            background-color: var(--secondary-color);
+            background-color: var(--accent-color); /* Al passaggio del mouse, si riempie */
+            color: var(--background-color); /* E il testo diventa scuro */
+            transform: scale(1.03);
+        }
+        
+        .download-btn:active {
+            transform: scale(0.98);
         }
 
         .download-btn .icon {
-            margin-right: 8px;
-            font-size: 1.2em;
+            margin-right: 10px;
+            font-size: 1.3em;
         }
 
         footer {
             text-align: center;
-            margin-top: 40px;
-            color: #999;
-            font-size: 0.8em;
+            margin-top: 50px;
+            color: #666;
+            font-size: 0.9em;
         }
     </style>
 </head>
@@ -108,69 +134,67 @@
     <div class="container">
         <h1 class="main-title">Archivio Brani Coro Alio Modo Canticum</h1>
 
-        <!-- ========== INIZIA A MODIFICARE QUI SOTTO ========== -->
+        <!-- SEZIONE BRANI CON I TUOI DATI GIÀ INSERITI -->
 
         <!-- BRANO 1 -->
         <div class="brano">
-            <h2 class="Introitus et Kyrie">Introitus et Kyrie</h2>
-            <p class="brano-descrizione">Descrizione per il brano 1</p>
-            <audio controls src="https://github.com/SevenUp88/Alio-Modo-Canticum/raw/refs/heads/main/Concerti/2025/Misatango%20-%207.06.25/1.%20Introitus%20et%20Kyrie%20.mp3"></audio>
-            <a href="https://github.com/SevenUp88/Alio-Modo-Canticum/raw/refs/heads/main/Concerti/2025/Misatango%20-%207.06.25/1.%20Introitus%20et%20Kyrie%20.mp3" class="download-btn" download>
+            <h2>Introitus et Kyrie</h2>
+            <p class="brano-descrizione">Misatango - Martin Palmeri</p>
+            <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/1.%20Introitus%20et%20Kyrie%20.mp3"></audio>
+            <a href="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/1.%20Introitus%20et%20Kyrie%20.mp3" class="download-btn" download>
                 <span class="icon">↓</span> Scarica Brano
             </a>
         </div>
         
         <!-- BRANO 2 -->
         <div class="brano">
-            <h2 class="Gloria">Gloria</h2>
-            <p class="brano-descrizione">Descrizione per il brano 2</p>
-            <audio controls src="https://github.com/SevenUp88/Alio-Modo-Canticum/raw/refs/heads/main/Concerti/2025/Misatango%20-%207.06.25/2.%20Gloria%20.mp3"></audio>
-            <a href="https://github.com/SevenUp88/Alio-Modo-Canticum/raw/refs/heads/main/Concerti/2025/Misatango%20-%207.06.25/2.%20Gloria%20.mp3" class="download-btn" download>
+            <h2>Gloria</h2>
+            <p class="brano-descrizione">Misatango - Martin Palmeri</p>
+            <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/2.%20Gloria%20.mp3"></audio>
+            <a href="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/2.%20Gloria%20.mp3" class="download-btn" download>
                 <span class="icon">↓</span> Scarica Brano
             </a>
         </div>
 
         <!-- BRANO 3 -->
         <div class="brano">
-            <h2 class="Credo">Credo</h2>
-            <p class="brano-descrizione">Descrizione per il brano 3</p>
-            <audio controls src="https://github.com/SevenUp88/Alio-Modo-Canticum/raw/refs/heads/main/Concerti/2025/Misatango%20-%207.06.25/3.%20Credo%20.mp3"></audio>
-            <a href="https://github.com/SevenUp88/Alio-Modo-Canticum/raw/refs/heads/main/Concerti/2025/Misatango%20-%207.06.25/3.%20Credo%20.mp3" class="download-btn" download>
+            <h2>Credo</h2>
+            <p class="brano-descrizione">Misatango - Martin Palmeri</p>
+            <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/3.%20Credo%20.mp3"></audio>
+            <a href="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/3.%20Credo%20.mp3" class="download-btn" download>
                 <span class="icon">↓</span> Scarica Brano
             </a>
         </div>
 
         <!-- BRANO 4 -->
         <div class="brano">
-            <h2 class="Sanctus">Sanctus</h2>
-            <p class="brano-descrizione">Descrizione per il brano 4</p>
-            <audio controls src="https://github.com/SevenUp88/Alio-Modo-Canticum/raw/refs/heads/main/Concerti/2025/Misatango%20-%207.06.25/4.%20Sanctus%20.mp3"></audio>
-            <a href="https://github.com/SevenUp88/Alio-Modo-Canticum/raw/refs/heads/main/Concerti/2025/Misatango%20-%207.06.25/4.%20Sanctus%20.mp3" class="download-btn" download>
+            <h2>Sanctus</h2>
+            <p class="brano-descrizione">Misatango - Martin Palmeri</p>
+            <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/4.%20Sanctus%20.mp3"></audio>
+            <a href="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/4.%20Sanctus%20.mp3" class="download-btn" download>
                 <span class="icon">↓</span> Scarica Brano
             </a>
         </div>
 
         <!-- BRANO 5 -->
         <div class="brano">
-            <h2 class="Benedictus">Benedictus</h2>
-            <p class="brano-descrizione">Descrizione per il brano 5</p>
-            <audio controls src="https://github.com/SevenUp88/Alio-Modo-Canticum/raw/refs/heads/main/Concerti/2025/Misatango%20-%207.06.25/5.%20Benedictus%20.mp3"></audio>
-            <a href="https://github.com/SevenUp88/Alio-Modo-Canticum/raw/refs/heads/main/Concerti/2025/Misatango%20-%207.06.25/5.%20Benedictus%20.mp3" class="download-btn" download>
+            <h2>Benedictus</h2>
+            <p class="brano-descrizione">Misatango - Martin Palmeri</p>
+            <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/5.%20Benedictus%20.mp3"></audio>
+            <a href="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/5.%20Benedictus%20.mp3" class="download-btn" download>
                 <span class="icon">↓</span> Scarica Brano
             </a>
         </div>
 
         <!-- BRANO 6 -->
         <div class="brano">
-            <h2 class="Agnus Dei">Agnus Dei</h2>
-            <p class="brano-descrizione">Descrizione per il brano 6</p>
-            <audio controls src="https://github.com/SevenUp88/Alio-Modo-Canticum/raw/refs/heads/main/Concerti/2025/Misatango%20-%207.06.25/6.%20Agnus%20Dei%20.mp3"></audio>
-            <a href="https://github.com/SevenUp88/Alio-Modo-Canticum/raw/refs/heads/main/Concerti/2025/Misatango%20-%207.06.25/6.%20Agnus%20Dei%20.mp3" class="download-btn" download>
+            <h2>Agnus Dei</h2>
+            <p class="brano-descrizione">Misatango - Martin Palmeri</p>
+            <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/6.%20Agnus%20Dei%20.mp3"></audio>
+            <a href="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/6.%20Agnus%20Dei%20.mp3" class="download-btn" download>
                 <span class="icon">↓</span> Scarica Brano
             </a>
         </div>
-
-        <!-- ========== FINE DELLA SEZIONE DA MODIFICARE ========== -->
     </div>
 
     <footer>
