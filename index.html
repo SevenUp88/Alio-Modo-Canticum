@@ -32,11 +32,19 @@
             margin-bottom: 25px; font-size: 1.1em; font-style: italic;
         }
         #share-playlist-btn {
-            display: block; margin: 0 auto 40px auto; cursor: pointer; background-color: var(--accent-color);
+            display: block; margin: 0 auto 25px auto; cursor: pointer; background-color: var(--accent-color);
             color: #121212; border: none; padding: 10px 20px; border-radius: 50px;
             font-weight: 700; transition: all 0.3s ease;
         }
         #share-playlist-btn:hover { background-color: #A162F7; transform: scale(1.05); }
+
+        /* NUOVA SEZIONE INFO GENERALI */
+        .concert-info {
+            text-align: center; margin-bottom: 40px; padding: 20px;
+            background-color: var(--card-background); border-radius: 16px; border: 1px solid var(--border-color);
+        }
+        .concert-info p { margin: 8px 0; color: var(--primary-text-color); font-size: 1em; }
+        .concert-info strong { font-weight: 700; color: var(--accent-color); margin-right: 5px; }
 
         .brano {
             background-color: var(--card-background); border: 1px solid var(--border-color);
@@ -44,11 +52,7 @@
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
         }
         .brano h2 { margin-top: 0; font-size: 1.6em; color: #FFFFFF; font-weight: 700; margin-bottom: 8px; }
-        .brano-descrizione { margin-top: 0; color: var(--secondary-text-color); font-size: 1em; margin-bottom: 5px; }
-        .brano-personnel { margin: 2px 0; color: var(--primary-text-color); opacity: 0.9; font-size: 0.9em; }
-        /* La classe "strong" rende le etichette viola (Cori, Solista, Direttore) */
-        .brano-personnel strong { font-weight: 700; color: var(--accent-color); margin-right: 5px; }
-        .brano .info-group { margin-bottom: 24px; }
+        .brano p { margin-top: 0; color: var(--secondary-text-color); font-size: 1em; margin-bottom: 24px; }
         
         audio { width: 100%; margin-bottom: 24px; accent-color: var(--accent-color); }
         .brano-actions { display: flex; flex-wrap: wrap; gap: 15px; align-items: center; }
@@ -74,18 +78,20 @@
         <h1 class="main-title">Misatango 7.06.2025</h1>
         <p class="concert-location">Basilica Concattedrale Santa Maria Annunziata e San Vicinio (Sarsina)</p>
         <button id="share-playlist-btn">💌 Condividi la pagina</button>
+
+        <!-- INFORMAZIONI GENERALI SPOSTATE QUI -->
+        <div class="concert-info">
+            <p><strong>Cori:</strong> Alio Modo Canticum & Lirico Città di Faenza</p>
+            <p><strong>Solista (Mezzosoprano):</strong> Ada Piatti</p>
+            <p><strong>Direttore:</strong> Andrea Crastolla</p>
+        </div>
         
-        <!-- SEZIONE BRANI CON TUTTE LE ULTIME MODIFICHE -->
+        <!-- SEZIONE BRANI SEMPLIFICATA -->
         
         <!-- BRANO 1 -->
         <div class="brano">
             <h2>Introitus et Kyrie</h2>
-            <div class="info-group">
-                <p class="brano-descrizione">Misatango - Martin Palmeri</p>
-                <p class="brano-personnel"><strong>Cori:</strong> Alio Modo Canticum & Lirico Città di Faenza</p>
-                <p class="brano-personnel"><strong>Solista (Mezzosoprano):</strong> Ada Piatti</p>
-                <p class="brano-personnel"><strong>Direttore:</strong> Andrea Crastolla</p>
-            </div>
+            <p>Misatango - Martin Palmeri</p>
             <audio controls controlsList="nodownload" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/1.%20Introitus%20et%20Kyrie%20.mp3"></audio>
             <div class="brano-actions">
                 <button class="action-btn disabled"><span class="icon">↓</span> Scarica</button>
@@ -95,12 +101,7 @@
         <!-- BRANO 2 -->
         <div class="brano">
             <h2>Gloria</h2>
-            <div class="info-group">
-                <p class="brano-descrizione">Misatango - Martin Palmeri</p>
-                <p class="brano-personnel"><strong>Cori:</strong> Alio Modo Canticum & Lirico Città di Faenza</p>
-                <p class="brano-personnel"><strong>Solista (Mezzosoprano):</strong> Ada Piatti</p>
-                <p class="brano-personnel"><strong>Direttore:</strong> Andrea Crastolla</p>
-            </div>
+            <p>Misatango - Martin Palmeri</p>
             <audio controls controlsList="nodownload" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/2.%20Gloria%20.mp3"></audio>
             <div class="brano-actions">
                 <button class="action-btn disabled"><span class="icon">↓</span> Scarica</button>
@@ -110,12 +111,7 @@
         <!-- BRANO 3 -->
         <div class="brano">
             <h2>Credo</h2>
-            <div class="info-group">
-                <p class="brano-descrizione">Misatango - Martin Palmeri</p>
-                <p class="brano-personnel"><strong>Cori:</strong> Alio Modo Canticum & Lirico Città di Faenza</p>
-                <p class="brano-personnel"><strong>Solista (Mezzosoprano):</strong> Ada Piatti</p>
-                <p class="brano-personnel"><strong>Direttore:</strong> Andrea Crastolla</p>
-            </div>
+            <p>Misatango - Martin Palmeri</p>
             <audio controls controlsList="nodownload" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/3.%20Credo%20.mp3"></audio>
             <div class="brano-actions">
                 <button class="action-btn disabled"><span class="icon">↓</span> Scarica</button>
@@ -125,12 +121,7 @@
         <!-- BRANO 4 -->
         <div class="brano">
             <h2>Sanctus</h2>
-            <div class="info-group">
-                <p class="brano-descrizione">Misatango - Martin Palmeri</p>
-                <p class="brano-personnel"><strong>Cori:</strong> Alio Modo Canticum & Lirico Città di Faenza</p>
-                <p class="brano-personnel"><strong>Solista (Mezzosoprano):</strong> Ada Piatti</p>
-                <p class="brano-personnel"><strong>Direttore:</strong> Andrea Crastolla</p>
-            </div>
+            <p>Misatango - Martin Palmeri</p>
             <audio controls controlsList="nodownload" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/4.%20Sanctus%20.mp3"></audio>
             <div class="brano-actions">
                 <button class="action-btn disabled"><span class="icon">↓</span> Scarica</button>
@@ -140,12 +131,7 @@
         <!-- BRANO 5 -->
         <div class="brano">
             <h2>Benedictus</h2>
-            <div class="info-group">
-                <p class="brano-descrizione">Misatango - Martin Palmeri</p>
-                <p class="brano-personnel"><strong>Cori:</strong> Alio Modo Canticum & Lirico Città di Faenza</p>
-                <p class="brano-personnel"><strong>Solista (Mezzosoprano):</strong> Ada Piatti</p>
-                <p class="brano-personnel"><strong>Direttore:</strong> Andrea Crastolla</p>
-            </div>
+            <p>Misatango - Martin Palmeri</p>
             <audio controls controlsList="nodownload" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/5.%20Benedictus%20.mp3"></audio>
             <div class="brano-actions">
                 <button class="action-btn disabled"><span class="icon">↓</span> Scarica</button>
@@ -155,12 +141,7 @@
         <!-- BRANO 6 -->
         <div class="brano">
             <h2>Agnus Dei</h2>
-            <div class="info-group">
-                <p class="brano-descrizione">Misatango - Martin Palmeri</p>
-                <p class="brano-personnel"><strong>Cori:</strong> Alio Modo Canticum & Lirico Città di Faenza</p>
-                <p class="brano-personnel"><strong>Solista (Mezzosoprano):</strong> Ada Piatti</p>
-                <p class="brano-personnel"><strong>Direttore:</strong> Andrea Crastolla</p>
-            </div>
+            <p>Misatango - Martin Palmeri</p>
             <audio controls controlsList="nodownload" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/6.%20Agnus%20Dei%20.mp3"></audio>
             <div class="brano-actions">
                 <button class="action-btn disabled"><span class="icon">↓</span> Scarica</button>
@@ -200,7 +181,7 @@
                 }
             });
             
-            // NUOVA LOGICA: UNA TRACCIA ALLA VOLTA
+            // Logica per una traccia alla volta
             const audioPlayers = document.querySelectorAll('audio');
             audioPlayers.forEach(player => {
                 player.addEventListener('play', (event) => {
