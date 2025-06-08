@@ -9,7 +9,6 @@
         :root {
             --background-color: #121212; --card-background: #1E1E1E; --accent-color: #BB86FC;
             --primary-text-color: #E0E0E0; --secondary-text-color: #A0A0A0; --border-color: #333333;
-            --like-color: #ef5350;
         }
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
         html { color-scheme: dark; }
@@ -28,7 +27,6 @@
         .main-title {
             color: #FFFFFF; text-align: center; font-size: 2.5em; margin-bottom: 5px; font-weight: 700; letter-spacing: -1px;
         }
-        /* NUOVO STILE PER LA LOCATION DEL CONCERTO */
         .concert-location {
             text-align: center; color: var(--secondary-text-color); margin-top: 0;
             margin-bottom: 25px; font-size: 1.1em; font-style: italic;
@@ -47,11 +45,11 @@
         }
         .brano h2 { margin-top: 0; font-size: 1.6em; color: #FFFFFF; font-weight: 700; margin-bottom: 8px; }
         .brano-descrizione { margin-top: 0; color: var(--secondary-text-color); font-size: 1em; margin-bottom: 5px; }
-        .brano-esecutori { margin-top: 0; color: var(--accent-color); opacity: 0.8; font-size: 0.9em; margin-bottom: 5px; font-weight: 500; }
-        /* NUOVO STILE PER DIRETTORE E SOLISTA */
+        /* COLORE DEI CORI ESECUTORI CAMBIATO IN BIANCO */
+        .brano-esecutori { margin-top: 0; color: var(--primary-text-color); opacity: 0.8; font-size: 0.9em; margin-bottom: 5px; font-weight: 500; }
         .brano-personnel { margin: 2px 0; color: var(--primary-text-color); opacity: 0.9; font-size: 0.9em; }
         .brano-personnel strong { font-weight: 700; color: var(--accent-color); margin-right: 5px; }
-        .brano .info-group { margin-bottom: 24px; } /* Gruppo per le info testuali */
+        .brano .info-group { margin-bottom: 24px; }
         
         audio { width: 100%; margin-bottom: 24px; accent-color: var(--accent-color); }
         .brano-actions { display: flex; flex-wrap: wrap; gap: 15px; align-items: center; }
@@ -63,25 +61,30 @@
             font-size: 0.9em; -webkit-user-select: none; user-select: none;
         }
         .action-btn:hover { border-color: var(--accent-color); color: var(--accent-color); }
-        .action-btn.download { border-color: var(--accent-color); color: var(--accent-color); }
-        .action-btn.download:hover { background-color: var(--accent-color); color: var(--background-color); }
         .action-btn .icon { margin-right: 8px; font-size: 1.2em; }
-        .like-btn.user-has-liked { color: var(--like-color); border-color: var(--like-color); pointer-events: none; }
-        .like-counter { font-weight: 400; margin-left: 5px; font-size: 0.9em; }
+        
+        /* BOTTONE DOWNLOAD DISABILITATO */
+        .action-btn.disabled {
+            border-color: #444; color: #666; cursor: not-allowed;
+            pointer-events: all !important; /* Permette al click di funzionare per l'alert */
+        }
+        .action-btn.disabled:hover { border-color: #444; color: #666; transform: none; }
 
-        footer { text-align: center; margin-top: 50px; color: #444; font-size: 0.9em; }
+        .disclaimer {
+            text-align: left; padding: 20px; margin-top: 40px; border-top: 1px solid var(--border-color);
+            color: #888; font-size: 0.8em; line-height: 1.6;
+        }
+        footer { text-align: center; margin-top: 20px; color: #444; font-size: 0.9em; }
     </style>
 </head>
 <body>
-
     <div class="container">
         <img src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/sevenup3.png" alt="Logo Coro" class="header-logo">
         <h1 class="main-title">Misatango 7.06.2025</h1>
-        <!-- LOCATION AGGIUNTA QUI -->
         <p class="concert-location">Basilica Concattedrale Santa Maria Annunziata e San Vicinio (Sarsina)</p>
         <button id="share-playlist-btn">💌 Condividi la pagina</button>
         
-        <!-- SEZIONE BRANI CON INFO COMPLETE -->
+        <!-- SEZIONE BRANI CON INFO AGGIORNATE -->
         
         <!-- BRANO 1 -->
         <div class="brano">
@@ -89,53 +92,44 @@
             <div class="info-group">
                 <p class="brano-descrizione">Misatango - Martin Palmeri</p>
                 <p class="brano-esecutori">Cori: Alio Modo Canticum & Lirico Città di Faenza</p>
-                <p class="brano-personnel"><strong>Direttore:</strong> Andrea Crastolla</p>
                 <p class="brano-personnel"><strong>Solista (Mezzosoprano):</strong> Ada Piatti</p>
+                <p class="brano-personnel"><strong>Direttore:</strong> Andrea Crastolla</p>
             </div>
             <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/1.%20Introitus%20et%20Kyrie%20.mp3"></audio>
             <div class="brano-actions">
-                <a href="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/1.%20Introitus%20et%20Kyrie%20.mp3" class="action-btn download" download><span class="icon">↓</span> Scarica</a>
-                <button class="action-btn like-btn" data-like-id="canticum-misatango-kyrie">
-                    <span class="icon">♥</span> Piace <span class="like-counter">(...)</span>
-                </button>
+                <button class="action-btn disabled" id="download-btn-1"><span class="icon">↓</span> Scarica</button>
             </div>
         </div>
         
         <!-- BRANO 2 -->
         <div class="brano">
             <h2>Gloria</h2>
-             <div class="info-group">
+            <div class="info-group">
                 <p class="brano-descrizione">Misatango - Martin Palmeri</p>
                 <p class="brano-esecutori">Cori: Alio Modo Canticum & Lirico Città di Faenza</p>
-                <p class="brano-personnel"><strong>Direttore:</strong> Andrea Crastolla</p>
                 <p class="brano-personnel"><strong>Solista (Mezzosoprano):</strong> Ada Piatti</p>
+                <p class="brano-personnel"><strong>Direttore:</strong> Andrea Crastolla</p>
             </div>
             <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/2.%20Gloria%20.mp3"></audio>
             <div class="brano-actions">
-                <a href="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/2.%20Gloria%20.mp3" class="action-btn download" download><span class="icon">↓</span> Scarica</a>
-                <button class="action-btn like-btn" data-like-id="canticum-misatango-gloria">
-                    <span class="icon">♥</span> Piace <span class="like-counter">(...)</span>
-                </button>
+                <button class="action-btn disabled" id="download-btn-2"><span class="icon">↓</span> Scarica</button>
             </div>
         </div>
-
+        
         <!-- ... e così via per gli altri brani ... -->
         
         <!-- BRANO 3 -->
         <div class="brano">
             <h2>Credo</h2>
-             <div class="info-group">
+            <div class="info-group">
                 <p class="brano-descrizione">Misatango - Martin Palmeri</p>
                 <p class="brano-esecutori">Cori: Alio Modo Canticum & Lirico Città di Faenza</p>
-                <p class="brano-personnel"><strong>Direttore:</strong> Andrea Crastolla</p>
                 <p class="brano-personnel"><strong>Solista (Mezzosoprano):</strong> Ada Piatti</p>
+                <p class="brano-personnel"><strong>Direttore:</strong> Andrea Crastolla</p>
             </div>
             <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/3.%20Credo%20.mp3"></audio>
             <div class="brano-actions">
-                <a href="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/3.%20Credo%20.mp3" class="action-btn download" download><span class="icon">↓</span> Scarica</a>
-                <button class="action-btn like-btn" data-like-id="canticum-misatango-credo">
-                    <span class="icon">♥</span> Piace <span class="like-counter">(...)</span>
-                </button>
+                <button class="action-btn disabled" id="download-btn-3"><span class="icon">↓</span> Scarica</button>
             </div>
         </div>
         
@@ -145,15 +139,12 @@
             <div class="info-group">
                 <p class="brano-descrizione">Misatango - Martin Palmeri</p>
                 <p class="brano-esecutori">Cori: Alio Modo Canticum & Lirico Città di Faenza</p>
-                <p class="brano-personnel"><strong>Direttore:</strong> Andrea Crastolla</p>
                 <p class="brano-personnel"><strong>Solista (Mezzosoprano):</strong> Ada Piatti</p>
+                <p class="brano-personnel"><strong>Direttore:</strong> Andrea Crastolla</p>
             </div>
             <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/4.%20Sanctus%20.mp3"></audio>
             <div class="brano-actions">
-                <a href="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/4.%20Sanctus%20.mp3" class="action-btn download" download><span class="icon">↓</span> Scarica</a>
-                <button class="action-btn like-btn" data-like-id="canticum-misatango-sanctus">
-                    <span class="icon">♥</span> Piace <span class="like-counter">(...)</span>
-                </button>
+                <button class="action-btn disabled" id="download-btn-4"><span class="icon">↓</span> Scarica</button>
             </div>
         </div>
         
@@ -163,15 +154,12 @@
             <div class="info-group">
                 <p class="brano-descrizione">Misatango - Martin Palmeri</p>
                 <p class="brano-esecutori">Cori: Alio Modo Canticum & Lirico Città di Faenza</p>
-                <p class="brano-personnel"><strong>Direttore:</strong> Andrea Crastolla</p>
                 <p class="brano-personnel"><strong>Solista (Mezzosoprano):</strong> Ada Piatti</p>
+                <p class="brano-personnel"><strong>Direttore:</strong> Andrea Crastolla</p>
             </div>
             <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/5.%20Benedictus%20.mp3"></audio>
             <div class="brano-actions">
-                <a href="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/5.%20Benedictus%20.mp3" class="action-btn download" download><span class="icon">↓</span> Scarica</a>
-                <button class="action-btn like-btn" data-like-id="canticum-misatango-benedictus">
-                    <span class="icon">♥</span> Piace <span class="like-counter">(...)</span>
-                </button>
+                <button class="action-btn disabled" id="download-btn-5"><span class="icon">↓</span> Scarica</button>
             </div>
         </div>
         
@@ -181,65 +169,56 @@
             <div class="info-group">
                 <p class="brano-descrizione">Misatango - Martin Palmeri</p>
                 <p class="brano-esecutori">Cori: Alio Modo Canticum & Lirico Città di Faenza</p>
-                <p class="brano-personnel"><strong>Direttore:</strong> Andrea Crastolla</p>
                 <p class="brano-personnel"><strong>Solista (Mezzosoprano):</strong> Ada Piatti</p>
+                <p class="brano-personnel"><strong>Direttore:</strong> Andrea Crastolla</p>
             </div>
             <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/6.%20Agnus%20Dei%20.mp3"></audio>
             <div class="brano-actions">
-                <a href="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/6.%20Agnus%20Dei%20.mp3" class="action-btn download" download><span class="icon">↓</span> Scarica</a>
-                <button class="action-btn like-btn" data-like-id="canticum-misatango-agnusdei">
-                    <span class="icon">♥</span> Piace <span class="like-counter">(...)</span>
-                </button>
+                <button class="action-btn disabled" id="download-btn-6"><span class="icon">↓</span> Scarica</button>
             </div>
         </div>
 
     </div>
-    
-    <footer><p>© 2025 SevenUp Recordings /p></footer>
 
+    <!-- TESTO LEGALE INSERITO QUI -->
+    <div class="container disclaimer">
+        <p>Le tracce audio disponibili su questa pagina sono registrazioni amatoriali eseguite dal vivo della Misatango (Misa a Buenos Aires), composta da Martín Palmeri.</p>
+        <p>L'opera è protetta da copyright e tutti i diritti relativi alla composizione sono riservati ai rispettivi titolari.</p>
+        <p>Questa registrazione è condivisa exclusively a fini didattici e culturali, senza scopo di lucro, e l’accesso è destinato a un pubblico ristretto.</p>
+        <p>La riproduzione, distribuzione o qualsiasi altro uso pubblico o commerciale delle registrazioni non è consentita senza autorizzazione dell'autore o dei titolari dei diritti.</p>
+    </div>
+    
+    <!-- COPYRIGHT RIMOSSO DAL FOOTER -->
+    <footer></footer>
+
+    <!-- JAVASCRIPT SEMPLIFICATO -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const namespace = 'aliomodocanticum-project';
-            function updateLikeDisplay(button, count) { button.querySelector('.like-counter').textContent = `(${count})`; }
-
-            async function handleLike(button) {
-                const likeId = button.dataset.likeId;
-                if (localStorage.getItem(likeId) === 'true') { alert('Hai già messo "Mi Piace" a questo brano!'); return; }
-                try {
-                    const res = await fetch(`https://api.countapi.xyz/hit/${namespace}/${likeId}`);
-                    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-                    const data = await res.json();
-                    updateLikeDisplay(button, data.value);
-                    button.classList.add('user-has-liked');
-                    localStorage.setItem(likeId, 'true');
-                } catch (err) { console.error("Errore nell'aggiornare il like:", err); }
-            }
-
-            async function fetchAllLikes() {
-                const likeButtons = document.querySelectorAll('.like-btn');
-                for (const button of likeButtons) {
-                    const likeId = button.dataset.likeId;
-                    if (localStorage.getItem(likeId) === 'true') { button.classList.add('user-has-liked'); }
-                    try {
-                        const res = await fetch(`https://api.countapi.xyz/get/${namespace}/${likeId}`);
-                        if (res.status === 404) { updateLikeDisplay(button, 0); continue; }
-                        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-                        const data = await res.json();
-                        updateLikeDisplay(button, data.value);
-                    } catch (err) { console.error("Impossibile caricare il conteggio:", err); updateLikeDisplay(button, '?'); }
-                }
-            }
-
-            document.querySelectorAll('.like-btn').forEach(button => { button.onclick = () => handleLike(button); });
             
-            document.getElementById('share-playlist-btn').addEventListener('click', () => {
-                 share({ title: 'Archivio Brani: Misatango', text: 'Ascolta i brani di studio per il concerto.', url: window.location.href });
+            // Gestione dei bottoni di download disabilitati
+            document.querySelectorAll('.action-btn.disabled').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault(); // Previene qualsiasi azione predefinita
+                    alert('Il download è momentaneamente disabilitato.');
+                });
             });
-            async function share(data) {
-                try { if (navigator.share) await navigator.share(data); else { await navigator.clipboard.writeText(data.url); alert('Link della pagina copiato!'); } } catch (err) {}
-            }
-            
-            fetchAllLikes();
+
+            // Gestione del bottone di condivisione pagina
+            document.getElementById('share-playlist-btn').addEventListener('click', () => {
+                const shareData = { 
+                    title: 'Archivio Brani: Misatango', 
+                    text: 'Ascolta i brani di studio per il concerto.', 
+                    url: window.location.href 
+                };
+                
+                if (navigator.share) {
+                    navigator.share(shareData).catch(err => console.error("Share Fallito", err));
+                } else {
+                    navigator.clipboard.writeText(window.location.href)
+                        .then(() => alert('Link della pagina copiato negli appunti!'))
+                        .catch(err => console.error('Copia fallita', err));
+                }
+            });
         });
     </script>
 </body>
