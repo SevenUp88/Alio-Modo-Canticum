@@ -45,9 +45,8 @@
         }
         .brano h2 { margin-top: 0; font-size: 1.6em; color: #FFFFFF; font-weight: 700; margin-bottom: 8px; }
         .brano-descrizione { margin-top: 0; color: var(--secondary-text-color); font-size: 1em; margin-bottom: 5px; }
-        /* COLORE DEI CORI ESECUTORI CAMBIATO IN BIANCO */
-        .brano-esecutori { margin-top: 0; color: var(--primary-text-color); opacity: 0.8; font-size: 0.9em; margin-bottom: 5px; font-weight: 500; }
         .brano-personnel { margin: 2px 0; color: var(--primary-text-color); opacity: 0.9; font-size: 0.9em; }
+        /* La classe "strong" rende le etichette viola (Cori, Solista, Direttore) */
         .brano-personnel strong { font-weight: 700; color: var(--accent-color); margin-right: 5px; }
         .brano .info-group { margin-bottom: 24px; }
         
@@ -62,18 +61,10 @@
         }
         .action-btn:hover { border-color: var(--accent-color); color: var(--accent-color); }
         .action-btn .icon { margin-right: 8px; font-size: 1.2em; }
-        
-        /* BOTTONE DOWNLOAD DISABILITATO */
-        .action-btn.disabled {
-            border-color: #444; color: #666; cursor: not-allowed;
-            pointer-events: all !important; /* Permette al click di funzionare per l'alert */
-        }
+        .action-btn.disabled { border-color: #444; color: #666; cursor: not-allowed; pointer-events: all !important; }
         .action-btn.disabled:hover { border-color: #444; color: #666; transform: none; }
 
-        .disclaimer {
-            text-align: left; padding: 20px; margin-top: 40px; border-top: 1px solid var(--border-color);
-            color: #888; font-size: 0.8em; line-height: 1.6;
-        }
+        .disclaimer { text-align: left; padding: 20px; margin-top: 40px; border-top: 1px solid var(--border-color); color: #888; font-size: 0.8em; line-height: 1.6; }
         footer { text-align: center; margin-top: 20px; color: #444; font-size: 0.9em; }
     </style>
 </head>
@@ -84,20 +75,20 @@
         <p class="concert-location">Basilica Concattedrale Santa Maria Annunziata e San Vicinio (Sarsina)</p>
         <button id="share-playlist-btn">💌 Condividi la pagina</button>
         
-        <!-- SEZIONE BRANI CON INFO AGGIORNATE -->
+        <!-- SEZIONE BRANI CON TUTTE LE ULTIME MODIFICHE -->
         
         <!-- BRANO 1 -->
         <div class="brano">
             <h2>Introitus et Kyrie</h2>
             <div class="info-group">
                 <p class="brano-descrizione">Misatango - Martin Palmeri</p>
-                <p class="brano-esecutori">Cori: Alio Modo Canticum & Lirico Città di Faenza</p>
+                <p class="brano-personnel"><strong>Cori:</strong> Alio Modo Canticum & Lirico Città di Faenza</p>
                 <p class="brano-personnel"><strong>Solista (Mezzosoprano):</strong> Ada Piatti</p>
                 <p class="brano-personnel"><strong>Direttore:</strong> Andrea Crastolla</p>
             </div>
-            <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/1.%20Introitus%20et%20Kyrie%20.mp3"></audio>
+            <audio controls controlsList="nodownload" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/1.%20Introitus%20et%20Kyrie%20.mp3"></audio>
             <div class="brano-actions">
-                <button class="action-btn disabled" id="download-btn-1"><span class="icon">↓</span> Scarica</button>
+                <button class="action-btn disabled"><span class="icon">↓</span> Scarica</button>
             </div>
         </div>
         
@@ -106,30 +97,28 @@
             <h2>Gloria</h2>
             <div class="info-group">
                 <p class="brano-descrizione">Misatango - Martin Palmeri</p>
-                <p class="brano-esecutori">Cori: Alio Modo Canticum & Lirico Città di Faenza</p>
+                <p class="brano-personnel"><strong>Cori:</strong> Alio Modo Canticum & Lirico Città di Faenza</p>
                 <p class="brano-personnel"><strong>Solista (Mezzosoprano):</strong> Ada Piatti</p>
                 <p class="brano-personnel"><strong>Direttore:</strong> Andrea Crastolla</p>
             </div>
-            <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/2.%20Gloria%20.mp3"></audio>
+            <audio controls controlsList="nodownload" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/2.%20Gloria%20.mp3"></audio>
             <div class="brano-actions">
-                <button class="action-btn disabled" id="download-btn-2"><span class="icon">↓</span> Scarica</button>
+                <button class="action-btn disabled"><span class="icon">↓</span> Scarica</button>
             </div>
         </div>
-        
-        <!-- ... e così via per gli altri brani ... -->
         
         <!-- BRANO 3 -->
         <div class="brano">
             <h2>Credo</h2>
             <div class="info-group">
                 <p class="brano-descrizione">Misatango - Martin Palmeri</p>
-                <p class="brano-esecutori">Cori: Alio Modo Canticum & Lirico Città di Faenza</p>
+                <p class="brano-personnel"><strong>Cori:</strong> Alio Modo Canticum & Lirico Città di Faenza</p>
                 <p class="brano-personnel"><strong>Solista (Mezzosoprano):</strong> Ada Piatti</p>
                 <p class="brano-personnel"><strong>Direttore:</strong> Andrea Crastolla</p>
             </div>
-            <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/3.%20Credo%20.mp3"></audio>
+            <audio controls controlsList="nodownload" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/3.%20Credo%20.mp3"></audio>
             <div class="brano-actions">
-                <button class="action-btn disabled" id="download-btn-3"><span class="icon">↓</span> Scarica</button>
+                <button class="action-btn disabled"><span class="icon">↓</span> Scarica</button>
             </div>
         </div>
         
@@ -138,13 +127,13 @@
             <h2>Sanctus</h2>
             <div class="info-group">
                 <p class="brano-descrizione">Misatango - Martin Palmeri</p>
-                <p class="brano-esecutori">Cori: Alio Modo Canticum & Lirico Città di Faenza</p>
+                <p class="brano-personnel"><strong>Cori:</strong> Alio Modo Canticum & Lirico Città di Faenza</p>
                 <p class="brano-personnel"><strong>Solista (Mezzosoprano):</strong> Ada Piatti</p>
                 <p class="brano-personnel"><strong>Direttore:</strong> Andrea Crastolla</p>
             </div>
-            <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/4.%20Sanctus%20.mp3"></audio>
+            <audio controls controlsList="nodownload" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/4.%20Sanctus%20.mp3"></audio>
             <div class="brano-actions">
-                <button class="action-btn disabled" id="download-btn-4"><span class="icon">↓</span> Scarica</button>
+                <button class="action-btn disabled"><span class="icon">↓</span> Scarica</button>
             </div>
         </div>
         
@@ -153,13 +142,13 @@
             <h2>Benedictus</h2>
             <div class="info-group">
                 <p class="brano-descrizione">Misatango - Martin Palmeri</p>
-                <p class="brano-esecutori">Cori: Alio Modo Canticum & Lirico Città di Faenza</p>
+                <p class="brano-personnel"><strong>Cori:</strong> Alio Modo Canticum & Lirico Città di Faenza</p>
                 <p class="brano-personnel"><strong>Solista (Mezzosoprano):</strong> Ada Piatti</p>
                 <p class="brano-personnel"><strong>Direttore:</strong> Andrea Crastolla</p>
             </div>
-            <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/5.%20Benedictus%20.mp3"></audio>
+            <audio controls controlsList="nodownload" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/5.%20Benedictus%20.mp3"></audio>
             <div class="brano-actions">
-                <button class="action-btn disabled" id="download-btn-5"><span class="icon">↓</span> Scarica</button>
+                <button class="action-btn disabled"><span class="icon">↓</span> Scarica</button>
             </div>
         </div>
         
@@ -168,49 +157,40 @@
             <h2>Agnus Dei</h2>
             <div class="info-group">
                 <p class="brano-descrizione">Misatango - Martin Palmeri</p>
-                <p class="brano-esecutori">Cori: Alio Modo Canticum & Lirico Città di Faenza</p>
+                <p class="brano-personnel"><strong>Cori:</strong> Alio Modo Canticum & Lirico Città di Faenza</p>
                 <p class="brano-personnel"><strong>Solista (Mezzosoprano):</strong> Ada Piatti</p>
                 <p class="brano-personnel"><strong>Direttore:</strong> Andrea Crastolla</p>
             </div>
-            <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/6.%20Agnus%20Dei%20.mp3"></audio>
+            <audio controls controlsList="nodownload" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/6.%20Agnus%20Dei%20.mp3"></audio>
             <div class="brano-actions">
-                <button class="action-btn disabled" id="download-btn-6"><span class="icon">↓</span> Scarica</button>
+                <button class="action-btn disabled"><span class="icon">↓</span> Scarica</button>
             </div>
         </div>
-
     </div>
 
-    <!-- TESTO LEGALE INSERITO QUI -->
     <div class="container disclaimer">
         <p>Le tracce audio disponibili su questa pagina sono registrazioni amatoriali eseguite dal vivo della Misatango (Misa a Buenos Aires), composta da Martín Palmeri.</p>
         <p>L'opera è protetta da copyright e tutti i diritti relativi alla composizione sono riservati ai rispettivi titolari.</p>
-        <p>Questa registrazione è condivisa exclusively a fini didattici e culturali, senza scopo di lucro, e l’accesso è destinato a un pubblico ristretto.</p>
+        <p>Questa registrazione è condivisa esclusivamente a fini didattici e culturali, senza scopo di lucro, e l’accesso è destinato a un pubblico ristretto.</p>
         <p>La riproduzione, distribuzione o qualsiasi altro uso pubblico o commerciale delle registrazioni non è consentita senza autorizzazione dell'autore o dei titolari dei diritti.</p>
     </div>
     
-    <!-- COPYRIGHT RIMOSSO DAL FOOTER -->
     <footer></footer>
 
-    <!-- JAVASCRIPT SEMPLIFICATO -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            
+
             // Gestione dei bottoni di download disabilitati
             document.querySelectorAll('.action-btn.disabled').forEach(button => {
                 button.addEventListener('click', (e) => {
-                    e.preventDefault(); // Previene qualsiasi azione predefinita
+                    e.preventDefault(); 
                     alert('Il download è momentaneamente disabilitato.');
                 });
             });
 
             // Gestione del bottone di condivisione pagina
             document.getElementById('share-playlist-btn').addEventListener('click', () => {
-                const shareData = { 
-                    title: 'Archivio Brani: Misatango', 
-                    text: 'Ascolta i brani di studio per il concerto.', 
-                    url: window.location.href 
-                };
-                
+                const shareData = { title: 'Archivio Brani: Misatango', url: window.location.href };
                 if (navigator.share) {
                     navigator.share(shareData).catch(err => console.error("Share Fallito", err));
                 } else {
@@ -218,6 +198,19 @@
                         .then(() => alert('Link della pagina copiato negli appunti!'))
                         .catch(err => console.error('Copia fallita', err));
                 }
+            });
+            
+            // NUOVA LOGICA: UNA TRACCIA ALLA VOLTA
+            const audioPlayers = document.querySelectorAll('audio');
+            audioPlayers.forEach(player => {
+                player.addEventListener('play', (event) => {
+                    const currentPlayer = event.target;
+                    audioPlayers.forEach(otherPlayer => {
+                        if (otherPlayer !== currentPlayer) {
+                            otherPlayer.pause();
+                        }
+                    });
+                });
             });
         });
     </script>
