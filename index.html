@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archivio Brani Coro</title>
+    <style>
+        :root {
+            --primary-color: #4a148c; /* Viola scuro principale */
+            --secondary-color: #7c4dff; /* Viola più chiaro per hover e accenti */
+            --background-color: #f5f5f5; /* Sfondo leggermente grigio */
+            --card-background: #ffffff; /* Sfondo delle card */
+            --text-color: #333333; /* Colore testo principale */
+            --light-text-color: #666666; /* Testo più chiaro per descrizioni */
+            --border-color: #e0e0e0; /* Colore dei bordi */
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .main-title {
+            color: var(--primary-color);
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .brano {
+            background-color: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .brano:hover {
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .brano-titolo {
+            margin-top: 0;
+            font-size: 1.5em;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .brano-descrizione {
+            margin-top: 0;
+            color: var(--light-text-color);
+            font-size: 0.9em;
+            margin-bottom: 20px;
+        }
+
+        audio {
+            width: 100%;
+            margin-bottom: 15px;
+            border-radius: 25px;
+            filter:_none; /* Per Chrome*/
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .download-btn .icon {
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #999;
+            font-size: 0.8em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="main-title">Archivio Brani Coro Alio Modo Canticum</h1>
+
+        <!-- ========== INIZIA A MODIFICARE QUI SOTTO ========== -->
+
+        <!-- BRANO 1 -->
+        <div class="brano">
+            <h2 class="Introitus et Kyrie">Introitus et Kyrie</h2>
+            <p class="brano-descrizione">Descrizione per il brano 1</p>
+            <audio controls src="https://github.com/SevenUp88/Alio-Modo-Canticum/raw/refs/heads/main/Concerti/2025/Misatango%20-%207.06.25/1.%20Introitus%20et%20Kyrie%20.mp3"></audio>
+            <a href="https://github.com/SevenUp88/Alio-Modo-Canticum/raw/refs/heads/main/Concerti/2025/Misatango%20-%207.06.25/1.%20Introitus%20et%20Kyrie%20.mp3" class="download-btn" download>
+                <span class="icon">↓</span> Scarica Brano
+            </a>
+        </div>
+        
+        <!-- BRANO 2 -->
+        <div class="brano">
+            <h2 class="Gloria">Gloria</h2>
+            <p class="brano-descrizione">Descrizione per il brano 2</p>
+            <audio controls src="https://github.com/SevenUp88/Alio-Modo-Canticum/raw/refs/heads/main/Concerti/2025/Misatango%20-%207.06.25/2.%20Gloria%20.mp3"></audio>
+            <a href="https://github.com/SevenUp88/Alio-Modo-Canticum/raw/refs/heads/main/Concerti/2025/Misatango%20-%207.06.25/2.%20Gloria%20.mp3" class="download-btn" download>
+                <span class="icon">↓</span> Scarica Brano
+            </a>
+        </div>
+
+        <!-- BRANO 3 -->
+        <div class="brano">
+            <h2 class="Credo">Credo</h2>
+            <p class="brano-descrizione">Descrizione per il brano 3</p>
+            <audio controls src="https://github.com/SevenUp88/Alio-Modo-Canticum/raw/refs/heads/main/Concerti/2025/Misatango%20-%207.06.25/3.%20Credo%20.mp3"></audio>
+            <a href="https://github.com/SevenUp88/Alio-Modo-Canticum/raw/refs/heads/main/Concerti/2025/Misatango%20-%207.06.25/3.%20Credo%20.mp3" class="download-btn" download>
+                <span class="icon">↓</span> Scarica Brano
+            </a>
+        </div>
+
+        <!-- BRANO 4 -->
+        <div class="brano">
+            <h2 class="Sanctus">Sanctus</h2>
+            <p class="brano-descrizione">Descrizione per il brano 4</p>
+            <audio controls src="https://github.com/SevenUp88/Alio-Modo-Canticum/raw/refs/heads/main/Concerti/2025/Misatango%20-%207.06.25/4.%20Sanctus%20.mp3"></audio>
+            <a href="https://github.com/SevenUp88/Alio-Modo-Canticum/raw/refs/heads/main/Concerti/2025/Misatango%20-%207.06.25/4.%20Sanctus%20.mp3" class="download-btn" download>
+                <span class="icon">↓</span> Scarica Brano
+            </a>
+        </div>
+
+        <!-- BRANO 5 -->
+        <div class="brano">
+            <h2 class="Benedictus">Benedictus</h2>
+            <p class="brano-descrizione">Descrizione per il brano 5</p>
+            <audio controls src="https://github.com/SevenUp88/Alio-Modo-Canticum/raw/refs/heads/main/Concerti/2025/Misatango%20-%207.06.25/5.%20Benedictus%20.mp3"></audio>
+            <a href="https://github.com/SevenUp88/Alio-Modo-Canticum/raw/refs/heads/main/Concerti/2025/Misatango%20-%207.06.25/5.%20Benedictus%20.mp3" class="download-btn" download>
+                <span class="icon">↓</span> Scarica Brano
+            </a>
+        </div>
+
+        <!-- BRANO 6 -->
+        <div class="brano">
+            <h2 class="Agnus Dei">Agnus Dei</h2>
+            <p class="brano-descrizione">Descrizione per il brano 6</p>
+            <audio controls src="https://github.com/SevenUp88/Alio-Modo-Canticum/raw/refs/heads/main/Concerti/2025/Misatango%20-%207.06.25/6.%20Agnus%20Dei%20.mp3"></audio>
+            <a href="https://github.com/SevenUp88/Alio-Modo-Canticum/raw/refs/heads/main/Concerti/2025/Misatango%20-%207.06.25/6.%20Agnus%20Dei%20.mp3" class="download-btn" download>
+                <span class="icon">↓</span> Scarica Brano
+            </a>
+        </div>
+
+        <!-- ========== FINE DELLA SEZIONE DA MODIFICARE ========== -->
+    </div>
+
+    <footer>
+        <p>© 2024 Coro Alio Modo Canticum. Tutti i diritti riservati.</p>
+    </footer>
+
+</body>
+</html>
