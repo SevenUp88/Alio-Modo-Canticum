@@ -11,7 +11,6 @@
             --primary-text-color: #E0E0E0; --secondary-text-color: #A0A0A0; --border-color: #333333;
         }
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
-        /* Stile per lo scorrimento morbido */
         html { color-scheme: dark; scroll-behavior: smooth; }
         body {
             font-family: 'Inter', 'Segoe UI', sans-serif; background-color: var(--background-color);
@@ -52,12 +51,11 @@
         .concert-info strong { font-weight: 700; color: var(--accent-color); margin-right: 5px; }
 
         .brano {
-            background-color: var(--card-background); border: 2px solid var(--card-background); /* Bordo di base per transizione */
+            background-color: var(--card-background); border: 2px solid var(--card-background);
             border-radius: 16px; padding: 24px; margin-bottom: 30px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
             transition: border-color 0.4s ease, box-shadow 0.4s ease;
         }
-        /* STILE PER BRANO IN RIPRODUZIONE */
         .brano.is-playing {
             border-color: var(--accent-color);
             box-shadow: 0 0 25px rgba(187, 134, 252, 0.2);
@@ -85,7 +83,6 @@
         <h1 class="main-title">Misatango 7.06.2025</h1>
         <p class="concert-location">Basilica Concattedrale Santa Maria Annunziata e San Vicinio (Sarsina)</p>
         
-        <!-- BOTTONI AZIONI PRINCIPALI -->
         <div class="main-actions">
              <button id="play-all-btn" class="main-action-btn">▶ Avvia il Concerto</button>
         </div>
@@ -109,106 +106,104 @@
             <audio controls controlsList="nodownload" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/2.%20Gloria%20.mp3"></audio>
             <div class="brano-actions"><button class="action-btn disabled"><span class="icon">↓</span> Scarica</button></div>
         </div>
-
-        <!-- ... e così via per gli altri brani -->
+        
+        <!-- E così via per gli altri brani -->
 
     </div>
     
-    <div class="container disclaimer">
-        <!-- testo disclaimer ... -->
-    </div>
-    
+    <div class="container disclaimer"> ... </div>
     <footer></footer>
 
-    <!-- SCRIPT AGGIORNATO CON LA LOGICA DELLA PLAYLIST -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             
-            const audioPlayers = document.querySelectorAll('audio');
+            const audioPlayers = Array.from(document.querySelectorAll('audio'));
             const playAllBtn = document.getElementById('play-all-btn');
             let currentTrackIndex = 0;
             let isAutoplaying = false;
 
-            // FUNZIONE CENTRALE PER GESTIRE LA RIPRODUZIONE DI UNA TRACCIA
+            // FUNZIONE CENTRALE E UNICA PER LA RIPRODUZIONE
             function playTrack(index) {
                 if (index >= audioPlayers.length) {
-                    isAutoplaying = false;
-                    document.querySelectorAll('.brano.is-playing').forEach(el => el.classList.remove('is-playing'));
-                    playAllBtn.innerHTML = '▶ Avvia il Concerto';
-                    return; // Fine della playlist
+                    stopAutoplay();
+                    return;
                 }
-
-                audioPlayers.forEach(p => p.pause());
-                const trackToPlay = audioPlayers[index];
-                trackToPlay.play();
                 
-                // Evidenzia il brano corrente e scorri
-                document.querySelectorAll('.brano.is-playing').forEach(el => el.classList.remove('is-playing'));
-                const parentBrano = trackToPlay.closest('.brano');
-                parentBrano.classList.add('is-playing');
-                parentBrano.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                currentTrackIndex = index;
+                const trackToPlay = audioPlayers[currentTrackIndex];
+                
+                // Metti in pausa tutti gli altri player
+                audioPlayers.forEach((player, i) => {
+                    if (i !== currentTrackIndex) player.pause();
+                });
+                
+                trackToPlay.play();
+                updateHighlight();
+                
+                if (isAutoplaying) {
+                    trackToPlay.closest('.brano').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
             }
 
-            // GESTIONE BOTTONE "AVVIA IL CONCERTO"
+            // FUNZIONE PER GESTIRE L'EVIDENZIAZIONE
+            function updateHighlight() {
+                document.querySelectorAll('.brano.is-playing').forEach(el => el.classList.remove('is-playing'));
+                if (!audioPlayers[currentTrackIndex].paused) {
+                    audioPlayers[currentTrackIndex].closest('.brano').classList.add('is-playing');
+                }
+            }
+            
+            // FUNZIONE PER INTERROMPERE L'AUTOPLAY
+            function stopAutoplay() {
+                isAutoplaying = false;
+                playAllBtn.innerHTML = '▶ Avvia il Concerto';
+            }
+            
+            // BOTTONE PRINCIPALE
             playAllBtn.addEventListener('click', () => {
-                if (isAutoplaying) { // Se è già in riproduzione, lo stoppa
-                    audioPlayers.forEach(p => p.pause());
-                    isAutoplaying = false;
-                    playAllBtn.innerHTML = '▶ Avvia il Concerto';
-                    document.querySelectorAll('.brano.is-playing').forEach(el => el.classList.remove('is-playing'));
-                } else { // Altrimenti, lo avvia
+                if (isAutoplaying) {
+                    audioPlayers[currentTrackIndex].pause();
+                    stopAutoplay();
+                    updateHighlight(); // Rimuove l'highlight
+                } else {
                     isAutoplaying = true;
-                    currentTrackIndex = 0;
-                    playTrack(currentTrackIndex);
                     playAllBtn.innerHTML = '❚❚ Concerto in corso...';
+                    playTrack(0);
                 }
             });
             
-            // GESTIONE EVENTI SUI SINGOLI PLAYER
+            // GESTIONE DEI SINGOLI PLAYER AUDIO
             audioPlayers.forEach((player, index) => {
                 
                 player.addEventListener('play', () => {
-                    // Se un brano parte manualemente, interrompi l'autoplay
-                    if (isAutoplaying && index !== currentTrackIndex) {
-                        isAutoplaying = false;
-                        playAllBtn.innerHTML = '▶ Avvia il Concerto';
+                    if (!isAutoplaying || index !== currentTrackIndex) {
+                        stopAutoplay(); // Se parte un brano manuale, l'autoplay si ferma
+                        currentTrackIndex = index;
+                        // Pausa gli altri per sicurezza (se un altro evento non l'ha già fatto)
+                         audioPlayers.forEach((p, i) => { if(i !== index) p.pause(); });
                     }
-
-                    // Pausa tutto il resto e gestisci l'evidenziazione
-                    audioPlayers.forEach((otherPlayer, otherIndex) => {
-                        if (index !== otherIndex) otherPlayer.pause();
-                    });
-                    document.querySelectorAll('.brano.is-playing').forEach(el => el.classList.remove('is-playing'));
-                    player.closest('.brano').classList.add('is-playing');
+                    updateHighlight();
                 });
 
-                // Alla fine di un brano
-                player.addEventListener('ended', () => {
-                    player.closest('.brano').classList.remove('is-playing');
-                    if (isAutoplaying) {
-                        currentTrackIndex++;
-                        playTrack(currentTrackIndex);
-                    }
-                });
-
-                // Se l'utente mette in pausa manualmente
                 player.addEventListener('pause', () => {
-                    if (!player.ended) { // Se non è la fine naturale del brano
-                       player.closest('.brano').classList.remove('is-playing');
-                        if (isAutoplaying) {
-                            isAutoplaying = false;
-                            playAllBtn.innerHTML = '▶ Avvia il Concerto';
-                        }
+                    if (!player.ended) { // Se è una pausa manuale dell'utente
+                        stopAutoplay();
+                    }
+                    updateHighlight();
+                });
+
+                player.addEventListener('ended', () => {
+                    if (isAutoplaying) {
+                        playTrack(currentTrackIndex + 1); // Passa al brano successivo
+                    } else {
+                        updateHighlight();
                     }
                 });
-d            });
+            });
 
-            // Gestione bottone download disabilitato
+            // GESTIONE DOWNLOAD DISABILITATO
             document.querySelectorAll('.action-btn.disabled').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    e.preventDefault(); 
-                    alert('Il download è momentaneamente disabilitato.');
-                });
+                button.addEventListener('click', e => { e.preventDefault(); alert('Il download è momentaneamente disabilitato.'); });
             });
         });
     </script>
