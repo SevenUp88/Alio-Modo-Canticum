@@ -45,7 +45,6 @@
         .concert-info p { margin: 8px 0; font-size: 1em; }
         .concert-info strong { font-weight: 700; color: var(--accent-color); margin-right: 5px; }
 
-        /* NUOVA ETICHETTA E CONTROLLI PLAYLIST */
         .playlist-label { text-align: center; font-style: italic; color: var(--secondary-text-color); margin-bottom: 10px; }
         .playlist-controls {
             display: flex; align-items: center; justify-content: center;
@@ -64,10 +63,9 @@
             color: #121212; border: none;
         }
         #playlist-play-pause:hover { background-color: #A162F7; }
-        /* NUOVO INDICATORE BRANO CORRENTE */
         #current-track-title {
             text-align: center; color: var(--accent-color); font-style: italic;
-            margin-top: 15px; margin-bottom: 40px; min-height: 1.2em; /* Evita salti di layout */
+            margin-top: 15px; margin-bottom: 40px; min-height: 1.2em;
             transition: opacity 0.3s ease;
         }
 
@@ -146,85 +144,113 @@
             let currentTrackIndex = 0;
             let isAutoplaying = false;
 
-            function updateMediaSession() {
-                if ('mediaSession' in navigator) {
-                    const branoDiv = audioPlayers[currentTrackIndex].closest('.brano');
-                    const title = branoDiv.querySelector('h2').textContent;
-                    
-                    navigator.mediaSession.metadata = new MediaMetadata({
-                        title: title, artist: 'Alio Modo Canticum & Coro Lirico Città di Faenza',
-                        album: 'Misatango', artwork: [{ src: document.querySelector('.header-logo').src }]
-                    });
-                }
-            }
-            
+            // FUNZIONE CENTRALE E UNICA PER GESTIRE LA RIPRODUZIONE
             function playTrack(index) {
-                if (index < 0 || index >= audioPlayers.length) { stopHard(); return; }
+                // Ferma se l'indice è fuori dai limiti della playlist
+                if (index < 0 || index >= audioPlayers.length) {
+                    stopHard();
+                    return;
+                }
+                
+                // Imposta la traccia corrente
                 currentTrackIndex = index;
-                audioPlayers.forEach((p, i) => { if (i !== index) p.pause(); });
-                audioPlayers[currentTrackIndex].play();
+                const trackToPlay = audioPlayers[currentTrackIndex];
+                
+                // Metti in pausa tutti gli altri player. Questa è la regola chiave
+                audioPlayers.forEach((p) => {
+                    if (p !== trackToPlay) p.pause();
+                });
+                
+                trackToPlay.play();
+                updateUI(); // Aggiorna tutta l'interfaccia
+                updateMediaSession();
             }
 
             function updateUI() {
-                // Aggiorna l'evidenziazione
-                document.querySelectorAll('.brano.is-playing').forEach(el => el.classList.remove('is-playing'));
                 const currentPlayer = audioPlayers[currentTrackIndex];
-                if (!currentPlayer.paused) {
+                const isPlaying = !currentPlayer.paused;
+
+                // Aggiorna l'icona del bottone principale
+                iconPlay.style.display = isPlaying ? 'none' : 'block';
+                iconPause.style.display = isPlaying ? 'block' : 'none';
+
+                // Aggiorna il titolo del brano corrente SOLO se in modalità concerto
+                if (isPlaying && isAutoplaying) {
+                    currentTrackTitleEl.textContent = currentPlayer.closest('.brano').querySelector('h2').textContent;
+                } else if (!isPlaying && !isAutoplaying) {
+                    currentTrackTitleEl.innerHTML = ' '; // Pulisce il titolo
+                }
+                
+                // Aggiorna l'evidenziazione delle card
+                document.querySelectorAll('.brano.is-playing').forEach(el => el.classList.remove('is-playing'));
+                if (isPlaying) {
                     currentPlayer.closest('.brano').classList.add('is-playing');
-                    // Aggiorna l'icona play/pausa
-                    iconPlay.style.display = 'none';
-                    iconPause.style.display = 'block';
-                    // Aggiorna il titolo del brano corrente solo se in modalità concerto
-                    if(isAutoplaying){
-                       currentTrackTitleEl.textContent = currentPlayer.closest('.brano').querySelector('h2').textContent;
-                    }
-                } else {
-                    iconPlay.style.display = 'block';
-                    iconPause.style.display = 'none';
                 }
             }
             
+            // FUNZIONE PER UN RESET COMPLETO
             function stopHard() {
-                isAutoplaying = false;
                 audioPlayers.forEach(p => { p.pause(); p.currentTime = 0; });
+                isAutoplaying = false;
                 currentTrackIndex = 0;
-                currentTrackTitleEl.innerHTML = ' '; // Pulisce il titolo
-                updateUI();
+                updateUI(); // Questo resetta anche le icone e l'highlight
+                currentTrackTitleEl.innerHTML = ' ';
             }
             
+            // EVENTI DEI CONTROLLI DELLA PLAYLIST
             playPauseBtn.addEventListener('click', () => {
                 const currentPlayer = audioPlayers[currentTrackIndex];
                 if (currentPlayer.paused) {
                     isAutoplaying = true;
                     playTrack(currentTrackIndex);
                 } else {
-                    isAutoplaying = false; // Se metto in pausa manualmente, la modalità concerto finisce
                     currentPlayer.pause();
                 }
             });
 
             stopBtn.addEventListener('click', stopHard);
-            nextBtn.addEventListener('click', () => { if(!isAutoplaying) isAutoplaying = true; playTrack(currentTrackIndex + 1); });
-            prevBtn.addEventListener('click', () => { if(!isAutoplaying) isAutoplaying = true; playTrack(currentTrackIndex - 1); });
+            nextBtn.addEventListener('click', () => {
+                isAutoplaying = true; // Se premo 'next', attivo la modalità concerto
+                playTrack(currentTrackIndex + 1);
+            });
+            prevBtn.addEventListener('click', () => {
+                isAutoplaying = true;
+                playTrack(currentTrackIndex - 1);
+            });
 
+            // EVENTI SUI SINGOLI PLAYER AUDIO
             audioPlayers.forEach((player, index) => {
+                // Se un brano parte (manualmente o programmaticamente)
                 player.addEventListener('play', () => {
-                    currentTrackIndex = index;
-                    if(!isAutoplaying){
-                        currentTrackTitleEl.innerHTML = ' '; // Pulisce il titolo se è un play manuale
+                    // Se il play è manuale e non era già in modalità concerto, la disattiva
+                    if (player !== audioPlayers[currentTrackIndex]) {
+                        isAutoplaying = false;
                     }
-                    updateUI(); updateMediaSession();
+                    currentTrackIndex = index; // Sincronizza l'indice
+                    updateUI();
+                    updateMediaSession();
                 });
-                player.addEventListener('pause', () => { 
-                    if (!player.ended) stopHard();
-                    else updateUI(); 
+
+                // Se l'utente mette in pausa un brano manualmente
+                player.addEventListener('pause', () => {
+                    // Solo una pausa manuale (non alla fine) stoppa la modalità concerto
+                    if (!player.ended) {
+                        isAutoplaying = false;
+                        updateUI();
+                    }
                 });
-                player.addEventListener('ended', () => { 
-                    if (isAutoplaying) playTrack(currentTrackIndex + 1);
-                    else stopHard();
+
+                // Alla fine di un brano
+                player.addEventListener('ended', () => {
+                    if (isAutoplaying) {
+                        playTrack(currentTrackIndex + 1); // Passa al successivo
+                    } else {
+                        updateUI(); // Rimuove solo l'highlight
+                    }
                 });
             });
 
+            // GESTIONE CONTROLLI SU SCHERMATA DI BLOCCO
             if ('mediaSession' in navigator) {
                 navigator.mediaSession.setActionHandler('play', () => playPauseBtn.click());
                 navigator.mediaSession.setActionHandler('pause', () => playPauseBtn.click());
@@ -233,11 +259,11 @@
                 navigator.mediaSession.setActionHandler('nexttrack', () => nextBtn.click());
             }
 
+            // GESTIONE DEGLI ALTRI BOTTONI
             document.getElementById('share-playlist-btn').addEventListener('click', () => {
                  const shareData = { title: 'Archivio Brani: Misatango', url: window.location.href };
                 if (navigator.share) navigator.share(shareData); else navigator.clipboard.writeText(shareData.url).then(() => alert('Link copiato!'));
             });
-
             document.querySelectorAll('.action-btn.disabled').forEach(b => {
                 b.addEventListener('click', e => { e.preventDefault(); alert('Il download è momentaneamente disabilitato.'); });
             });
