@@ -4,10 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Misatango - Alio Modo Canticum</title>
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
     
     <style>
         :root {
@@ -28,49 +24,64 @@
             border-radius: 50%; border: 4px solid var(--accent-color); padding: 5px;
             background-color: var(--card-background);
         }
-        .main-title { color: #FFFFFF; text-align: center; font-size: 2.5em; margin-bottom: 5px; font-weight: 700; letter-spacing: -1px; }
-        .concert-location { text-align: center; color: var(--secondary-text-color); margin-top: 0; margin-bottom: 25px; font-size: 1.1em; font-style: italic; }
+        .main-title {
+            color: #FFFFFF; text-align: center; font-size: 2.5em; margin-bottom: 5px; font-weight: 700; letter-spacing: -1px;
+        }
+        .concert-location {
+            text-align: center; color: var(--secondary-text-color); margin-top: 0;
+            margin-bottom: 25px; font-size: 1.1em; font-style: italic;
+        }
         #share-playlist-btn {
             display: block; margin: 0 auto 25px auto; cursor: pointer; background-color: transparent;
             color: var(--accent-color); border: 2px solid var(--accent-color); padding: 10px 20px; border-radius: 50px;
             font-weight: 700; transition: all 0.3s ease; font-size: 0.9em;
         }
         #share-playlist-btn:hover { background-color: var(--accent-color); color: #121212; }
-        .concert-info { text-align: center; margin-bottom: 20px; padding: 20px; background-color: var(--card-background); border-radius: 16px; border: 1px solid var(--border-color); }
+
+        .concert-info {
+            text-align: center; margin-bottom: 20px; padding: 20px;
+            background-color: var(--card-background); border-radius: 16px; border: 1px solid var(--border-color);
+        }
         .concert-info p { margin: 8px 0; font-size: 1em; }
         .concert-info strong { font-weight: 700; color: var(--accent-color); margin-right: 5px; }
+
         .playlist-label { text-align: center; font-style: italic; color: var(--secondary-text-color); margin-top: 20px; margin-bottom: 5px; }
-        #playlist-timer, #current-track-title { text-align: center; color: var(--accent-color); font-style: italic; margin: 15px 0; min-height: 1.2em; transition: opacity 0.3s; }
-        .playlist-controls { display: flex; align-items: center; justify-content: center; gap: 15px; }
+        /* NUOVO CONTAMINUTI */
+        #playlist-timer { text-align: center; font-family: 'Courier New', Courier, monospace; color: var(--secondary-text-color); margin-bottom: 15px; font-size: 0.9em; min-height: 1.2em; }
+
+        .playlist-controls {
+            display: flex; align-items: center; justify-content: center;
+            gap: 15px;
+        }
         .playlist-controls button {
-            background-color: transparent; border: 2px solid var(--border-color); color: var(--primary-text-color);
-            width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            background-color: transparent; border: 2px solid var(--border-color);
+            color: var(--primary-text-color); width: 50px; height: 50px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
             cursor: pointer; transition: all 0.2s ease;
         }
         .playlist-controls button svg { width: 24px; height: 24px; fill: currentColor; }
         .playlist-controls button:hover { border-color: var(--accent-color); color: var(--accent-color); }
-        #playlist-play-pause { width: 65px; height: 65px; background-color: var(--accent-color); color: #121212; border: none; }
+        #playlist-play-pause {
+            width: 65px; height: 65px; background-color: var(--accent-color);
+            color: #121212; border: none;
+        }
         #playlist-play-pause:hover { background-color: #A162F7; }
-        
-        .brano { background-color: var(--card-background); border: 2px solid var(--card-background); border-radius: 16px; padding: 24px; margin-bottom: 30px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2); transition: border-color 0.4s ease, box-shadow 0.4s ease; }
+        #current-track-title {
+            text-align: center; color: var(--accent-color); font-style: italic;
+            margin-top: 15px; margin-bottom: 40px; min-height: 1.2em;
+            transition: opacity 0.3s ease;
+        }
+
+        .brano {
+            background-color: var(--card-background); border: 2px solid var(--card-background);
+            border-radius: 16px; padding: 24px; margin-bottom: 30px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            transition: border-color 0.4s ease, box-shadow 0.4s ease;
+        }
         .brano.is-playing { border-color: var(--accent-color); box-shadow: 0 0 25px rgba(187, 134, 252, 0.2); }
         .brano h2 { margin-top: 0; font-size: 1.6em; color: #FFFFFF; font-weight: 700; margin-bottom: 24px; }
-        .player-wrapper { display: flex; align-items: center; gap: 15px; margin-bottom: 24px; }
-        audio { flex-grow: 1; width: 100%; accent-color: var(--accent-color); }
-        /* Nasconde solo i controlli del volume dal player nativo */
-        audio::-webkit-media-controls-volume-slider, audio::-webkit-media-controls-mute-button { display: none; }
-        .vertical-volume-control { position: relative; }
-        .volume-icon { cursor: pointer; fill: var(--secondary-text-color); transition: fill 0.2s ease; }
-        .volume-icon:hover { fill: var(--accent-color); }
-        .volume-slider-container {
-            position: absolute; bottom: 35px; left: 50%; transform: translateX(-50%);
-            background: #2a2a3f; padding: 15px 10px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-            visibility: hidden; opacity: 0; transition: all 0.2s ease; z-index: 10;
-        }
-        .vertical-volume-control:hover .volume-slider-container { visibility: visible; opacity: 1; }
-        .vertical-volume-slider { writing-mode: bt-lr; -webkit-appearance: none; appearance: none; width: 8px; height: 100px; background: rgba(255, 255, 255, 0.2); border-radius: 5px; outline:none; }
-        .vertical-volume-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; background: var(--accent-color); border-radius: 50%; cursor: pointer; }
         
+        audio { width: 100%; margin-bottom: 24px; accent-color: var(--accent-color); }
         .brano-actions { display: flex; }
         .action-btn.disabled { display: inline-flex; align-items: center; justify-content: center; cursor: not-allowed; background-color: transparent; border: 2px solid #444; color: #666; padding: 10px 20px; border-radius: 50px; font-weight: 700; font-size: 0.9em; }
         .action-btn.disabled .icon { margin-right: 8px; font-size: 1.2em; }
@@ -85,33 +96,47 @@
         <h1 class="main-title">Misatango 7.06.2025</h1>
         <p class="concert-location">Basilica Concattedrale Santa Maria Annunziata e San Vicinio (Sarsina)</p>
         <button id="share-playlist-btn">💌 Condividi la pagina</button>
+
         <div class="concert-info">
-             <p><strong>Cori:</strong> Alio Modo Canticum & Lirico Città di Faenza</p><p><strong>Solista (Mezzosoprano):</strong> Ada Piatti</p><p><strong>Direttore:</strong> Andrea Crastolla</p>
+            <p><strong>Cori:</strong> Alio Modo Canticum & Lirico Città di Faenza</p>
+            <p><strong>Solista (Mezzosoprano):</strong> Ada Piatti</p>
+            <p><strong>Direttore:</strong> Andrea Crastolla</p>
         </div>
-        <p class="playlist-label">Modalità concerto</p><div id="playlist-timer"> </div>
+
+        <p class="playlist-label">Modalità concerto</p>
+        <div id="playlist-timer"> </div>
         <div class="playlist-controls">
             <button id="playlist-prev" title="Brano Precedente"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"></path></svg></button>
-            <button id="playlist-play-pause" title="Avvia/Pausa Concerto"><svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg><svg class="icon-pause" style="display:none;" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg></button>
+            <button id="playlist-play-pause" title="Avvia/Pausa Concerto">
+                <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+                <svg class="icon-pause" style="display:none;" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg>
+            </button>
             <button id="playlist-stop" title="Ferma Concerto"><svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"></path></svg></button>
             <button id="playlist-next" title="Brano Successivo"><svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"></path></svg></button>
         </div>
         <p id="current-track-title"> </p>
         
-        <!-- SEZIONE BRANI CON player-wrapper -->
-        <div class="brano"><h2>Introitus et Kyrie</h2><div class="player-wrapper"><audio preload="metadata" controls controlsList="nodownload" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/1.%20Introitus%20et%20Kyrie%20.mp3"></audio></div><div class="brano-actions"><button class="action-btn disabled"><span class="icon">↓</span> Scarica</button></div></div>
-        <div class="brano"><h2>Gloria</h2><div class="player-wrapper"><audio preload="metadata" controls controlsList="nodownload" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/2.%20Gloria%20.mp3"></audio></div><div class="brano-actions"><button class="action-btn disabled"><span class="icon">↓</span> Scarica</button></div></div>
-        <div class="brano"><h2>Credo</h2><div class="player-wrapper"><audio preload="metadata" controls controlsList="nodownload" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/3.%20Credo%20.mp3"></audio></div><div class="brano-actions"><button class="action-btn disabled"><span class="icon">↓</span> Scarica</button></div></div>
-        <div class="brano"><h2>Sanctus</h2><div class="player-wrapper"><audio preload="metadata" controls controlsList="nodownload" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/4.%20Sanctus%20.mp3"></audio></div><div class="brano-actions"><button class="action-btn disabled"><span class="icon">↓</span> Scarica</button></div></div>
-        <div class="brano"><h2>Benedictus</h2><div class="player-wrapper"><audio preload="metadata" controls controlsList="nodownload" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/5.%20Benedictus%20.mp3"></audio></div><div class="brano-actions"><button class="action-btn disabled"><span class="icon">↓</span> Scarica</button></div></div>
-        <div class="brano"><h2>Agnus Dei</h2><div class="player-wrapper"><audio preload="metadata" controls controlsList="nodownload" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/6.%20Agnus%20Dei%20.mp3"></audio></div><div class="brano-actions"><button class="action-btn disabled"><span class="icon">↓</span> Scarica</button></div></div>
+        <!-- BRANI -->
+        <div class="brano"><h2>Introitus et Kyrie</h2><audio controls controlsList="nodownload" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/1.%20Introitus%20et%20Kyrie%20.mp3"></audio><div class="brano-actions"><button class="action-btn disabled"><span class="icon">↓</span> Scarica</button></div></div>
+        <div class="brano"><h2>Gloria</h2><audio controls controlsList="nodownload" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/2.%20Gloria%20.mp3"></audio><div class="brano-actions"><button class="action-btn disabled"><span class="icon">↓</span> Scarica</button></div></div>
+        <div class="brano"><h2>Credo</h2><audio controls controlsList="nodownload" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/3.%20Credo%20.mp3"></audio><div class="brano-actions"><button class="action-btn disabled"><span class="icon">↓</span> Scarica</button></div></div>
+        <div class="brano"><h2>Sanctus</h2><audio controls controlsList="nodownload" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/4.%20Sanctus%20.mp3"></audio><div class="brano-actions"><button class="action-btn disabled"><span class="icon">↓</span> Scarica</button></div></div>
+        <div class="brano"><h2>Benedictus</h2><audio controls controlsList="nodownload" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/5.%20Benedictus%20.mp3"></audio><div class="brano-actions"><button class="action-btn disabled"><span class="icon">↓</span> Scarica</button></div></div>
+        <div class="brano"><h2>Agnus Dei</h2><audio controls controlsList="nodownload" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/6.%20Agnus%20Dei%20.mp3"></audio><div class="brano-actions"><button class="action-btn disabled"><span class="icon">↓</span> Scarica</button></div></div>
     </div>
     
-    <div class="container disclaimer"><p>...</p></div>
-    <footer id="footer-text"></footer>
+    <div class="container disclaimer">
+        <p>Le tracce audio disponibili su questa pagina sono registrazioni amatoriali eseguite dal vivo della Misatango (Misa a Buenos Aires), composta da Martín Palmeri.</p>
+        <p>L'opera è protetta da copyright e tutti i diritti relativi alla composizione sono riservati ai rispettivi titolari.</p>
+        <p>Questa registrazione è condivisa esclusivamente a fini didattici e culturali, senza scopo di lucro, e l’accesso è destinato a un pubblico ristretto.</p>
+        <p>La riproduzione, distribuzione o qualsiasi altro uso pubblico o commerciale delle registrazioni non è consentita senza autorizzazione dell'autore o dei titolari dei diritti.</p>
+    </div>
     
+    <footer><p id="footer-year">2024</p></footer>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const allBrani = Array.from(document.querySelectorAll('.brano'));
+            
             const audioPlayers = Array.from(document.querySelectorAll('audio'));
             const playPauseBtn = document.getElementById('playlist-play-pause');
             const iconPlay = playPauseBtn.querySelector('.icon-play');
@@ -122,64 +147,103 @@
             const currentTrackTitleEl = document.getElementById('current-track-title');
             const timerEl = document.getElementById('playlist-timer');
 
-            let currentAudio = audioPlayers[0];
+            let currentAudio = null;
             let isConcertMode = false;
-            
-            // LA REGOLA FERREA: un solo audio alla volta
-            document.addEventListener('play', (e) => {
-                audioPlayers.forEach(audio => { if (audio !== e.target) audio.pause(); });
-                currentAudio = e.target;
+
+            document.addEventListener('play', (event) => {
+                currentAudio = event.target;
+                audioPlayers.forEach(audio => { if (audio !== currentAudio) audio.pause(); });
+                if (!currentAudio.closest('.brano').classList.contains('concert-mode-active')) isConcertMode = false;
+                updateUI();
+                updateMediaSession();
             }, true);
 
-            allBrani.forEach((branoNode, index) => {
-                const audio = audioPlayers[index];
-                const wrapper = branoNode.querySelector('.player-wrapper');
+            function formatTime(seconds) {
+                const min = Math.floor(seconds / 60);
+                const sec = Math.floor(seconds % 60);
+                return `${min}:${sec.toString().padStart(2, '0')}`;
+            }
 
-                // Aggiunta controllo volume verticale
-                const volumeControlHTML = `<div class="vertical-volume-control"><svg class="volume-icon" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path></svg><div class="volume-slider-container"><input type="range" class="vertical-volume-slider" min="0" max="1" step="0.05" value="1"></div></div>`;
-                wrapper.insertAdjacentHTML('beforeend', volumeControlHTML);
+            function playTrack(index) {
+                if (index < 0) index = audioPlayers.length - 1;
+                if (index >= audioPlayers.length) index = 0;
                 
-                const volumeSlider = wrapper.querySelector('.vertical-volume-slider');
-                volumeSlider.addEventListener('input', (e) => { audio.volume = e.target.value; });
-                audio.addEventListener('volumechange', () => { volumeSlider.value = audio.volume; });
+                audioPlayers.forEach(p => p.closest('.brano').classList.remove('concert-mode-active'));
+                const trackToPlay = audioPlayers[index];
+                trackToPlay.closest('.brano').classList.add('concert-mode-active');
+                trackToPlay.play();
+            }
+
+            function updateUI() {
+                const isPlaying = currentAudio && !currentAudio.paused;
+
+                iconPlay.style.display = isPlaying ? 'none' : 'block';
+                iconPause.style.display = isPlaying ? 'block' : 'none';
+                
+                document.querySelectorAll('.brano.is-playing').forEach(el => el.classList.remove('is-playing'));
+                if (isPlaying) currentAudio.closest('.brano').classList.add('is-playing');
+                
+                if (isPlaying && isConcertMode) {
+                    currentTrackTitleEl.textContent = currentAudio.closest('.brano').querySelector('h2').textContent;
+                    timerEl.style.display = 'block';
+                } else {
+                    currentTrackTitleEl.innerHTML = ' ';
+                    timerEl.style.display = 'none';
+                }
+            }
+            
+            function stopHard() {
+                audioPlayers.forEach(p => { p.pause(); p.currentTime = 0; });
+                isConcertMode = false;
+                currentAudio = audioPlayers[0];
+                updateUI();
+            }
+            
+            playPauseBtn.addEventListener('click', () => {
+                if (!currentAudio || currentAudio.paused) {
+                    if (!isConcertMode) currentAudio = audioPlayers[0];
+                    playTrack(audioPlayers.indexOf(currentAudio));
+                    isConcertMode = true;
+                } else {
+                    currentAudio.pause();
+                }
             });
 
-            const logic = {
-                playTrack: (index) => {
-                    if (index < 0) index = audioPlayers.length - 1;
-                    if (index >= audioPlayers.length) { logic.stopHard(); return; }
-                    currentAudio = audioPlayers[index];
-                    currentAudio.play();
-                },
-                changeTrack: (direction) => { let i = audioPlayers.indexOf(currentAudio); logic.playTrack(i + direction); },
-                stopHard: () => { isConcertMode = false; audioPlayers.forEach(p => { p.pause(); p.currentTime = 0; }); logic.updateUI(); },
-                updateUI: () => {
-                    const isPlaying = currentAudio && !currentAudio.paused;
-                    iconPlay.style.display = isPlaying && isConcertMode ? 'none' : 'block';
-                    iconPause.style.display = isPlaying && isConcertMode ? 'block' : 'none';
-                    document.querySelectorAll('.brano.is-playing').forEach(el => el.classList.remove('is-playing'));
-                    if (isPlaying) currentAudio.closest('.brano').classList.add('is-playing');
-                    if (isPlaying && isConcertMode) {
-                        currentTrackTitleEl.textContent = currentAudio.closest('.brano').querySelector('h2').textContent;
-                        timerEl.style.display = 'block';
-                    } else { currentTrackTitleEl.innerHTML = ' '; timerEl.style.display = 'none'; }
-                }
-            };
-            
-            playPauseBtn.addEventListener('click', () => { isConcertMode = true; currentAudio = audioPlayers[0]; currentAudio.paused ? logic.playTrack(0) : currentAudio.pause(); });
-            stopBtn.addEventListener('click', logic.stopHard);
-            nextBtn.addEventListener('click', () => { isConcertMode = true; logic.changeTrack(1); });
-            prevBtn.addEventListener('click', () => { isConcertMode = true; logic.changeTrack(-1); });
+            stopBtn.addEventListener('click', stopHard);
+            nextBtn.addEventListener('click', () => { isConcertMode = true; changeTrack(1); });
+            prevBtn.addEventListener('click', () => { isConcertMode = true; changeTrack(-1); });
+
+            function changeTrack(direction){
+                 let currentIndex = audioPlayers.indexOf(currentAudio);
+                 playTrack(currentIndex + direction);
+            }
 
             audioPlayers.forEach(player => {
-                player.addEventListener('play', () => { logic.updateUI(); });
-                player.addEventListener('pause', () => { isConcertMode = false; logic.updateUI(); });
-                player.addEventListener('ended', () => { if (isConcertMode) logic.changeTrack(1); else logic.updateUI(); });
-                player.addEventListener('timeupdate', () => { if(isConcertMode && currentAudio === player){ timerEl.textContent = `${new Date(player.currentTime*1000).toISOString().substr(14,5)} / ${new Date(player.duration*1000).toISOString().substr(14,5)}`; }});
+                player.addEventListener('pause', updateUI);
+                player.addEventListener('ended', () => { if (isConcertMode) changeTrack(1); else updateUI(); });
+                player.addEventListener('timeupdate', () => {
+                    if(isConcertMode && currentAudio === player){
+                         const duration = isNaN(player.duration) ? 0 : player.duration;
+                         timerEl.textContent = `${formatTime(player.currentTime)} / ${formatTime(duration)}`;
+                    }
+                });
             });
 
-            document.getElementById('footer-text').innerHTML = `© ${new Date().getFullYear()} SevernUp Recordings`;
-            document.querySelectorAll('.action-btn.disabled').forEach(b => b.addEventListener('click', e => { e.preventDefault(); alert('Il download è momentaneamente disabilitato.'); }));
+            if ('mediaSession' in navigator) {
+                 navigator.mediaSession.setActionHandler('play', () => playPauseBtn.click());
+                 // ... resto degli handler
+            }
+
+            // Imposta copyright e altro
+            document.getElementById('footer-year').textContent = ` ${new Date().getFullYear()} SevenUp Recordings`;
+            document.querySelectorAll('.action-btn.disabled').forEach(b => {
+                b.addEventListener('click', e => { e.preventDefault(); alert('Il download è momentaneamente disabilitato.'); });
+            });
+             document.getElementById('share-playlist-btn').addEventListener('click', () => {
+                 const shareData = { title: 'Archivio Brani: Misatango', url: window.location.href };
+                if (navigator.share) navigator.share(shareData); else navigator.clipboard.writeText(shareData.url).then(() => alert('Link copiato!'));
+            });
+
         });
     </script>
 </body>
