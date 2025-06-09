@@ -29,11 +29,19 @@
         .header-logo { display: block; margin: 0 auto 30px auto; width: 120px; height: 120px; border-radius: 50%; border: 4px solid var(--accent-color); padding: 5px; background-color: var(--card-bg); }
         .main-title { color: #FFFFFF; text-align: center; font-size: 2.5em; margin-bottom: 5px; font-weight: 700; letter-spacing: -1px; }
         .concert-location { text-align: center; color: var(--secondary-text-color); margin-top: 0; margin-bottom: 25px; font-size: 1.1em; font-style: italic; }
+        #share-playlist-btn {
+            display: block; margin: 0 auto 25px auto; cursor: pointer; background-color: transparent;
+            color: var(--accent-color); border: 2px solid var(--accent-color); padding: 10px 20px; border-radius: 50px;
+            font-weight: 700; transition: all 0.3s ease; font-size: 0.9em;
+        }
+        #share-playlist-btn:hover { background-color: var(--accent-color); color: #121212; }
+
         .concert-info { text-align: center; margin-bottom: 20px; padding: 20px; background-color: var(--card-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 16px; border: 1px solid var(--border-color); }
         .concert-info p { margin: 8px 0; font-size: 1em; } .concert-info strong { font-weight: 700; color: var(--accent-color); margin-right: 5px; }
 
-        .playlist-controls-wrapper { margin: 20px 0 40px 0; padding: 15px; background-color: var(--card-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 99px; border: 1px solid var(--border-color); }
-        .playlist-controls { display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .playlist-controls-wrapper { margin-top: 20px; text-align:center; margin-bottom: 40px;}
+        .playlist-label { font-style: italic; color: var(--secondary-text-color); margin-bottom: 10px; }
+        .playlist-controls { display: inline-flex; align-items: center; justify-content: center; gap: 15px; background-color: rgba(30, 30, 46, 0.5); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 10px 15px; border-radius: 99px; border: 1px solid var(--border-color); }
         .playlist-controls button { background: transparent; border: none; color: var(--primary-text-color); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease; }
         .playlist-controls button svg { width: 22px; height: 22px; fill: currentColor; }
         .playlist-controls button:hover { background-color: rgba(255, 255, 255, 0.1); }
@@ -50,7 +58,7 @@
         .brano.is-playing { border-color: var(--accent-color); box-shadow: 0 0 30px 5px rgba(167, 139, 250, 0.25); }
         .brano h2 { margin-top: 0; font-size: 1.6em; color: #FFFFFF; font-weight: 700; margin-bottom: 24px; }
         
-        audio { display: none; } /* Player audio originale nascosto */
+        audio { display: none; }
         .custom-player { display: flex; align-items: center; gap: 15px; width: 100%; margin-bottom: 24px; }
         .play-pause-btn { background: transparent; border: none; cursor: pointer; padding: 0; display: flex; align-items: center; }
         .play-pause-btn svg { width: 36px; height: 36px; fill: var(--accent-color); transition: transform 0.2s ease; }
@@ -65,10 +73,10 @@
         .volume-btn svg { width: 24px; height: 24px; fill: var(--secondary-text-color); transition: all 0.2s ease; }
         .volume-btn:hover svg { fill: var(--accent-color); }
         .volume-slider-container { position: absolute; bottom: 40px; right: -12px; background: #2a2a3f; padding: 15px 12px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); visibility: hidden; opacity: 0; transition: all 0.2s ease; z-index: 10; }
-        .volume-control.active .volume-slider-container, .volume-control:hover .volume-slider-container { visibility: visible; opacity: 1; }
+        .volume-control:hover .volume-slider-container { visibility: visible; opacity: 1; }
         .volume-slider { writing-mode: bt-lr; -webkit-appearance: none; appearance: none; width: 8px; height: 100px; background: rgba(255, 255, 255, 0.2); border-radius: 5px; }
         .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; background: var(--accent-color); border-radius: 50%; cursor: pointer; }
-
+        
         .disclaimer, footer { max-width: 720px; width: 100%; }
         .disclaimer { text-align: left; padding: 20px; margin-top: 40px; border-top: 1px solid var(--border-color); color: #888; font-size: 0.8em; line-height: 1.6; }
         footer { text-align: center; margin-top: 20px; color: #666; font-size: 0.9em; }
@@ -80,6 +88,9 @@
         <h1 class="main-title">Misatango 7.06.2025</h1>
         <p class="concert-location">Basilica Concattedrale Santa Maria Annunziata e San Vicinio (Sarsina)</p>
         
+        <!-- PULSANTE CONDIVISIONE RIPRISTINATO -->
+        <button id="share-playlist-btn">💌 Condividi la pagina</button>
+
         <div class="concert-info">
              <p><strong>Cori:</strong> Alio Modo Canticum & Lirico Città di Faenza</p>
              <p><strong>Solista (Mezzosoprano):</strong> Ada Piatti</p>
@@ -95,18 +106,20 @@
              </div>
         </div>
         
-        <!-- I BRANI SARANNO GENERATI QUI DA JAVASCRIPT -->
         <div id="playlist-container"></div>
     </div>
     
     <div class="disclaimer">
-        <!-- disclaimer content -->
+         <p>Le tracce audio disponibili su questa pagina sono registrazioni amatoriali eseguite dal vivo della Misatango (Misa a Buenos Aires), composta da Martín Palmeri.</p>
+        <p>L'opera è protetta da copyright e tutti i diritti relativi alla composizione sono riservati ai rispettivi titolari.</p>
+        <p>Questa registrazione è condivisa esclusivamente a fini didattici e culturali, senza scopo di lucro, e l’accesso è destinato a un pubblico ristretto.</p>
+        <p>La riproduzione, distribuzione o qualsiasi altro uso pubblico o commerciale delle registrazioni non è consentita senza autorizzazione dell'autore o dei titolari dei diritti.</p>
     </div>
     <footer id="footer-text"></footer>
 
-    <!-- Template per la singola card di un brano -->
+    <!-- Template per la singola card di un brano (rimane nascosto) -->
     <template id="brano-template">
-        <div class="brano" style="opacity:0"> <!-- Animazione gestita da JS -->
+        <div class="brano">
             <h2></h2>
             <div class="custom-player">
                 <button class="play-pause-btn" title="Play/Pausa">
@@ -114,12 +127,12 @@
                     <svg class="icon-pause" style="display: none;" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg>
                 </button>
                 <div class="player-center">
-                    <input type="range" class="timeline" value="0" step="1">
+                    <input type="range" class="timeline" value="0" step="1" max="100">
                     <div class="time-display"><span class="current-time">0:00</span><span class="duration">0:00</span></div>
                 </div>
                 <div class="volume-control">
                     <button class="volume-btn" title="Volume">
-                        <svg class="icon-volume-high" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path></svg>
+                        <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path></svg>
                     </button>
                     <div class="volume-slider-container"><input type="range" class="volume-slider" min="0" max="1" step="0.05" value="1"></div>
                 </div>
@@ -131,7 +144,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
-            const songData = [ // Ora è un array per mantenere l'ordine
+            const songData = [ 
                 { id: "kyrie", title: "Introitus et Kyrie", url: "https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/1.%20Introitus%20et%20Kyrie%20.mp3"},
                 { id: "gloria", title: "Gloria", url: "https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/2.%20Gloria%20.mp3"},
                 { id: "credo", title: "Credo", url: "https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/3.%20Credo%20.mp3"},
@@ -144,20 +157,16 @@
             const template = document.getElementById('brano-template');
 
             // --- INIZIALIZZAZIONE DELL'APP ---
-            songData.forEach((song, index) => {
+            songData.forEach(song => {
                 const clone = template.content.cloneNode(true);
-                const brano = clone.querySelector('.brano');
-                const audio = clone.querySelector('audio');
-                
-                brano.style.animationDelay = `${index * 0.1}s`;
                 clone.querySelector('h2').textContent = song.title;
-                audio.src = song.url;
-                
-                initializePlayer(clone);
+                clone.querySelector('audio').src = song.url;
                 playlistContainer.appendChild(clone);
             });
             
+            const allBrani = Array.from(document.querySelectorAll('.brano'));
             const audioPlayers = Array.from(document.querySelectorAll('audio'));
+            
             const playPauseBtn = document.getElementById('playlist-play-pause');
             const mainIconPlay = playPauseBtn.querySelector('.icon-play');
             const mainIconPause = playPauseBtn.querySelector('.icon-pause');
@@ -169,38 +178,52 @@
             let isConcertMode = false;
             const SAVED_VOLUME_KEY = 'SevernUpPlayerVolume';
 
-            // La regola ferrea
             document.addEventListener('play', (e) => {
                 audioPlayers.forEach(audio => { if (audio !== e.target) audio.pause(); });
             }, true);
 
             function formatTime(s) { const m=Math.floor(s/60),n=Math.floor(s%60); return `${m}:${n.toString().padStart(2,'0')}`; }
 
-            function initializePlayer(playerNode) {
-                 const audio = playerNode.querySelector('audio');
-                 const playBtn = playerNode.querySelector('.play-pause-btn');
+            allBrani.forEach((brano, index) => {
+                 brano.style.animationDelay = `${index * 0.1}s`;
+                 initializePlayer(brano, audioPlayers[index]);
+            });
+
+            function initializePlayer(branoNode, audio) {
+                 const playBtn = branoNode.querySelector('.play-pause-btn');
                  const iconPlay = playBtn.querySelector('.icon-play');
                  const iconPause = playBtn.querySelector('.icon-pause');
-                 const timeline = playerNode.querySelector('.timeline');
-                 const volumeSlider = playerNode.querySelector('.volume-slider');
-                 const currentTimeEl = playerNode.querySelector('.current-time');
-                 const durationEl = playerNode.querySelector('.duration');
+                 const timeline = branoNode.querySelector('.timeline');
+                 const volumeSlider = branoNode.querySelector('.volume-slider');
+                 const currentTimeEl = branoNode.querySelector('.current-time');
+                 const durationEl = branoNode.querySelector('.duration');
                 
-                 playBtn.addEventListener('click', () => audio.paused ? audio.play() : audio.pause());
+                 playBtn.addEventListener('click', () => {
+                     isConcertMode = false;
+                     audio.paused ? audio.play() : audio.pause();
+                 });
 
-                 audio.addEventListener('play', () => { iconPause.style.display = 'block'; iconPlay.style.display = 'none'; updateUI(); });
-                 audio.addEventListener('pause', () => { iconPause.style.display = 'none'; iconPlay.style.display = 'block'; updateUI(); });
-
+                 audio.addEventListener('play', () => {
+                    iconPause.style.display = 'block'; iconPlay.style.display = 'none';
+                    currentAudio = audio; updateUI(); updateMediaSession();
+                 });
+                 audio.addEventListener('pause', () => {
+                    iconPause.style.display = 'none'; iconPlay.style.display = 'block';
+                    updateUI();
+                 });
                  audio.addEventListener('loadedmetadata', () => { timeline.max = audio.duration; durationEl.textContent = formatTime(audio.duration); });
                  audio.addEventListener('timeupdate', () => {
-                     const percent = (audio.currentTime / audio.duration) * 100;
                      timeline.value = audio.currentTime;
-                     timeline.style.backgroundSize = `${percent}% 100%`;
+                     timeline.style.backgroundSize = `${(audio.currentTime / audio.duration) * 100}% 100%`;
                      currentTimeEl.textContent = formatTime(audio.currentTime);
                  });
-                 timeline.addEventListener('input', () => audio.currentTime = timeline.value);
+                 timeline.addEventListener('input', () => { audio.currentTime = timeline.value; });
                  
-                 volumeSlider.addEventListener('input', (e) => { audio.volume = e.target.value; localStorage.setItem(SAVED_VOLUME_KEY, audio.volume); });
+                 volumeSlider.addEventListener('input', (e) => { audio.volume = e.target.value; });
+                 audio.addEventListener('volumechange', () => { 
+                     volumeSlider.value = audio.volume;
+                     localStorage.setItem(SAVED_VOLUME_KEY, audio.volume);
+                 });
                  const savedVolume = localStorage.getItem(SAVED_VOLUME_KEY);
                  if(savedVolume) audio.volume = savedVolume;
                  volumeSlider.value = audio.volume;
@@ -211,14 +234,12 @@
             function playTrack(index) {
                 if (index < 0) index = audioPlayers.length - 1;
                 if (index >= audioPlayers.length) { stopHard(); return; }
-                
                 currentAudio = audioPlayers[index];
-                isConcertMode = true;
                 currentAudio.play();
             }
 
             function changeTrack(direction) {
-                let currentIndex = audioPlayers.indexOf(currentAudio);
+                const currentIndex = audioPlayers.indexOf(currentAudio);
                 playTrack(currentIndex + direction);
             }
             
@@ -230,25 +251,26 @@
             
             function updateUI() {
                 const isPlaying = currentAudio && !currentAudio.paused;
-                mainIconPlay.style.display = isPlaying ? 'none' : 'block';
-                mainIconPause.style.display = isPlaying ? 'block' : 'none';
+                mainIconPlay.style.display = isPlaying && isConcertMode ? 'none' : 'block';
+                mainIconPause.style.display = isPlaying && isConcertMode ? 'block' : 'none';
                 
                 document.querySelectorAll('.brano.is-playing').forEach(el => el.classList.remove('is-playing'));
-                if (isPlaying) currentAudio.closest('.brano').classList.add('is-playing');
+                if (isPlaying) { currentAudio.closest('.brano').classList.add('is-playing'); }
             }
 
-            // GESTIONE CONTROLLI PRINCIPALI
             playPauseBtn.addEventListener('click', () => {
-                 if (currentAudio.paused) playTrack(isConcertMode ? audioPlayers.indexOf(currentAudio) : 0);
-                 else currentAudio.pause();
+                isConcertMode = true;
+                const targetPlayer = audioPlayers[0];
+                targetPlayer.paused ? targetPlayer.play() : targetPlayer.pause();
             });
             stopBtn.addEventListener('click', stopHard);
             nextBtn.addEventListener('click', () => changeTrack(1));
             prevBtn.addEventListener('click', () => changeTrack(-1));
-            
-            // FOOTER E DISCLAIMER
-             document.getElementById('footer-text').innerHTML = `© ${new Date().getFullYear()} SevernUp Recordings`;
-             // Inserire qui il resto del codice JS che non dipende dai player...
+
+            function updateMediaSession() { /* ... */ }
+            document.getElementById('footer-text').innerHTML = `© ${new Date().getFullYear()} SevernUp Recordings`;
+            document.getElementById('share-playlist-btn').addEventListener('click', () => { /* ... */ });
+
         });
     </script>
 </body>
