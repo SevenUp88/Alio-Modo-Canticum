@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Misatango - Alio Modo Canticum</title>
+
+    <!-- LINK ALLA FAVICON -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -11,69 +13,56 @@
     
     <style>
         :root {
-            --background-start: #1e1e2f; --background-end: #121212;
-            --card-bg: rgba(40, 40, 60, 0.5); --accent-color: #A78BFA;
-            --primary-text-color: #E0E0E0; --secondary-text-color: #A0A0A0;
-            --border-color: rgba(255, 255, 255, 0.1);
+            --background-color: #121212; --card-background: #1E1E1E; --accent-color: #BB86FC;
+            --primary-text-color: #E0E0E0; --secondary-text-color: #A0A0A0; --border-color: #333333;
         }
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
         html { color-scheme: dark; scroll-behavior: smooth; }
         body {
-            font-family: 'Inter', 'Segoe UI', sans-serif;
-            background-image: linear-gradient(180deg, var(--background-start), var(--background-end));
-            background-attachment: fixed;
+            font-family: 'Inter', 'Segoe UI', sans-serif; background-color: var(--background-color);
             color: var(--primary-text-color); margin: 0; padding: 24px;
             display: flex; flex-direction: column; align-items: center;
         }
         .container { width: 100%; max-width: 720px; }
-        .header-logo { display: block; margin: 0 auto 30px auto; width: 120px; height: 120px; border-radius: 50%; border: 4px solid var(--accent-color); padding: 5px; background-color: var(--card-bg); }
+        
+        .header-logo {
+            display: block; margin: 0 auto 30px auto; width: 120px; height: 120px;
+            border-radius: 50%; border: 4px solid var(--accent-color); padding: 5px;
+            background-color: var(--card-background);
+        }
         .main-title { color: #FFFFFF; text-align: center; font-size: 2.5em; margin-bottom: 5px; font-weight: 700; letter-spacing: -1px; }
         .concert-location { text-align: center; color: var(--secondary-text-color); margin-top: 0; margin-bottom: 25px; font-size: 1.1em; font-style: italic; }
-        
-        .concert-info { text-align: center; margin-bottom: 20px; padding: 20px; background-color: var(--card-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 16px; border: 1px solid var(--border-color); }
-        .concert-info p { margin: 8px 0; font-size: 1em; } 
+        #share-playlist-btn {
+            display: block; margin: 0 auto 25px auto; cursor: pointer; background-color: transparent;
+            color: var(--accent-color); border: 2px solid var(--accent-color); padding: 10px 20px; border-radius: 50px;
+            font-weight: 700; transition: all 0.3s ease; font-size: 0.9em;
+        }
+        #share-playlist-btn:hover { background-color: var(--accent-color); color: #121212; }
+
+        .concert-info { text-align: center; margin-bottom: 20px; padding: 20px; background-color: var(--card-background); border-radius: 16px; border: 1px solid var(--border-color); }
+        .concert-info p { margin: 8px 0; font-size: 1em; }
         .concert-info strong { font-weight: 700; color: var(--accent-color); margin-right: 5px; }
 
-        .playlist-controls-wrapper { margin-top: 20px; text-align:center; margin-bottom: 40px;}
-        .playlist-controls { display: inline-flex; align-items: center; justify-content: center; gap: 15px; background-color: rgba(30, 30, 46, 0.5); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 10px 15px; border-radius: 99px; border: 1px solid var(--border-color); }
-        .playlist-controls button { background: transparent; border: none; color: var(--primary-text-color); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease; }
-        .playlist-controls button svg { width: 22px; height: 22px; fill: currentColor; }
-        .playlist-controls button:hover { background-color: rgba(255, 255, 255, 0.1); }
-        #playlist-play-pause { width: 56px; height: 56px; background-color: var(--accent-color); color: #121212; }
-        #playlist-play-pause:hover { background-color: #c4b5fd; transform: scale(1.05); }
-
-        .brano {
-            background: var(--card-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            border: 2px solid transparent; border-radius: 20px; padding: 24px; margin-bottom: 30px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37); transition: all 0.4s ease;
-            opacity: 0; transform: translateY(20px); animation: fadeInUp 0.5s ease-out forwards;
+        .playlist-label { text-align: center; font-style: italic; color: var(--secondary-text-color); margin-top: 20px; margin-bottom: 5px; }
+        #playlist-timer { text-align: center; font-family: 'Courier New', Courier, monospace; color: var(--secondary-text-color); margin-bottom: 15px; font-size: 0.9em; min-height: 1.2em; transition: opacity 0.3s; }
+        .playlist-controls { display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .playlist-controls button {
+            background-color: transparent; border: 2px solid var(--border-color); color: var(--primary-text-color);
+            width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            cursor: pointer; transition: all 0.2s ease;
         }
-        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
-        .brano.is-playing { border-color: var(--accent-color); box-shadow: 0 0 30px 5px rgba(167, 139, 250, 0.25); }
+        .playlist-controls button svg { width: 24px; height: 24px; fill: currentColor; }
+        .playlist-controls button:hover { border-color: var(--accent-color); color: var(--accent-color); }
+        #playlist-play-pause { width: 65px; height: 65px; background-color: var(--accent-color); color: #121212; border: none; }
+        #playlist-play-pause:hover { background-color: #A162F7; }
+        #current-track-title { text-align: center; color: var(--accent-color); font-style: italic; margin-top: 15px; margin-bottom: 40px; min-height: 1.2em; transition: opacity 0.3s ease; }
+        .brano { background-color: var(--card-background); border: 2px solid var(--card-background); border-radius: 16px; padding: 24px; margin-bottom: 30px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2); transition: border-color 0.4s ease, box-shadow 0.4s ease; }
+        .brano.is-playing { border-color: var(--accent-color); box-shadow: 0 0 25px rgba(187, 134, 252, 0.2); }
         .brano h2 { margin-top: 0; font-size: 1.6em; color: #FFFFFF; font-weight: 700; margin-bottom: 24px; }
-        
-        audio { display: none; }
-        .custom-player { display: flex; align-items: center; gap: 15px; width: 100%; }
-        .play-pause-btn { background: transparent; border: none; cursor: pointer; padding: 0; display: flex; align-items: center; }
-        .play-pause-btn svg { width: 36px; height: 36px; fill: var(--accent-color); transition: transform 0.2s ease; }
-        .play-pause-btn:hover svg { transform: scale(1.1); }
-        .player-center { flex-grow: 1; display: flex; flex-direction: column; gap: 8px; }
-        
-        .timeline { width: 100%; -webkit-appearance: none; appearance: none; height: 4px; background: rgba(255, 255, 255, 0.2); border-radius: 5px; cursor: pointer; background-image: linear-gradient(var(--accent-color), var(--accent-color)); background-size: 0% 100%; background-repeat: no-repeat; outline: none;}
-        .timeline::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 16px; height: 16px; background: white; border-radius: 50%; cursor: pointer; margin-top: -6px; }
-
-        .time-display { display: flex; justify-content: space-between; font-size: 0.8em; color: var(--secondary-text-color); font-family: 'Courier New', monospace; }
-        
-        .volume-control { position: relative; }
-        .volume-btn { background: transparent; border: none; cursor: pointer; display: flex; }
-        .volume-btn svg { width: 24px; height: 24px; fill: var(--secondary-text-color); transition: all 0.2s ease; }
-        .volume-btn:hover svg { fill: var(--accent-color); }
-        .volume-slider-container { position: absolute; bottom: 40px; right: -12px; background: #2a2a3f; padding: 15px 12px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); visibility: hidden; opacity: 0; transition: all 0.2s ease; z-index: 10; }
-        .volume-control.active .volume-slider-container, .volume-control:hover .volume-slider-container { visibility: visible; opacity: 1; }
-        .volume-slider { writing-mode: bt-lr; -webkit-appearance: none; appearance: none; width: 8px; height: 100px; background: rgba(255, 255, 255, 0.2); border-radius: 5px; outline: none;}
-        .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; background: var(--accent-color); border-radius: 50%; cursor: pointer; }
-
-        .disclaimer, footer { max-width: 720px; width: 100%; }
+        audio { width: 100%; margin-bottom: 24px; accent-color: var(--accent-color); }
+        .brano-actions { display: flex; }
+        .action-btn.disabled { display: inline-flex; align-items: center; justify-content: center; cursor: not-allowed; background-color: transparent; border: 2px solid #444; color: #666; padding: 10px 20px; border-radius: 50px; font-weight: 700; font-size: 0.9em; }
+        .action-btn.disabled .icon { margin-right: 8px; font-size: 1.2em; }
         .disclaimer { text-align: left; padding: 20px; margin-top: 40px; border-top: 1px solid var(--border-color); color: #888; font-size: 0.8em; line-height: 1.6; }
         footer { text-align: center; margin-top: 20px; color: #666; font-size: 0.9em; }
     </style>
@@ -83,129 +72,177 @@
         <img src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/sevenup3.png" alt="Logo Coro" class="header-logo">
         <h1 class="main-title">Misatango 7.06.2025</h1>
         <p class="concert-location">Basilica Concattedrale Santa Maria Annunziata e San Vicinio (Sarsina)</p>
-        
+        <button id="share-playlist-btn">💌 Condividi la pagina</button>
+
         <div class="concert-info">
-             <p><strong>Cori:</strong> Alio Modo Canticum & Lirico Città di Faenza</p>
-             <p><strong>Solista (Mezzosoprano):</strong> Ada Piatti</p>
-             <p><strong>Direttore:</strong> Andrea Crastolla</p>
+            <p><strong>Cori:</strong> Alio Modo Canticum & Lirico Città di Faenza</p>
+            <p><strong>Solista (Mezzosoprano):</strong> Ada Piatti</p>
+            <p><strong>Direttore:</strong> Andrea Crastolla</p>
         </div>
 
-        <div class="playlist-controls-wrapper">
-             <div class="playlist-controls">
-                <button id="playlist-prev" title="Precedente"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"></path></svg></button>
-                <button id="playlist-play-pause" title="Avvia/Pausa"><svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg><svg class="icon-pause" style="display:none;" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg></button>
-                <button id="playlist-stop" title="Ferma"><svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"></path></svg></button>
-                <button id="playlist-next" title="Successivo"><svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"></path></svg></button>
-             </div>
+        <p class="playlist-label">Modalità concerto</p>
+        <div id="playlist-timer"> </div>
+        <div class="playlist-controls">
+            <button id="playlist-prev" title="Brano Precedente"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"></path></svg></button>
+            <button id="playlist-play-pause" title="Avvia/Pausa Concerto">
+                <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+                <svg class="icon-pause" style="display:none;" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg>
+            </button>
+            <button id="playlist-stop" title="Ferma Concerto"><svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"></path></svg></button>
+            <button id="playlist-next" title="Brano Successivo"><svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"></path></svg></button>
         </div>
+        <p id="current-track-title"> </p>
         
-        <div id="playlist-container"></div>
+        <!-- BRANI con preload="metadata" -->
+        <div class="brano"><h2>Introitus et Kyrie</h2><audio controls controlsList="nodownload" preload="metadata" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/1.%20Introitus%20et%20Kyrie%20.mp3"></audio><div class="brano-actions"><button class="action-btn disabled"><span class="icon">↓</span> Scarica</button></div></div>
+        <div class="brano"><h2>Gloria</h2><audio controls controlsList="nodownload" preload="metadata" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/2.%20Gloria%20.mp3"></audio><div class="brano-actions"><button class="action-btn disabled"><span class="icon">↓</span> Scarica</button></div></div>
+        <div class="brano"><h2>Credo</h2><audio controls controlsList="nodownload" preload="metadata" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/3.%20Credo%20.mp3"></audio><div class="brano-actions"><button class="action-btn disabled"><span class="icon">↓</span> Scarica</button></div></div>
+        <div class="brano"><h2>Sanctus</h2><audio controls controlsList="nodownload" preload="metadata" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/4.%20Sanctus%20.mp3"></audio><div class="brano-actions"><button class="action-btn disabled"><span class="icon">↓</span> Scarica</button></div></div>
+        <div class="brano"><h2>Benedictus</h2><audio controls controlsList="nodownload" preload="metadata" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/5.%20Benedictus%20.mp3"></audio><div class="brano-actions"><button class="action-btn disabled"><span class="icon">↓</span> Scarica</button></div></div>
+        <div class="brano"><h2>Agnus Dei</h2><audio controls controlsList="nodownload" preload="metadata" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/6.%20Agnus%20Dei%20.mp3"></audio><div class="brano-actions"><button class="action-btn disabled"><span class="icon">↓</span> Scarica</button></div></div>
     </div>
     
-    <div class="disclaimer">
-         <p>Le tracce audio... </p> <!-- Contenuto disclaimer -->
+    <div class="container disclaimer">
+        <p>Le tracce audio disponibili su questa pagina sono registrazioni amatoriali eseguite dal vivo della Misatango (Misa a Buenos Aires), composta da Martín Palmeri.</p>
+        <p>L'opera è protetta da copyright e tutti i diritti relativi alla composizione sono riservati ai rispettivi titolari.</p>
+        <p>Questa registrazione è condivisa esclusivamente a fini didattici e culturali, senza scopo di lucro, e l’accesso è destinato a un pubblico ristretto.</p>
+        <p>La riproduzione, distribuzione o qualsiasi altro uso pubblico o commerciale delle registrazioni non è consentita senza autorizzazione dell'autore o dei titolari dei diritti.</p>
     </div>
+    
     <footer id="footer-text"></footer>
 
-    <!-- Template per la singola card (nascosto) -->
-    <template id="brano-template">
-        <div class="brano">
-            <h2></h2>
-            <div class="custom-player">
-                <button class="play-pause-btn" title="Play/Pausa"><svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg><svg class="icon-pause" style="display: none;" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg></button>
-                <div class="player-center"><input type="range" class="timeline" value="0" step="1" max="100"><div class="time-display"><span class="current-time">0:00</span><span class="duration">0:00</span></div></div>
-                <div class="volume-control"><button class="volume-btn" title="Volume"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path></svg></button><div class="volume-slider-container"><input type="range" class="volume-slider" min="0" max="1" step="0.05" value="1"></div></div>
-            </div>
-            <audio preload="metadata"></audio>
-        </div>
-    </template>
-    
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const songData = [
-                { title: "Introitus et Kyrie", url: "https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/1.%20Introitus%20et%20Kyrie%20.mp3"},
-                { title: "Gloria", url: "https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/2.%20Gloria%20.mp3"},
-                { title: "Credo", url: "https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/3.%20Credo%20.mp3"},
-                { title: "Sanctus", url: "https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/4.%20Sanctus%20.mp3"},
-                { title: "Benedictus", url: "https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/5.%20Benedictus%20.mp3"},
-                { title: "Agnus Dei", url: "https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/6.%20Agnus%20Dei%20.mp3"},
-            ];
-            
-            const playlistContainer = document.getElementById('playlist-container');
-            const template = document.getElementById('brano-template');
-            songData.forEach(song => { const clone = template.content.cloneNode(true); clone.querySelector('h2').textContent = song.title; clone.querySelector('audio').src = song.url; playlistContainer.appendChild(clone); });
             
             const audioPlayers = Array.from(document.querySelectorAll('audio'));
             const playPauseBtn = document.getElementById('playlist-play-pause');
-            const mainIconPlay = playPauseBtn.querySelector('.icon-play');
-            const mainIconPause = playPauseBtn.querySelector('.icon-pause');
+            const iconPlay = playPauseBtn.querySelector('.icon-play');
+            const iconPause = playPauseBtn.querySelector('.icon-pause');
             const stopBtn = document.getElementById('playlist-stop');
             const nextBtn = document.getElementById('playlist-next');
             const prevBtn = document.getElementById('playlist-prev');
+            const currentTrackTitleEl = document.getElementById('current-track-title');
+            const timerEl = document.getElementById('playlist-timer');
 
             let currentAudio = audioPlayers[0];
             let isConcertMode = false;
             const SAVED_VOLUME_KEY = 'SevernUpPlayerVolume';
-
-            document.addEventListener('play', (e) => { audioPlayers.forEach(a => { if(a !== e.target) a.pause(); }); currentAudio = e.target; }, true);
-
-            function formatTime(s) { const m=Math.floor(s/60),n=Math.floor(s%60); return `${m}:${n.toString().padStart(2,'0')}`; }
-
-            audioPlayers.forEach((audio, index) => {
-                 const branoNode = audio.closest('.brano');
-                 const playBtn = branoNode.querySelector('.play-pause-btn');
-                 const iconPlay = playBtn.querySelector('.icon-play');
-                 const iconPause = playBtn.querySelector('.icon-pause');
-                 const timeline = branoNode.querySelector('.timeline');
-                 const volumeSlider = branoNode.querySelector('.volume-slider');
-                 const currentTimeEl = branoNode.querySelector('.current-time');
-                 const durationEl = branoNode.querySelector('.duration');
-                
-                 playBtn.addEventListener('click', () => { isConcertMode = false; audio.paused ? audio.play() : audio.pause(); });
-                 audio.addEventListener('play', () => { iconPause.style.display = 'block'; iconPlay.style.display = 'none'; updateUI(); });
-                 audio.addEventListener('pause', () => { iconPause.style.display = 'none'; iconPlay.style.display = 'block'; updateUI(); });
-                 audio.addEventListener('loadedmetadata', () => { timeline.max = audio.duration; durationEl.textContent = formatTime(audio.duration); });
-                 audio.addEventListener('timeupdate', () => { timeline.value = audio.currentTime; timeline.style.backgroundSize = `${(audio.currentTime / audio.duration) * 100}% 100%`; currentTimeEl.textContent = formatTime(audio.currentTime); });
-                 timeline.addEventListener('input', () => { audio.currentTime = timeline.value; });
-                 
-                 const savedVolume = localStorage.getItem(SAVED_VOLUME_KEY);
-                 if(savedVolume !== null) audio.volume = savedVolume;
-                 volumeSlider.value = audio.volume;
-                 volumeSlider.addEventListener('input', (e) => { audio.volume = e.target.value; audioPlayers.forEach(p => p.volume = e.target.value); localStorage.setItem(SAVED_VOLUME_KEY, e.target.value); });
-                 audio.addEventListener('volumechange', () => { volumeSlider.value = audio.volume; });
-                 
-                 audio.addEventListener('ended', () => { if (isConcertMode) changeTrack(1); });
-            });
             
-            function playTrack(index) {
-                if (index < 0) index = audioPlayers.length - 1;
-                if (index >= audioPlayers.length) { stopHard(); return; }
-                currentAudio = audioPlayers[index];
-                currentAudio.play();
+            // LA REGOLA FERREA: UN SOLO AUDIO ALLA VOLTA
+            document.addEventListener('play', (event) => {
+                const playingAudio = event.target;
+                audioPlayers.forEach(audio => { if (audio !== playingAudio) { audio.pause(); }});
+                
+                // Aggiorna lo stato corrente
+                currentAudio = playingAudio;
+                
+                // Disattiva la modalità concerto se l'utente clicca manualmente un player
+                if (!playerIsPlayingInConcertMode(currentAudio)) {
+                    isConcertMode = false;
+                }
+                updateUI();
+                updateMediaSession();
+            }, true);
+            
+            // FUNZIONI DI SUPPORTO
+            function formatTime(seconds) {
+                const min = Math.floor(seconds / 60); const sec = Math.floor(seconds % 60);
+                return `${min}:${sec.toString().padStart(2, '0')}`;
             }
 
-            function changeTrack(direction) { const i = audioPlayers.indexOf(currentAudio); playTrack(i + direction); }
+            function playTrack(index) {
+                if (index < 0) { index = audioPlayers.length - 1; }
+                if (index >= audioPlayers.length) { index = 0; }
+                
+                const trackToPlay = audioPlayers[index];
+                trackToPlay.closest('.brano').classList.add('concert-mode-active');
+                trackToPlay.play();
+            }
+
+            function updateUI() {
+                const isPlaying = currentAudio && !currentAudio.paused;
+                iconPlay.style.display = isPlaying ? 'none' : 'block';
+                iconPause.style.display = isPlaying ? 'block' : 'none';
+                
+                document.querySelectorAll('.brano.is-playing').forEach(el => el.classList.remove('is-playing'));
+                if (isPlaying) { currentAudio.closest('.brano').classList.add('is-playing'); }
+                
+                if (isPlaying && isConcertMode) {
+                    currentTrackTitleEl.textContent = currentAudio.closest('.brano').querySelector('h2').textContent;
+                    timerEl.style.display = 'block';
+                } else {
+                    currentTrackTitleEl.innerHTML = ' ';
+                    timerEl.style.display = 'none';
+                }
+            }
             
             function stopHard() {
                 isConcertMode = false;
                 audioPlayers.forEach(p => { p.pause(); p.currentTime = 0; });
                 updateUI();
             }
+
+            function playerIsPlayingInConcertMode(player) {
+                return player.closest('.brano').classList.contains('concert-mode-active');
+            }
             
-            function updateUI() {
-                const isPlaying = currentAudio && !currentAudio.paused;
-                mainIconPlay.style.display = isPlaying && isConcertMode ? 'none' : 'block';
-                mainIconPause.style.display = isPlaying && isConcertMode ? 'block' : 'none';
-                document.querySelectorAll('.brano.is-playing').forEach(el => el.classList.remove('is-playing'));
-                if (isPlaying) currentAudio.closest('.brano').classList.add('is-playing');
+            // GESTIONE CONTROLLI PRINCIPALI
+            playPauseBtn.addEventListener('click', () => {
+                if (currentAudio.paused) {
+                    // Se avvio da fermo, parto sempre dal primo brano in modalità concerto
+                    if(!isConcertMode) currentAudio = audioPlayers[0];
+                    isConcertMode = true;
+                    playTrack(audioPlayers.indexOf(currentAudio));
+                } else {
+                    isConcertMode = false;
+                    currentAudio.pause();
+                }
+            });
+            stopBtn.addEventListener('click', stopHard);
+            nextBtn.addEventListener('click', () => { changeTrack(1); });
+            prevBtn.addEventListener('click', () => { changeTrack(-1); });
+
+            function changeTrack(direction){
+                 isConcertMode = true;
+                 const currentIndex = audioPlayers.indexOf(currentAudio);
+                 playTrack(currentIndex + direction);
             }
 
-            playPauseBtn.addEventListener('click', () => { isConcertMode = true; currentAudio.paused ? playTrack(0) : currentAudio.pause(); });
-            stopBtn.addEventListener('click', stopHard);
-            nextBtn.addEventListener('click', () => { isConcertMode = true; changeTrack(1); });
-            prevBtn.addEventListener('click', () => { isConcertMode = true; changeTrack(-1); });
+            // GESTIONE PLAYER INDIVIDUALI E OTTIMIZZAZIONI
+            audioPlayers.forEach(player => {
+                player.addEventListener('pause', updateUI);
+                player.addEventListener('ended', () => { if (isConcertMode) { changeTrack(1); } else { updateUI(); }});
+                player.addEventListener('timeupdate', () => { if(isConcertMode && currentAudio === player){ const duration = isNaN(player.duration) ? 0 : player.duration; timerEl.textContent = `${formatTime(player.currentTime)} / ${formatTime(duration)}`; }});
+                player.addEventListener('volumechange', () => { localStorage.setItem(SAVED_VOLUME_KEY, player.volume); });
+            });
+            
+            const savedVolume = localStorage.getItem(SAVED_VOLUME_KEY);
+            if (savedVolume !== null) { audioPlayers.forEach(p => p.volume = savedVolume); }
 
+            // GESTIONE BACKGROUND PLAY E NOTIFICHE
+            function updateMediaSession() {
+                if ('mediaSession' in navigator) {
+                    const branoDiv = currentAudio.closest('.brano');
+                    const title = branoDiv.querySelector('h2').textContent;
+                    navigator.mediaSession.metadata = new MediaMetadata({
+                        title: title, artist: 'Alio Modo Canticum & Coro Lirico Città di Faenza',
+                        album: 'Misatango', artwork: [{ src: document.querySelector('.header-logo').src }]
+                    });
+                    navigator.mediaSession.setActionHandler('play', () => playPauseBtn.click());
+                    navigator.mediaSession.setActionHandler('pause', () => playPauseBtn.click());
+                    navigator.mediaSession.setActionHandler('stop', () => stopBtn.click());
+                    navigator.mediaSession.setActionHandler('previoustrack', () => prevBtn.click());
+                    navigator.mediaSession.setActionHandler('nexttrack', () => nextBtn.click());
+                }
+            }
+
+            // UTILITIES FINALI
             document.getElementById('footer-text').innerHTML = ` ${new Date().getFullYear()} SevenUp Recordings`;
+            document.querySelectorAll('.action-btn.disabled').forEach(b => { b.addEventListener('click', e => { e.preventDefault(); alert('Il download è momentaneamente disabilitato.'); }); });
+            document.getElementById('share-playlist-btn').addEventListener('click', () => {
+                 const shareData = { title: 'Archivio Brani: Misatango', url: window.location.href };
+                if (navigator.share) navigator.share(shareData); else navigator.clipboard.writeText(shareData.url).then(() => alert('Link copiato!'));
+            });
         });
     </script>
 </body>
