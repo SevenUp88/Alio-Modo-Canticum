@@ -237,7 +237,7 @@
             }
 
             // UTILITIES FINALI
-            document.getElementById('footer-text').innerHTML = `© ${new Date().getFullYear()} SevernUp Recordings`;
+            document.getElementById('footer-text').innerHTML = ` ${new Date().getFullYear()} SevenUp Recordings`;
             document.querySelectorAll('.action-btn.disabled').forEach(b => { b.addEventListener('click', e => { e.preventDefault(); alert('Il download è momentaneamente disabilitato.'); }); });
             document.getElementById('share-playlist-btn').addEventListener('click', () => {
                  const shareData = { title: 'Archivio Brani: Misatango', url: window.location.href };
