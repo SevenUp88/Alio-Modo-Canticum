@@ -235,7 +235,7 @@
             }
 
             // Imposta copyright e altro
-            document.getElementById('footer-year').textContent = `© ${new Date().getFullYear()} SevernUp Recordings`;
+            document.getElementById('footer-year').textContent = `${new Date().getFullYear()} SevernUp Recordings`;
             document.querySelectorAll('.action-btn.disabled').forEach(b => {
                 b.addEventListener('click', e => { e.preventDefault(); alert('Il download è momentaneamente disabilitato.'); });
             });
