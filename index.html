@@ -4,279 +4,246 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Misatango - Alio Modo Canticum</title>
+
+    <!-- LINK ALLA FAVICON -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
     
     <style>
         :root {
-            --background-color: #121212;
-            --card-background: #1E1E1E;
-            --accent-color: #BB86FC;
-            --accent-hover-color: #A162F7;
-            --primary-text-color: #E0E0E0;
-            --secondary-text-color: #A0A0A0;
-            --border-color: #333333;
-            --like-color: #F44336; /* Rosso per il "like" */
+            --background-color: #121212; --card-background: #1E1E1E; --accent-color: #BB86FC;
+            --primary-text-color: #E0E0E0; --secondary-text-color: #A0A0A0; --border-color: #333333;
         }
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap');
-
-        html { color-scheme: dark; }
-
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+        html { color-scheme: dark; scroll-behavior: smooth; }
         body {
-            font-family: 'Inter', 'Segoe UI', sans-serif;
-            background-color: var(--background-color);
-            color: var(--primary-text-color);
-            margin: 0;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            font-family: 'Inter', 'Segoe UI', sans-serif; background-color: var(--background-color);
+            color: var(--primary-text-color); margin: 0; padding: 24px;
+            display: flex; flex-direction: column; align-items: center;
         }
         .container { width: 100%; max-width: 720px; }
-
-        .main-title {
-            color: #FFFFFF;
-            text-align: center;
-            font-size: 2.8em;
-            margin-bottom: 10px;
-            font-weight: 700;
-            letter-spacing: -1px;
-        }
-
-        /* Bottone per condividere tutta la playlist */
-        #share-playlist-btn {
-            display: block;
-            margin: 0 auto 40px auto;
-            cursor: pointer;
-            background-color: var(--accent-color);
-            color: #121212;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-weight: 700;
-            transition: all 0.3s ease;
-        }
-        #share-playlist-btn:hover {
-            background-color: var(--accent-hover-color);
-            transform: scale(1.05);
-        }
-
-        .brano {
+        
+        .header-logo {
+            display: block; margin: 0 auto 30px auto; width: 120px; height: 120px;
+            border-radius: 50%; border: 4px solid var(--accent-color); padding: 5px;
             background-color: var(--card-background);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 30px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .brano:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25); }
+        .main-title { color: #FFFFFF; text-align: center; font-size: 2.5em; margin-bottom: 5px; font-weight: 700; letter-spacing: -1px; }
+        .concert-location { text-align: center; color: var(--secondary-text-color); margin-top: 0; margin-bottom: 25px; font-size: 1.1em; font-style: italic; }
+        #share-playlist-btn {
+            display: block; margin: 0 auto 25px auto; cursor: pointer; background-color: transparent;
+            color: var(--accent-color); border: 2px solid var(--accent-color); padding: 10px 20px; border-radius: 50px;
+            font-weight: 700; transition: all 0.3s ease; font-size: 0.9em;
+        }
+        #share-playlist-btn:hover { background-color: var(--accent-color); color: #121212; }
 
-        .brano h2 { margin-top: 0; font-size: 1.6em; color: #FFFFFF; font-weight: 700; margin-bottom: 8px; }
-        .brano p { margin-top: 0; color: var(--secondary-text-color); font-size: 1em; margin-bottom: 24px; }
+        .concert-info { text-align: center; margin-bottom: 20px; padding: 20px; background-color: var(--card-background); border-radius: 16px; border: 1px solid var(--border-color); }
+        .concert-info p { margin: 8px 0; font-size: 1em; }
+        .concert-info strong { font-weight: 700; color: var(--accent-color); margin-right: 5px; }
+
+        .playlist-label { text-align: center; font-style: italic; color: var(--secondary-text-color); margin-top: 20px; margin-bottom: 5px; }
+        #playlist-timer { text-align: center; font-family: 'Courier New', Courier, monospace; color: var(--secondary-text-color); margin-bottom: 15px; font-size: 0.9em; min-height: 1.2em; transition: opacity 0.3s; }
+        .playlist-controls { display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .playlist-controls button {
+            background-color: transparent; border: 2px solid var(--border-color); color: var(--primary-text-color);
+            width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            cursor: pointer; transition: all 0.2s ease;
+        }
+        .playlist-controls button svg { width: 24px; height: 24px; fill: currentColor; }
+        .playlist-controls button:hover { border-color: var(--accent-color); color: var(--accent-color); }
+        #playlist-play-pause { width: 65px; height: 65px; background-color: var(--accent-color); color: #121212; border: none; }
+        #playlist-play-pause:hover { background-color: #A162F7; }
+        #current-track-title { text-align: center; color: var(--accent-color); font-style: italic; margin-top: 15px; margin-bottom: 40px; min-height: 1.2em; transition: opacity 0.3s ease; }
+        .brano { background-color: var(--card-background); border: 2px solid var(--card-background); border-radius: 16px; padding: 24px; margin-bottom: 30px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2); transition: border-color 0.4s ease, box-shadow 0.4s ease; }
+        .brano.is-playing { border-color: var(--accent-color); box-shadow: 0 0 25px rgba(187, 134, 252, 0.2); }
+        .brano h2 { margin-top: 0; font-size: 1.6em; color: #FFFFFF; font-weight: 700; margin-bottom: 24px; }
         audio { width: 100%; margin-bottom: 24px; accent-color: var(--accent-color); }
-        
-        /* Contenitore per i pulsanti di azione */
-        .brano-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            align-items: center;
-        }
-        
-        .action-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            background-color: transparent;
-            border: 2px solid var(--border-color);
-            color: var(--secondary-text-color);
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            font-size: 0.9em;
-        }
-        .action-btn:hover {
-            border-color: var(--accent-color);
-            color: var(--accent-color);
-            transform: scale(1.03);
-        }
-        .action-btn.download { border-color: var(--accent-color); color: var(--accent-color); }
-        .action-btn.download:hover { background-color: var(--accent-color); color: var(--background-color); }
-
-        .action-btn .icon { margin-right: 8px; font-size: 1.3em; }
-
-        /* Stile specifico per il tasto like */
-        .like-btn {
-            font-size: 1.3em; /* Rende l'icona più grande */
-            padding: 10px; /* Padding per area cliccabile più grande */
-            width: 48px; /* Larghezza e altezza fisse per renderlo un cerchio */
-            height: 48px;
-        }
-        .like-btn.liked {
-            color: var(--like-color); /* Colore del cuore "likato" */
-            border-color: var(--like-color);
-        }
-
-        footer { text-align: center; margin-top: 50px; color: #444; font-size: 0.9em; }
+        .brano-actions { display: flex; }
+        .action-btn.disabled { display: inline-flex; align-items: center; justify-content: center; cursor: not-allowed; background-color: transparent; border: 2px solid #444; color: #666; padding: 10px 20px; border-radius: 50px; font-weight: 700; font-size: 0.9em; }
+        .action-btn.disabled .icon { margin-right: 8px; font-size: 1.2em; }
+        .disclaimer { text-align: left; padding: 20px; margin-top: 40px; border-top: 1px solid var(--border-color); color: #888; font-size: 0.8em; line-height: 1.6; }
+        footer { text-align: center; margin-top: 20px; color: #666; font-size: 0.9em; }
     </style>
 </head>
 <body>
-
     <div class="container">
-        <!-- TITOLO CAMBIATO -->
+        <img src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/sevenup3.png" alt="Logo Coro" class="header-logo">
         <h1 class="main-title">Misatango 7.06.2025</h1>
-        <!-- NUOVO TASTO PER CONDIVIDERE LA PAGINA -->
+        <p class="concert-location">Basilica Concattedrale Santa Maria Annunziata e San Vicinio (Sarsina)</p>
         <button id="share-playlist-btn">💌 Condividi la pagina</button>
 
-        <!-- SEZIONE BRANI CON I TUOI DATI -->
-
-        <!-- BRANO 1 -->
-        <div class="brano">
-            <h2>Introitus et Kyrie</h2>
-            <p>Misatango - Martin Palmeri</p>
-            <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/1.%20Introitus%20et%20Kyrie%20.mp3"></audio>
-            <!-- NUOVI TASTI -->
-            <div class="brano-actions">
-                <a href="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/1.%20Introitus%20et%20Kyrie%20.mp3" class="action-btn download" download><span class="icon">↓</span> Scarica</a>
-                <button class="action-btn" onclick="shareTrack('https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/1.%20Introitus%20et%20Kyrie%20.mp3', 'Introitus et Kyrie')"><span class="icon">🔗</span> Condividi</a>
-                <button class="action-btn like-btn" onclick="toggleLike(this)" data-song-id="misatango-kyrie">♥</button>
-            </div>
+        <div class="concert-info">
+            <p><strong>Cori:</strong> Alio Modo Canticum & Lirico Città di Faenza</p>
+            <p><strong>Solista (Mezzosoprano):</strong> Ada Piatti</p>
+            <p><strong>Direttore:</strong> Andrea Crastolla</p>
         </div>
+
+        <p class="playlist-label">Modalità concerto</p>
+        <div id="playlist-timer"> </div>
+        <div class="playlist-controls">
+            <button id="playlist-prev" title="Brano Precedente"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"></path></svg></button>
+            <button id="playlist-play-pause" title="Avvia/Pausa Concerto">
+                <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+                <svg class="icon-pause" style="display:none;" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg>
+            </button>
+            <button id="playlist-stop" title="Ferma Concerto"><svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"></path></svg></button>
+            <button id="playlist-next" title="Brano Successivo"><svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"></path></svg></button>
+        </div>
+        <p id="current-track-title"> </p>
         
-        <!-- BRANO 2 -->
-        <div class="brano">
-            <h2>Gloria</h2>
-            <p>Misatango - Martin Palmeri</p>
-            <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/2.%20Gloria%20.mp3"></audio>
-            <div class="brano-actions">
-                <a href="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/2.%20Gloria%20.mp3" class="action-btn download" download><span class="icon">↓</span> Scarica</a>
-                <button class="action-btn" onclick="shareTrack('https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/2.%20Gloria%20.mp3', 'Gloria')"><span class="icon">🔗</span> Condividi</a>
-                <button class="action-btn like-btn" onclick="toggleLike(this)" data-song-id="misatango-gloria">♥</button>
-            </div>
-        </div>
-
-        <!-- BRANO 3 -->
-        <div class="brano">
-            <h2>Credo</h2>
-            <p>Misatango - Martin Palmeri</p>
-            <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/3.%20Credo%20.mp3"></audio>
-            <div class="brano-actions">
-                <a href="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/3.%20Credo%20.mp3" class="action-btn download" download><span class="icon">↓</span> Scarica</a>
-                <button class="action-btn" onclick="shareTrack('https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/3.%20Credo%20.mp3', 'Credo')"><span class="icon">🔗</span> Condividi</a>
-                <button class="action-btn like-btn" onclick="toggleLike(this)" data-song-id="misatango-credo">♥</button>
-            </div>
-        </div>
-
-        <!-- BRANO 4 -->
-        <div class="brano">
-            <h2>Sanctus</h2>
-            <p>Misatango - Martin Palmeri</p>
-            <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/4.%20Sanctus%20.mp3"></audio>
-            <div class="brano-actions">
-                <a href="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/4.%20Sanctus%20.mp3" class="action-btn download" download><span class="icon">↓</span> Scarica</a>
-                <button class="action-btn" onclick="shareTrack('https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/4.%20Sanctus%20.mp3', 'Sanctus')"><span class="icon">🔗</span> Condividi</a>
-                <button class="action-btn like-btn" onclick="toggleLike(this)" data-song-id="misatango-sanctus">♥</button>
-            </div>
-        </div>
-
-        <!-- BRANO 5 -->
-        <div class="brano">
-            <h2>Benedictus</h2>
-            <p>Misatango - Martin Palmeri</p>
-            <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/5.%20Benedictus%20.mp3"></audio>
-            <div class="brano-actions">
-                <a href="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/5.%20Benedictus%20.mp3" class="action-btn download" download><span class="icon">↓</span> Scarica</a>
-                <button class="action-btn" onclick="shareTrack('https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/5.%20Benedictus%20.mp3', 'Benedictus')"><span class="icon">🔗</span> Condividi</a>
-                <button class="action-btn like-btn" onclick="toggleLike(this)" data-song-id="misatango-benedictus">♥</button>
-            </div>
-        </div>
-
-        <!-- BRANO 6 -->
-        <div class="brano">
-            <h2>Agnus Dei</h2>
-            <p>Misatango - Martin Palmeri</p>
-            <audio controls src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/6.%20Agnus%20Dei%20.mp3"></audio>
-            <div class="brano-actions">
-                <a href="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/6.%20Agnus%20Dei%20.mp3" class="action-btn download" download><span class="icon">↓</span> Scarica</a>
-                <button class="action-btn" onclick="shareTrack('https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/6.%20Agnus%20Dei%20.mp3', 'Agnus Dei')"><span class="icon">🔗</span> Condividi</a>
-                <button class="action-btn like-btn" onclick="toggleLike(this)" data-song-id="misatango-agnusdei">♥</button>
-            </div>
-        </div>
+        <!-- BRANI con preload="metadata" -->
+        <div class="brano"><h2>Introitus et Kyrie</h2><audio controls controlsList="nodownload" preload="metadata" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/1.%20Introitus%20et%20Kyrie%20.mp3"></audio><div class="brano-actions"><button class="action-btn disabled"><span class="icon">↓</span> Scarica</button></div></div>
+        <div class="brano"><h2>Gloria</h2><audio controls controlsList="nodownload" preload="metadata" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/2.%20Gloria%20.mp3"></audio><div class="brano-actions"><button class="action-btn disabled"><span class="icon">↓</span> Scarica</button></div></div>
+        <div class="brano"><h2>Credo</h2><audio controls controlsList="nodownload" preload="metadata" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/3.%20Credo%20.mp3"></audio><div class="brano-actions"><button class="action-btn disabled"><span class="icon">↓</span> Scarica</button></div></div>
+        <div class="brano"><h2>Sanctus</h2><audio controls controlsList="nodownload" preload="metadata" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/4.%20Sanctus%20.mp3"></audio><div class="brano-actions"><button class="action-btn disabled"><span class="icon">↓</span> Scarica</button></div></div>
+        <div class="brano"><h2>Benedictus</h2><audio controls controlsList="nodownload" preload="metadata" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/5.%20Benedictus%20.mp3"></audio><div class="brano-actions"><button class="action-btn disabled"><span class="icon">↓</span> Scarica</button></div></div>
+        <div class="brano"><h2>Agnus Dei</h2><audio controls controlsList="nodownload" preload="metadata" src="https://raw.githubusercontent.com/SevenUp88/Alio-Modo-Canticum/main/Concerti/2025/Misatango%20-%207.06.25/6.%20Agnus%20Dei%20.mp3"></audio><div class="brano-actions"><button class="action-btn disabled"><span class="icon">↓</span> Scarica</button></div></div>
     </div>
+    
+    <div class="container disclaimer">
+        <p>Le tracce audio disponibili su questa pagina sono registrazioni amatoriali eseguite dal vivo della Misatango (Misa a Buenos Aires), composta da Martín Palmeri.</p>
+        <p>L'opera è protetta da copyright e tutti i diritti relativi alla composizione sono riservati ai rispettivi titolari.</p>
+        <p>Questa registrazione è condivisa esclusivamente a fini didattici e culturali, senza scopo di lucro, e l’accesso è destinato a un pubblico ristretto.</p>
+        <p>La riproduzione, distribuzione o qualsiasi altro uso pubblico o commerciale delle registrazioni non è consentita senza autorizzazione dell'autore o dei titolari dei diritti.</p>
+    </div>
+    
+    <footer id="footer-text"></footer>
 
-    <!-- FOOTER MODIFICATO -->
-    <footer>
-        <p>© 2024 Coro Alio Modo Canticum</p>
-    </footer>
-
-    <!-- NUOVO BLOCCO JAVASCRIPT PER LE FUNZIONALITÀ -->
     <script>
-        // Funzione per gestire la condivisione (pagina o brano)
-        async function share(data) {
-            try {
-                if (navigator.share) {
-                    await navigator.share(data);
-                } else {
-                    // Fallback per desktop: copia il link negli appunti
-                    await navigator.clipboard.writeText(data.url);
-                    alert('Link copiato negli appunti!');
-                }
-            } catch (err) {
-                console.error("Errore durante la condivisione: ", err);
-                // alert('Condivisione non riuscita.');
-            }
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            const audioPlayers = Array.from(document.querySelectorAll('audio'));
+            const playPauseBtn = document.getElementById('playlist-play-pause');
+            const iconPlay = playPauseBtn.querySelector('.icon-play');
+            const iconPause = playPauseBtn.querySelector('.icon-pause');
+            const stopBtn = document.getElementById('playlist-stop');
+            const nextBtn = document.getElementById('playlist-next');
+            const prevBtn = document.getElementById('playlist-prev');
+            const currentTrackTitleEl = document.getElementById('current-track-title');
+            const timerEl = document.getElementById('playlist-timer');
 
-        // Tasto condivisione playlist
-        document.getElementById('share-playlist-btn').addEventListener('click', () => {
-            share({
-                title: 'Archivio Brani: Misatango',
-                text: 'Ascolta i brani di studio per il concerto.',
-                url: window.location.href
+            let currentAudio = audioPlayers[0];
+            let isConcertMode = false;
+            const SAVED_VOLUME_KEY = 'SevernUpPlayerVolume';
+            
+            // LA REGOLA FERREA: UN SOLO AUDIO ALLA VOLTA
+            document.addEventListener('play', (event) => {
+                const playingAudio = event.target;
+                audioPlayers.forEach(audio => { if (audio !== playingAudio) { audio.pause(); }});
+                
+                // Aggiorna lo stato corrente
+                currentAudio = playingAudio;
+                
+                // Disattiva la modalità concerto se l'utente clicca manualmente un player
+                if (!playerIsPlayingInConcertMode(currentAudio)) {
+                    isConcertMode = false;
+                }
+                updateUI();
+                updateMediaSession();
+            }, true);
+            
+            // FUNZIONI DI SUPPORTO
+            function formatTime(seconds) {
+                const min = Math.floor(seconds / 60); const sec = Math.floor(seconds % 60);
+                return `${min}:${sec.toString().padStart(2, '0')}`;
+            }
+
+            function playTrack(index) {
+                if (index < 0) { index = audioPlayers.length - 1; }
+                if (index >= audioPlayers.length) { index = 0; }
+                
+                const trackToPlay = audioPlayers[index];
+                trackToPlay.closest('.brano').classList.add('concert-mode-active');
+                trackToPlay.play();
+            }
+
+            function updateUI() {
+                const isPlaying = currentAudio && !currentAudio.paused;
+                iconPlay.style.display = isPlaying ? 'none' : 'block';
+                iconPause.style.display = isPlaying ? 'block' : 'none';
+                
+                document.querySelectorAll('.brano.is-playing').forEach(el => el.classList.remove('is-playing'));
+                if (isPlaying) { currentAudio.closest('.brano').classList.add('is-playing'); }
+                
+                if (isPlaying && isConcertMode) {
+                    currentTrackTitleEl.textContent = currentAudio.closest('.brano').querySelector('h2').textContent;
+                    timerEl.style.display = 'block';
+                } else {
+                    currentTrackTitleEl.innerHTML = ' ';
+                    timerEl.style.display = 'none';
+                }
+            }
+            
+            function stopHard() {
+                isConcertMode = false;
+                audioPlayers.forEach(p => { p.pause(); p.currentTime = 0; });
+                updateUI();
+            }
+
+            function playerIsPlayingInConcertMode(player) {
+                return player.closest('.brano').classList.contains('concert-mode-active');
+            }
+            
+            // GESTIONE CONTROLLI PRINCIPALI
+            playPauseBtn.addEventListener('click', () => {
+                if (currentAudio.paused) {
+                    // Se avvio da fermo, parto sempre dal primo brano in modalità concerto
+                    if(!isConcertMode) currentAudio = audioPlayers[0];
+                    isConcertMode = true;
+                    playTrack(audioPlayers.indexOf(currentAudio));
+                } else {
+                    isConcertMode = false;
+                    currentAudio.pause();
+                }
+            });
+            stopBtn.addEventListener('click', stopHard);
+            nextBtn.addEventListener('click', () => { changeTrack(1); });
+            prevBtn.addEventListener('click', () => { changeTrack(-1); });
+
+            function changeTrack(direction){
+                 isConcertMode = true;
+                 const currentIndex = audioPlayers.indexOf(currentAudio);
+                 playTrack(currentIndex + direction);
+            }
+
+            // GESTIONE PLAYER INDIVIDUALI E OTTIMIZZAZIONI
+            audioPlayers.forEach(player => {
+                player.addEventListener('pause', updateUI);
+                player.addEventListener('ended', () => { if (isConcertMode) { changeTrack(1); } else { updateUI(); }});
+                player.addEventListener('timeupdate', () => { if(isConcertMode && currentAudio === player){ const duration = isNaN(player.duration) ? 0 : player.duration; timerEl.textContent = `${formatTime(player.currentTime)} / ${formatTime(duration)}`; }});
+                player.addEventListener('volumechange', () => { localStorage.setItem(SAVED_VOLUME_KEY, player.volume); });
+            });
+            
+            const savedVolume = localStorage.getItem(SAVED_VOLUME_KEY);
+            if (savedVolume !== null) { audioPlayers.forEach(p => p.volume = savedVolume); }
+
+            // GESTIONE BACKGROUND PLAY E NOTIFICHE
+            function updateMediaSession() {
+                if ('mediaSession' in navigator) {
+                    const branoDiv = currentAudio.closest('.brano');
+                    const title = branoDiv.querySelector('h2').textContent;
+                    navigator.mediaSession.metadata = new MediaMetadata({
+                        title: title, artist: 'Alio Modo Canticum & Coro Lirico Città di Faenza',
+                        album: 'Misatango', artwork: [{ src: document.querySelector('.header-logo').src }]
+                    });
+                    navigator.mediaSession.setActionHandler('play', () => playPauseBtn.click());
+                    navigator.mediaSession.setActionHandler('pause', () => playPauseBtn.click());
+                    navigator.mediaSession.setActionHandler('stop', () => stopBtn.click());
+                    navigator.mediaSession.setActionHandler('previoustrack', () => prevBtn.click());
+                    navigator.mediaSession.setActionHandler('nexttrack', () => nextBtn.click());
+                }
+            }
+
+            // UTILITIES FINALI
+            document.getElementById('footer-text').innerHTML = ` ${new Date().getFullYear()} SevenUp Recordings`;
+            document.querySelectorAll('.action-btn.disabled').forEach(b => { b.addEventListener('click', e => { e.preventDefault(); alert('Il download è momentaneamente disabilitato.'); }); });
+            document.getElementById('share-playlist-btn').addEventListener('click', () => {
+                 const shareData = { title: 'Archivio Brani: Misatango', url: window.location.href };
+                if (navigator.share) navigator.share(shareData); else navigator.clipboard.writeText(shareData.url).then(() => alert('Link copiato!'));
             });
         });
-
-        // Funzione condivisione singolo brano
-        function shareTrack(trackUrl, trackTitle) {
-            share({
-                title: trackTitle,
-                text: `Ascolta "${trackTitle}" dal nostro archivio.`,
-                url: trackUrl
-            });
-        }
-        
-        // --- LOGICA PER IL TASTO "LIKE" ---
-
-        // Funzione per cambiare lo stato di un like
-        function toggleLike(buttonElement) {
-            const songId = buttonElement.getAttribute('data-song-id');
-            const isLiked = buttonElement.classList.toggle('liked');
-
-            if (isLiked) {
-                // Se ora è "likato", salvalo nel localStorage
-                localStorage.setItem(songId, 'true');
-            } else {
-                // Altrimenti, rimuovi la voce dal localStorage
-                localStorage.removeItem(songId);
-            }
-        }
-
-        // Funzione per inizializzare i like al caricamento della pagina
-        function initializeLikes() {
-            const likeButtons = document.querySelectorAll('.like-btn');
-            likeButtons.forEach(button => {
-                const songId = button.getAttribute('data-song-id');
-                // Controlla nel localStorage se questo brano era già "likato"
-                if (localStorage.getItem(songId) === 'true') {
-                    button.classList.add('liked');
-                }
-            });
-        }
-
-        // Avvia la funzione di inizializzazione quando la pagina è pronta
-        document.addEventListener('DOMContentLoaded', initializeLikes);
-
     </script>
 </body>
 </html>
