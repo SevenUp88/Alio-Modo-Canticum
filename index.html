@@ -91,5 +91,17 @@
     </div>
 
     <script src="script.js"></script>
+    <div id="pdf-modal" class="modal">
+    <div class="pdf-modal-content">
+        <span class="close-button-pdf">&times;</span>
+        <h3 id="pdf-title"></h3>
+        <!-- Questo iframe ospiterà il visualizzatore PDF -->
+        <iframe id="pdf-viewer-iframe" style="width:100%; height:90vh;" frameborder="0"></iframe>
+        <!-- Pulsante per la stampa/download (necessario perché l'iframe non sempre lo mostra) -->
+        <div class="pdf-actions">
+             <a id="pdf-download-link" href="#" target="_blank" class="download-button"><i class="fas fa-download"></i> Scarica / Stampa</a>
+        </div>
+    </div>
+</div>
 </body>
 </html>
