@@ -181,3 +181,22 @@ h1, h2 { font-family: var(--font-headings); color: var(--dark-primary); }
 .download-button i {
     margin-right: 5px;
 }
+/* Stili per l'intestazione PDF con il logo */
+.pdf-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #444;
+}
+
+.pdf-logo {
+    height: 40px; /* Dimensione del logo nel modal */
+    margin-right: 15px;
+    filter: brightness(0) invert(1); /* Mantiene l'effetto bianco su sfondo scuro */
+}
+
+#pdf-title {
+    margin: 0;
+}
