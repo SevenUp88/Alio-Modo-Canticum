@@ -25,8 +25,12 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
     
     const concerti = [
-        { titolo: "Misa Tango - 1. Introitus et Kyrie", file: "concerti/Misa Tango 2025/1. Introitus et Kyrie ....mp3" },
-        { titolo: "Misa Tango - 2. Gloria", file: "concerti/Misa Tango 2025/2. Gloria.mp3" },
+         { titolo: "Misa Tango - 1. Introitus et Kyrie", file: "concerti/2025/Misa Tango/1. Introitus et Kyrie ....mp3" },
+        { titolo: "Misa Tango - 2. Gloria", file: "concerti/2025/Misa Tango/2. Gloria.mp3" },
+        { titolo: "Misa Tango - 3. Credo", file: "concerti/2025/Misa Tango/3. Credo.mp3" },
+        { titolo: "Misa Tango - 4. Sanctus", file: "concerti/2025/Misa Tango/4. Sanctus.mp3" },
+        { titolo: "Misa Tango - 5. Benedictus", file: "concerti/2025/Misa Tango/5. Benedictus.mp3" },
+        { titolo: "Misa Tango - 6. Agnus Dei", file: "concerti/2025/Misa Tango/6. Agnus Dei.mp3" },mp3" },
         // ... Aggiungi altre registrazioni di concerti
     ];
 
