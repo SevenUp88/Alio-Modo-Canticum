@@ -1,14 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ----------- DATI DEL CORO --------------
-    // AGGIORNA queste liste con i tuoi file e PERCORSI ESATTI
-    // Se non hai la cartella 'foto', lasciala vuota.
+    // ----------- DATI DEL CORO (DA PERSONALIZZARE) --------------
+    // !!! IMPORTANTE: Controlla che i percorsi (es. "spartiti/...") e i nomi dei file siano ESATTI !!!
 
     const spartiti = [
-        // CONTROLLA: file nella cartella 'spartiti/'
+        // Aggiungi qui gli spartiti. Esempio:
         { titolo: "ARCADELT - Ave Maria", file: "spartiti/ARCADELT_Ave Maria.pdf" },
         { titolo: "LOTTI - Stava Maria Dolente (SAT)", file: "spartiti/LOTTI_Stava Maria Dolente-SAT.pdf" },
-        { titolo: "LOTTI - Stava Maria Dolente (SATB)", file: "spartiti/LOTTI_Stava Maria Dolente-SATB.pdf" },
         // Aggiungi qui gli altri spartiti...
     ];
 
@@ -16,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { 
             autore: "Lotti", 
             titolo: "Stava Maria Dolente",
-            // CONTROLLA: file nella cartella 'audio_studio/LOTTI/'
+            // Controlla la sottocartella, ad esempio: 'audio_studio/LOTTI/'
             voci: {
                 soprano: "audio_studio/LOTTI/Stava Maria-S.mp3",
                 contralto: "audio_studio/LOTTI/Stava Maria-A.mp3",
@@ -28,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
     
     const concerti = [
-        // CONTROLLA: PERCORSO AGGIORNATO come da tuo screenshot 'concerti/2025/Misa Tango/'
+        // Controlla la sottocartella, come da tuo screenshot: 'concerti/2025/Misa Tango/'
         { titolo: "Misa Tango - 1. Introitus et Kyrie", file: "concerti/2025/Misa Tango/1. Introitus et Kyrie ....mp3" },
         { titolo: "Misa Tango - 2. Gloria", file: "concerti/2025/Misa Tango/2. Gloria.mp3" },
         { titolo: "Misa Tango - 3. Credo", file: "concerti/2025/Misa Tango/3. Credo.mp3" },
@@ -42,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Esempio: { file: "foto/concerto1.jpg" },
         // Aggiungi qui i percorsi delle foto nella cartella 'foto/'
     ];
-    // ----------- FINE DATI -------------------
+    // -------------------------------------------------------------------
 
 
     // --- Logica di Navigazione ---
@@ -59,14 +57,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- Logica per il Visualizzatore PDF (NUOVO) ---
+    // --- Logica per il Visualizzatore PDF ---
     const pdfModal = document.getElementById('pdf-modal');
     const closeButtonPdf = document.querySelector('.close-button-pdf');
     const pdfViewerIframe = document.getElementById('pdf-viewer-iframe');
     const pdfTitle = document.getElementById('pdf-title');
     const pdfDownloadLink = document.getElementById('pdf-download-link');
 
-    // Chiudi il modal al click sulla X o sullo sfondo
     if (pdfModal) {
         closeButtonPdf.addEventListener('click', () => pdfModal.classList.remove('active'));
         pdfModal.addEventListener('click', (e) => {
@@ -74,8 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-
-    // --- Caricamento Spartiti (AGGIORNATO per il modal) ---
+    // --- Caricamento Spartiti ---
     const spartitiList = document.getElementById('spartiti-list');
     spartiti.forEach(spartito => {
         const li = document.createElement('li');
@@ -98,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
             pdfDownloadLink.href = file; 
             pdfDownloadLink.setAttribute('download', file.split('/').pop()); 
 
-            // Carica il visualizzatore PDF di Google (funziona solo online)
+            // Carica il visualizzatore PDF di Google (funziona solo online!)
             const onlineUrl = window.location.origin + window.location.pathname.replace('index.html', '') + file;
             pdfViewerIframe.src = `https://docs.google.com/viewer?url=${encodeURIComponent(onlineUrl)}&embedded=true`;
             
@@ -106,10 +102,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- Logica NUOVA per lo Studio Vocale ---
+    // --- Logica Studio Vocale ---
     const studioList = document.getElementById('studio-list');
     const searchBar = document.getElementById('search-bar');
-    const audioPlayerStudio = new Audio(); // Player dedicato per lo studio
+    const audioPlayerStudio = new Audio(); 
 
     function renderStudioTracks(tracksToRender) {
         studioList.innerHTML = ''; 
@@ -117,7 +113,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const trackDiv = document.createElement('div');
             trackDiv.className = 'studio-track';
             let buttonsHTML = '';
-            // Controlla se il percorso esiste prima di creare il pulsante
             if (brano.voci.soprano) buttonsHTML += `<button data-src="${brano.voci.soprano}">Soprano</button>`;
             if (brano.voci.contralto) buttonsHTML += `<button data-src="${brano.voci.contralto}">Contralto</button>`;
             if (brano.voci.tenore) buttonsHTML += `<button data-src="${brano.voci.tenore}">Tenore</button>`;
@@ -169,13 +164,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const audioConcerti = new Audio();
     let currentTrackConcerti = 0;
     
-    // ... elementi del player concerti ...
+    // Elementi del player
     const playBtnConcerti = document.getElementById('play-btn-concerti');
     const prevBtnConcerti = document.getElementById('prev-btn-concerti');
     const nextBtnConcerti = document.getElementById('next-btn-concerti');
     const trackTitleConcerti = document.getElementById('track-title-concerti');
     const progressBarConcerti = document.getElementById('progress-bar-concerti');
     const progressContainerConcerti = document.getElementById('progress-container-concerti');
+    const volumeSliderConcerti = document.getElementById('volume-slider-concerti'); // SLIDER VOLUME
 
     concerti.forEach((brano, index) => {
         const li = document.createElement('li');
@@ -199,9 +195,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (playBtnConcerti) {
         playBtnConcerti.addEventListener('click', () => {
+            // Controlla se è la prima riproduzione e carica il brano se non è ancora successo
+            if (audioConcerti.src === '' && concerti.length > 0) {
+                loadTrackConcerti(0);
+            }
             if(audioConcerti.paused) playTrackConcerti(); else pauseTrackConcerti();
         });
     }
+    
+    // Listener per il volume
+    if (volumeSliderConcerti) {
+        volumeSliderConcerti.addEventListener('input', (e) => {
+            audioConcerti.volume = e.target.value;
+        });
+        audioConcerti.volume = volumeSliderConcerti.value; // Imposta il volume iniziale
+    }
+
 
     playlistConcerti.addEventListener('click', (e) => {
         if(e.target.tagName === 'LI') {
@@ -219,8 +228,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (prevBtnConcerti) {
+        currentTrackConcerti = (currentTrackConcerti - 1 + concerti.length) % concerti.length;
         prevBtnConcerti.addEventListener('click', () => {
-            currentTrackConcerti = (currentTrackConcerti - 1 + concerti.length) % concerti.length;
             loadTrackConcerti(currentTrackConcerti);
             playTrackConcerti();
         });
@@ -239,7 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if(concerti.length > 0) loadTrackConcerti(0);
 
-    // --- Logica Galleria Foto (invariata) ---
+    // --- Logica Galleria Foto ---
     const photoGrid = document.getElementById('photo-grid');
     const modal = document.getElementById('modal');
     const modalImg = document.getElementById('modal-img');
