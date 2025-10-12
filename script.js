@@ -1,19 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // ----------- DATI DEL CORO --------------
-    // Aggiorna queste liste con i tuoi file
+    // AGGIORNA queste liste con i tuoi file e PERCORSI ESATTI
+    // Se non hai la cartella 'foto', lasciala vuota.
 
     const spartiti = [
+        // CONTROLLA: file nella cartella 'spartiti/'
         { titolo: "ARCADELT - Ave Maria", file: "spartiti/ARCADELT_Ave Maria.pdf" },
-        { titolo: "LOTTI - Stava Maria Dolente (SATB)", file: "spartiti/LOTTI_Stava Maria Dolente-SATB.pdf" },
         { titolo: "LOTTI - Stava Maria Dolente (SAT)", file: "spartiti/LOTTI_Stava Maria Dolente-SAT.pdf" },
-        // ... Aggiungi altri spartiti qui
+        { titolo: "LOTTI - Stava Maria Dolente (SATB)", file: "spartiti/LOTTI_Stava Maria Dolente-SATB.pdf" },
+        // Aggiungi qui gli altri spartiti...
     ];
 
     const audioStudio = [
         { 
             autore: "Lotti", 
             titolo: "Stava Maria Dolente",
+            // CONTROLLA: file nella cartella 'audio_studio/LOTTI/'
             voci: {
                 soprano: "audio_studio/LOTTI/Stava Maria-S.mp3",
                 contralto: "audio_studio/LOTTI/Stava Maria-A.mp3",
@@ -21,27 +24,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 basso: "audio_studio/LOTTI/Stava Maria-B.mp3"
             } 
         },
-        // ... Aggiungi altri brani di studio qui
+        // Aggiungi qui gli altri brani di studio...
     ];
     
     const concerti = [
-         { titolo: "Misa Tango - 1. Introitus et Kyrie", file: "concerti/2025/Misa Tango/1. Introitus et Kyrie ....mp3" },
+        // CONTROLLA: PERCORSO AGGIORNATO come da tuo screenshot 'concerti/2025/Misa Tango/'
+        { titolo: "Misa Tango - 1. Introitus et Kyrie", file: "concerti/2025/Misa Tango/1. Introitus et Kyrie ....mp3" },
         { titolo: "Misa Tango - 2. Gloria", file: "concerti/2025/Misa Tango/2. Gloria.mp3" },
         { titolo: "Misa Tango - 3. Credo", file: "concerti/2025/Misa Tango/3. Credo.mp3" },
         { titolo: "Misa Tango - 4. Sanctus", file: "concerti/2025/Misa Tango/4. Sanctus.mp3" },
         { titolo: "Misa Tango - 5. Benedictus", file: "concerti/2025/Misa Tango/5. Benedictus.mp3" },
-        { titolo: "Misa Tango - 6. Agnus Dei", file: "concerti/2025/Misa Tango/6. Agnus Dei.mp3" },mp3" },
-        // ... Aggiungi altre registrazioni di concerti
+        { titolo: "Misa Tango - 6. Agnus Dei", file: "concerti/2025/Misa Tango/6. Agnus Dei.mp3" },
+        // Aggiungi qui le altre registrazioni di concerti...
     ];
 
     const foto = [
-        // { file: "foto/concerto1.jpg" },
-        // ... Aggiungi foto qui
+        // Esempio: { file: "foto/concerto1.jpg" },
+        // Aggiungi qui i percorsi delle foto nella cartella 'foto/'
     ];
     // ----------- FINE DATI -------------------
 
 
-    // --- Logica di Navigazione (invariata) ---
+    // --- Logica di Navigazione ---
     const navLinks = document.querySelectorAll('.nav-link');
     const pages = document.querySelectorAll('.page');
     navLinks.forEach(link => {
@@ -55,12 +59,51 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- Caricamento Spartiti (invariato) ---
+    // --- Logica per il Visualizzatore PDF (NUOVO) ---
+    const pdfModal = document.getElementById('pdf-modal');
+    const closeButtonPdf = document.querySelector('.close-button-pdf');
+    const pdfViewerIframe = document.getElementById('pdf-viewer-iframe');
+    const pdfTitle = document.getElementById('pdf-title');
+    const pdfDownloadLink = document.getElementById('pdf-download-link');
+
+    // Chiudi il modal al click sulla X o sullo sfondo
+    if (pdfModal) {
+        closeButtonPdf.addEventListener('click', () => pdfModal.classList.remove('active'));
+        pdfModal.addEventListener('click', (e) => {
+            if(e.target === pdfModal) pdfModal.classList.remove('active');
+        });
+    }
+
+
+    // --- Caricamento Spartiti (AGGIORNATO per il modal) ---
     const spartitiList = document.getElementById('spartiti-list');
     spartiti.forEach(spartito => {
         const li = document.createElement('li');
-        li.innerHTML = `<span>${spartito.titolo}</span><div class="actions"><a href="${spartito.file}" target="_blank">Visualizza</a></div>`;
+        li.innerHTML = `
+            <span>${spartito.titolo}</span>
+            <div class="actions">
+                <button class="view-pdf-button" data-title="${spartito.titolo}" data-file="${spartito.file}">Visualizza</button>
+            </div>
+        `;
         spartitiList.appendChild(li);
+    });
+
+    // Listener per i pulsanti "Visualizza"
+    spartitiList.addEventListener('click', (e) => {
+        if (e.target.classList.contains('view-pdf-button') && pdfModal) {
+            const title = e.target.dataset.title;
+            const file = e.target.dataset.file;
+            
+            pdfTitle.textContent = title;
+            pdfDownloadLink.href = file; 
+            pdfDownloadLink.setAttribute('download', file.split('/').pop()); 
+
+            // Carica il visualizzatore PDF di Google (funziona solo online)
+            const onlineUrl = window.location.origin + window.location.pathname.replace('index.html', '') + file;
+            pdfViewerIframe.src = `https://docs.google.com/viewer?url=${encodeURIComponent(onlineUrl)}&embedded=true`;
+            
+            pdfModal.classList.add('active');
+        }
     });
 
     // --- Logica NUOVA per lo Studio Vocale ---
@@ -69,34 +112,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const audioPlayerStudio = new Audio(); // Player dedicato per lo studio
 
     function renderStudioTracks(tracksToRender) {
-        studioList.innerHTML = ''; // Pulisce la lista
+        studioList.innerHTML = ''; 
         tracksToRender.forEach((brano, index) => {
             const trackDiv = document.createElement('div');
             trackDiv.className = 'studio-track';
             let buttonsHTML = '';
+            // Controlla se il percorso esiste prima di creare il pulsante
             if (brano.voci.soprano) buttonsHTML += `<button data-src="${brano.voci.soprano}">Soprano</button>`;
             if (brano.voci.contralto) buttonsHTML += `<button data-src="${brano.voci.contralto}">Contralto</button>`;
             if (brano.voci.tenore) buttonsHTML += `<button data-src="${brano.voci.tenore}">Tenore</button>`;
             if (brano.voci.basso) buttonsHTML += `<button data-src="${brano.voci.basso}">Basso</button>`;
             
-            trackDiv.innerHTML = `
-                <div class="studio-track-title">${brano.autore} - ${brano.titolo}</div>
-                <div class="studio-track-voices">${buttonsHTML}</div>
-            `;
+            trackDiv.innerHTML = `<div class="studio-track-title">${brano.autore} - ${brano.titolo}</div><div class="studio-track-voices">${buttonsHTML}</div>`;
             studioList.appendChild(trackDiv);
         });
     }
 
-    renderStudioTracks(audioStudio); // Mostra tutti i brani all'inizio
+    renderStudioTracks(audioStudio); 
 
-    searchBar.addEventListener('input', (e) => {
-        const searchTerm = e.target.value.toLowerCase();
-        const filteredTracks = audioStudio.filter(brano => 
-            brano.titolo.toLowerCase().includes(searchTerm) || 
-            brano.autore.toLowerCase().includes(searchTerm)
-        );
-        renderStudioTracks(filteredTracks);
-    });
+    if (searchBar) {
+        searchBar.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredTracks = audioStudio.filter(brano => 
+                brano.titolo.toLowerCase().includes(searchTerm) || 
+                brano.autore.toLowerCase().includes(searchTerm)
+            );
+            renderStudioTracks(filteredTracks);
+        });
+    }
 
     let currentPlayingButton = null;
     studioList.addEventListener('click', function(e) {
@@ -144,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function loadTrackConcerti(index) {
         const items = document.querySelectorAll('#playlist-concerti li');
         items.forEach(item => item.classList.remove('playing'));
-        items[index].classList.add('playing');
+        if (items.length > 0) items[index].classList.add('playing');
         
         currentTrackConcerti = index;
         trackTitleConcerti.textContent = concerti[index].titolo;
@@ -154,9 +197,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function playTrackConcerti() { audioConcerti.play(); playBtnConcerti.innerHTML = '<i class="fas fa-pause"></i>'; }
     function pauseTrackConcerti() { audioConcerti.pause(); playBtnConcerti.innerHTML = '<i class="fas fa-play"></i>'; }
 
-    playBtnConcerti.addEventListener('click', () => {
-        if(audioConcerti.paused) playTrackConcerti(); else pauseTrackConcerti();
-    });
+    if (playBtnConcerti) {
+        playBtnConcerti.addEventListener('click', () => {
+            if(audioConcerti.paused) playTrackConcerti(); else pauseTrackConcerti();
+        });
+    }
 
     playlistConcerti.addEventListener('click', (e) => {
         if(e.target.tagName === 'LI') {
@@ -165,18 +210,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    nextBtnConcerti.addEventListener('click', () => {
-        currentTrackConcerti = (currentTrackConcerti + 1) % concerti.length;
-        loadTrackConcerti(currentTrackConcerti);
-        playTrackConcerti();
-    });
-    
-    prevBtnConcerti.addEventListener('click', () => {
-        currentTrackConcerti = (currentTrackConcerti - 1 + concerti.length) % concerti.length;
-        loadTrackConcerti(currentTrackConcerti);
-        playTrackConcerti();
-    });
-    
+    if (nextBtnConcerti) {
+        nextBtnConcerti.addEventListener('click', () => {
+            currentTrackConcerti = (currentTrackConcerti + 1) % concerti.length;
+            loadTrackConcerti(currentTrackConcerti);
+            playTrackConcerti();
+        });
+    }
+
+    if (prevBtnConcerti) {
+        prevBtnConcerti.addEventListener('click', () => {
+            currentTrackConcerti = (currentTrackConcerti - 1 + concerti.length) % concerti.length;
+            loadTrackConcerti(currentTrackConcerti);
+            playTrackConcerti();
+        });
+    }
+
     audioConcerti.addEventListener('timeupdate', (e) => {
         const { duration, currentTime } = e.srcElement;
         const progressPercent = (currentTime / duration) * 100;
@@ -202,7 +251,9 @@ document.addEventListener('DOMContentLoaded', () => {
         div.addEventListener('click', () => { modal.classList.add('active'); modalImg.src = f.file; });
         photoGrid.appendChild(div);
     });
-    closeButton.addEventListener('click', () => modal.classList.remove('active'));
-    modal.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('active'); });
 
+    if (closeButton) {
+        closeButton.addEventListener('click', () => modal.classList.remove('active'));
+        modal.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('active'); });
+    }
 });
