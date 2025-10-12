@@ -127,3 +127,57 @@ h1, h2 { font-family: var(--font-headings); color: var(--dark-primary); }
     background-color: var(--primary-color); color: var(--bg-color);
     box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
 }
+/* Stili per il Visualizzatore PDF Modale */
+#pdf-modal {
+    z-index: 1010; /* Deve stare sopra il modal delle foto */
+}
+
+.pdf-modal-content {
+    background-color: var(--surface-color);
+    margin: auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 1200px; /* Dimensioni più generose */
+    height: 95%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.close-button-pdf {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    color: var(--text-color);
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1020;
+}
+
+#pdf-title {
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.pdf-actions {
+    text-align: center;
+    padding-top: 15px;
+}
+
+.download-button {
+    background-color: var(--primary-color);
+    color: var(--bg-color);
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    display: inline-block;
+}
+.download-button i {
+    margin-right: 5px;
+}
