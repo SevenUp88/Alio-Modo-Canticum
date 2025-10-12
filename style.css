@@ -200,3 +200,35 @@ h1, h2 { font-family: var(--font-headings); color: var(--dark-primary); }
 #pdf-title {
     margin: 0;
 }
+/* Stili per il Controllo Volume */
+.volume-control {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.volume-control i {
+    font-size: 18px;
+    margin-right: 8px;
+    color: var(--text-color);
+}
+
+#volume-slider-concerti {
+    width: 80px;
+    height: 5px;
+    background: #555;
+    -webkit-appearance: none; /* Rimuove lo stile predefinito */
+    appearance: none;
+    cursor: pointer;
+}
+
+/* Stile per il 'thumb' (il pallino) dello slider in WebKit (Chrome, Edge, Safari) */
+#volume-slider-concerti::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    cursor: pointer;
+}
